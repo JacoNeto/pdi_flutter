@@ -1,62 +1,97 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
+import 'dart:typed_data';
+
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 
 import '../../utils/image_utils.dart';
 
 /// The [GridController] is responsible for the state of the
 /// [ImageGrid] UI.
-///
-/// Attributes:
-/// [gridChildren] - Widget list of the Image Grid
-///   this widget list has both the images already
-///   uploaded AND the [UploadImage] widget.
 class GridController extends GetxController {
-  var gridChildren = <Widget>[].obs;
+  /// [gridChildren] - Uint8List list of the Image Grid.
+  var gridChildren = <Uint8List>[].obs;
+
+  /// [i] is a grid list index
+  ///   we're using an manual index to manipulate the list with the [AddImage]
   int i = 0;
 
-  void addChildToGrid(Widget widget) {
+  /// [addChildToGrid] adds an Widget to the home grid
+  void addChildToGrid(widget) {
     gridChildren.insert(i, widget);
   }
 
-  void addTest() {
-    final fruits = <String>["samsung", "banana", "strawberry"];
-
-    addChildToGrid(
-      Container(
-        key: Key(fruits.elementAt(0) + i.toString()),
-        color: Colors.lightBlue,
-        child: InkWell(
-          onTap: () => print("terkf"),
-          child: Text(
-            fruits.elementAt(0),
-          ),
-        ),
-      ),
-    );
-    i++;
-  }
-
+  /// [addImageTest] adds an image to the home grid
+  /// using [addChildToGrid]
   Future<void> addImageTest() async {
-    print("chegou naruto");
-    final file = await ImageUtils.getImage();
+    /// list of Image Files selected by the user
+    final files = await ImageUtils.getImage();
 
-    var teste = await file!.elementAt(0).readAsBytes();
+    if (files != null) {
+      /// this for loop adds each image file from the [files] list
+      /// into the home grid
+      for (XFile xFile in files) {
+        var teste = await xFile.readAsBytes();
+        addChildToGrid(teste);
+      }
+    }
 
-    addChildToGrid(
-      Container(
-        key: Key(file.hashCode.toString()),
-        decoration: BoxDecoration(
-          image: DecorationImage(image: MemoryImage(teste)),
-        ),
-      ),
-    );
-    i++;
+    i++; // increments the grid current index
+  }
+  //////
+  //////
+  //////
+  //////
+  //////
+  //////
+  //////
+  //////
+  /// [Selected images treatment]
+
+  /// these two observable variables
+  ///   [firstSelectedImage] and
+  ///   [secondSelectedImage]
+  /// indicate the index of the images on the [gridChildren] list
+  /// that are selected. At the beginning, no image is selected, so their
+  /// values are set to [-1]. It is also their value if an selected image
+  /// is unselected.
+  Rx<int> firstSelectedImage = Rx<int>(-1);
+  Rx<int> secondSelectedImage = Rx<int>(-1);
+
+  /// [selectImage]
+  /// Controlls the select business rules of the grid children.
+  /// Two children can be selected, the first one and the second one.
+  /// When selecting an already selected child, it is unselected.
+  ///   params:
+  ///   [int i] - the image index in the [gridChildren] list
+  void selectImage(int i) {
+    if (firstSelectedImage.value == -1 && secondSelectedImage.value == -1) {
+      firstSelectedImage.value = i;
+    } else if (i == firstSelectedImage.value) {
+      firstSelectedImage.value = -1;
+    } else if (firstSelectedImage.value != -1 &&
+        secondSelectedImage.value == -1) {
+      secondSelectedImage.value = i;
+    } else if (secondSelectedImage.value == i) {
+      secondSelectedImage.value = -1;
+    } else {
+      firstSelectedImage.value = i;
+    }
   }
 
+  //////
+  //////
+  //////
+  //////
+  //////
+  //////
+  //////
+  ////// [General Operations]
+
+  /// clears all data from this [GridController]
   void clear() {
     gridChildren.clear();
+    firstSelectedImage.value = -1;
+    secondSelectedImage.value = -1;
     i = 0;
   }
 }

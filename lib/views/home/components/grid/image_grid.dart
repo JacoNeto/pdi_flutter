@@ -37,7 +37,30 @@ class ImageGrid extends StatelessWidget {
               children: children,
             );
           },
-          children: gridController.gridChildren.toList(),
+          children: List.generate(
+              gridController.gridChildren.length,
+              (index) => Container(
+                  key: Key(gridController.gridChildren
+                      .elementAt(index)
+                      .hashCode
+                      .toString()),
+                  decoration: BoxDecoration(
+                    border: gridController.firstSelectedImage.value == index
+                        ? Border.all(
+                            color: const Color.fromARGB(255, 39, 196, 25),
+                            width: 5)
+                        : gridController.secondSelectedImage.value == index
+                            ? Border.all(
+                                color: const Color.fromARGB(255, 230, 118, 43),
+                                width: 5)
+                            : null,
+                    image: DecorationImage(
+                        image: MemoryImage(
+                            gridController.gridChildren.elementAt(index))),
+                  ),
+                  child: InkWell(
+                      onTap: () => gridController.selectImage(index),
+                      child: const Text("")))),
         ));
   }
 }

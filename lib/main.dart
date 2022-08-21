@@ -22,7 +22,7 @@ import 'core/app.dart';
 ///   lib -> views -> package/.*/package -> components/component.dart
 
 /// [IMPORTANT!]
-/// Create new components extracting new widgets in new files, not extracting
+/// Create new components extracting new widgets into new files, not extracting
 /// widget methods in the same file!
 ///
 /// ex:
