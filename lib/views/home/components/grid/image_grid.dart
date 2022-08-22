@@ -17,7 +17,7 @@ class ImageGrid extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Obx(() => ReorderableBuilder(
-          longPressDelay: const Duration(milliseconds: 100),
+          longPressDelay: const Duration(milliseconds: 300),
           scrollController: _scrollController,
           onReorder: (List<OrderUpdateEntity> orderUpdateEntities) {
             for (final orderUpdateEntity in orderUpdateEntities) {
@@ -38,29 +38,60 @@ class ImageGrid extends StatelessWidget {
             );
           },
           children: List.generate(
-              gridController.gridChildren.length,
-              (index) => Container(
-                  key: Key(gridController.gridChildren
-                      .elementAt(index)
-                      .hashCode
-                      .toString()),
+            gridController.gridChildren.length,
+            (index) => Stack(
+              key: Key(gridController.gridChildren
+                  .elementAt(index)
+                  .hashCode
+                  .toString()),
+              children: [
+                Container(
                   decoration: BoxDecoration(
-                    border: gridController.firstSelectedImage.value == index
+                    border: gridController.firstSelected.value == index
                         ? Border.all(
                             color: const Color.fromARGB(255, 39, 196, 25),
                             width: 5)
-                        : gridController.secondSelectedImage.value == index
+                        : gridController.secondSelected.value == index
                             ? Border.all(
                                 color: const Color.fromARGB(255, 230, 118, 43),
                                 width: 5)
                             : null,
-                    image: DecorationImage(
-                        image: MemoryImage(
-                            gridController.gridChildren.elementAt(index))),
                   ),
                   child: InkWell(
                       onTap: () => gridController.selectImage(index),
-                      child: const Text("")))),
+                      child: Image(
+                        width: 500,
+                        height: 500,
+                        image: MemoryImage(
+                            gridController.gridChildren.elementAt(index)),
+                      )),
+                ),
+                RemoveIcon(
+                  i: index,
+                )
+              ],
+            ),
+          ),
+        ));
+  }
+}
+
+class RemoveIcon extends StatelessWidget {
+  RemoveIcon({
+    Key? key,
+    required this.i,
+  }) : super(key: key);
+  final int i;
+
+  final GridController _gridController = Get.find();
+
+  @override
+  Widget build(BuildContext context) {
+    return IconButton(
+        onPressed: () => _gridController.removeImage(i),
+        icon: const Icon(
+          Icons.clear,
+          color: Colors.red,
         ));
   }
 }
