@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:image_picker/image_picker.dart';
 
 class ImageUtils {
@@ -8,5 +10,10 @@ class ImageUtils {
     var pickedFile = await picker.pickMultiImage();
 
     return pickedFile;
+  }
+
+  static Uint8List pixelToU8List(int pixel) {
+    Uint32List list = Uint32List.fromList([pixel]);
+    return list.buffer.asUint8List();
   }
 }
