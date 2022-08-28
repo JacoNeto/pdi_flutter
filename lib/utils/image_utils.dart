@@ -1,5 +1,4 @@
-import 'dart:typed_data';
-
+import 'package:image/image.dart' as img;
 import 'package:image_picker/image_picker.dart';
 
 class ImageUtils {
@@ -12,8 +11,13 @@ class ImageUtils {
     return pickedFile;
   }
 
-  static Uint8List pixelToU8List(int pixel) {
-    Uint32List list = Uint32List.fromList([pixel]);
-    return list.buffer.asUint8List();
+  /// Verify if an image has the specified dimension given [width] and [height]
+  /// If it is not, resize it
+  static img.Image resizeImage(img.Image image,
+      {required int width, required int height}) {
+    if (image.width != width || image.height != height) {
+      return img.copyResize(image, width: width, height: height);
+    }
+    return image;
   }
 }
