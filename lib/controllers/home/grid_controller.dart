@@ -20,8 +20,8 @@ class GridController extends GetxController {
   int i = 0;
 
   /// [addChildToGrid] adds an Widget to the home grid
-  void addChildToGrid(Uint8List widget) {
-    gridChildren.add(widget);
+  void addChildToGrid(Uint8List imageBytes) {
+    gridChildren.add(imageBytes);
   }
 
   /// [addImageTest] adds an image to the home grid

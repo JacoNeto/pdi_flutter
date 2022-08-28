@@ -14,7 +14,7 @@ class RouteGenerator {
       GetPage(
         name: HOME_PAGE,
         page: () => HomePage(
-          title: "Add Images",
+          title: "Images",
         ),
       ),
 

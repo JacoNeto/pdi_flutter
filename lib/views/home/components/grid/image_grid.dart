@@ -4,6 +4,8 @@ import 'package:flutter_reorderable_grid_view/widgets/widgets.dart';
 import 'package:get/get.dart';
 import 'package:pdi_flutter/controllers/home/grid_controller.dart';
 
+import 'components/remove_icon.dart';
+
 /// This [ImageGrid] widget contains the Grid Widget with the Images
 /// at [HomePage]. The Grid is Reorderable, Draggable and Scrollable.
 class ImageGrid extends StatelessWidget {
@@ -72,26 +74,6 @@ class ImageGrid extends StatelessWidget {
               ],
             ),
           ),
-        ));
-  }
-}
-
-class RemoveIcon extends StatelessWidget {
-  RemoveIcon({
-    Key? key,
-    required this.i,
-  }) : super(key: key);
-  final int i;
-
-  final GridController _gridController = Get.find();
-
-  @override
-  Widget build(BuildContext context) {
-    return IconButton(
-        onPressed: () => _gridController.removeImage(i),
-        icon: const Icon(
-          Icons.clear,
-          color: Colors.red,
         ));
   }
 }
