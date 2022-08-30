@@ -23,6 +23,8 @@ class OperationsController extends GetxController {
 
   Uint8List? result;
 
+  var str = "";
+
   Future<void> addImages() async {
     await _imagesPreProcessing();
     for (int i = 0; i < decodedBytes1!.length; i++) {
@@ -31,17 +33,75 @@ class OperationsController extends GetxController {
     await _addImageToGrid();
   }
 
-  void subImages() {}
+  Future<void> minusImages() async {
+    await _imagesPreProcessing();
+    int ctrlRBG = 0;
+    for (var i = 0; i < decodedBytes1!.length; i++) {
+      if (++ctrlRBG > 3) {
+        ctrlRBG = 0;
+        result![i] = decodedBytes1![i];
+      } else {
+        result![i] = (decodedBytes1![i] - decodedBytes2![i]);
+      }
+    }
+    await _addImageToGrid();
+  }
 
-  void multImages() {}
+  Future<void> multImages() async {
+    await _imagesPreProcessing();
+    int ctrlRBG = 0;
+    for (var i = 0; i < decodedBytes1!.length; i++) {
+      if (++ctrlRBG > 3) {
+        ctrlRBG = 0;
+        result![i] = decodedBytes1![i];
+      } else {
+        result![i] = (decodedBytes1![i] * decodedBytes2![i]);
+      }
+    }
+    await _addImageToGrid();
+  }
 
-  void divImages() {}
+  Future<void> divImages() async {
+    await _imagesPreProcessing();
+    for (var i = 0; i < decodedBytes1!.length; i++) {
+      if (decodedBytes2![i] == 0) {
+        result![i] = decodedBytes1![i];
+      } else {
+        result![i] = (decodedBytes1![i] ~/ decodedBytes2![i]);
+      }
+    }
+    await _addImageToGrid();
+  }
 
-  void andImages() {}
+  Future<void> andImages() async {
+    await _imagesPreProcessing();
+    for (var i = 0; i < decodedBytes1!.length; i++) {
+      result![i] = (decodedBytes1![i] & decodedBytes2![i]);
+    }
+    await _addImageToGrid();
+  }
 
-  void orImages() {}
+  Future<void> orImages() async {
+    await _imagesPreProcessing();
+    for (var i = 0; i < decodedBytes1!.length; i++) {
+      result![i] = (decodedBytes1![i] | decodedBytes2![i]);
+    }
+    await _addImageToGrid();
+  }
 
-  void xorImages() {}
+  Future<void> xorImages() async {
+    await _imagesPreProcessing();
+    int ctrlRBG = 0;
+    for (var i = 0; i < decodedBytes1!.length; i++) {
+      if (++ctrlRBG > 3) {
+        ctrlRBG = 0;
+        result![i] = decodedBytes1![i];
+      } else {
+        result![i] = (decodedBytes1![i] ^ decodedBytes2![i]);
+      }
+    }
+    await _addImageToGrid();
+  }
 
   Future<void> _imagesPreProcessing() async {
     list1 = gridController.selectedChildren.toList().elementAt(0)!;
