@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pdi_flutter/views/home/components/buttons/operations/logical_button.dart';
 import 'package:pdi_flutter/views/home/components/grid/image_grid.dart';
+import 'package:pdi_flutter/views/home/components/sidebar/screens/screens_operations.dart';
 import 'package:pdi_flutter/views/home/components/sidebar/sidebar.dart';
 import 'package:sidebarx/sidebarx.dart';
 
 import '../../controllers/home/grid_controller.dart';
 import '../../controllers/processings/operations_controller.dart';
 import 'components/buttons/operations/arithmetics_button.dart';
-import 'components/sidebar/screens.dart';
+import 'components/sidebar/screens/screens_default.dart';
 
 /// This [HomePage] widget has the first screen present at the widget tree
 /// when opening the app
@@ -44,11 +45,15 @@ class HomePage extends StatelessWidget {
             if (!(MediaQuery.of(context).size.width < 600))
               AppSidebar(controller: _controller),
             Expanded(
-              child: Center(
-                child: ScreensExample(
-                  controller: _controller,
-                ),
-              ),
+              child: Obx(() => Center(
+                    child: _gridController.needAloneOperations.value
+                        ? ScreensOperations(
+                            controller: _controller,
+                          )
+                        : ScreensDefault(
+                            controller: _controller,
+                          ),
+                  )),
             ),
           ],
         ),

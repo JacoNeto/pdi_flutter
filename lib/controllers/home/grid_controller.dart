@@ -31,7 +31,7 @@ class GridController extends GetxController {
     final files = await ImageUtils.getImage();
 
     if (files != null) {
-      /// this for loop adds each image file from the [files] list
+      /// this loop adds each image file from the [files] list
       /// into the home grid
       for (XFile xFile in files) {
         var teste = await xFile.readAsBytes();
@@ -61,6 +61,17 @@ class GridController extends GetxController {
   Rx<int> firstSelected = Rx<int>(-1);
   Rx<int> secondSelected = Rx<int>(-1);
 
+  /// The bool value from [needAloneOperations] fulfills the selection business
+  /// rule need of showing the alone operations in the sideBar when only the
+  /// primary [firstSelected] is not Blank. Whenever an image is selected in the
+  /// [selectImage] method, the [setNeedAloneOperationsOptions] is called and
+  /// updates the [needAloneOperations] value
+  var needAloneOperations = false.obs;
+  void setNeedAloneOperationsOptions() {
+    needAloneOperations.value =
+        firstSelected.value != -1 && secondSelected.value == -1;
+  }
+
   /// [selectImage]
   /// Controlls the select business rules of the grid children.
   /// Two children can be selected, the first one and the second one.
@@ -86,6 +97,8 @@ class GridController extends GetxController {
     if (secondSelected.value != -1) {
       selectedChildren.insert(1, gridChildren.elementAt(secondSelected.value));
     }
+
+    setNeedAloneOperationsOptions();
   }
 
   //////

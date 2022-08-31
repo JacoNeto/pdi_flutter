@@ -14,7 +14,7 @@ class ImageGrid extends StatelessWidget {
   final _scrollController = ScrollController();
   final _gridViewKey = GlobalKey();
 
-  final GridController gridController = Get.put(GridController());
+  final GridController gridController = Get.find();
 
   @override
   Widget build(BuildContext context) {
