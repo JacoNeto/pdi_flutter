@@ -63,11 +63,18 @@ class HomePage extends StatelessWidget {
                   children: [
                     ArithmeticsButton(
                       plusOnTap: () => _operationsController.addImages(),
+                      minusOnTap: () => _operationsController.minusImages(),
+                      multOnTap: () => _operationsController.multImages(),
+                      divOnTap: () => _operationsController.divImages(),
                     ),
                     const SizedBox(
                       width: 6,
                     ),
-                    const LogicalButton()
+                    LogicalButton(
+                      andOnTap: () => _operationsController.andImages(),
+                      orOnTap: () => _operationsController.orImages(),
+                      xorOnTap: () => _operationsController.xorImages(),
+                    )
                   ],
                 ),
 
