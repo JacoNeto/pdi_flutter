@@ -4,14 +4,19 @@ import 'package:pdi_flutter/views/home/components/grid/image_grid.dart';
 import 'package:sidebarx/sidebarx.dart';
 
 import '../../../../../controllers/home/grid_controller.dart';
+import '../../../../../controllers/processings/geometrical_controller.dart';
+import '../../../../geometrical/geometrical_page.dart';
 
 class ScreensOperations extends StatelessWidget {
-  const ScreensOperations({
+  ScreensOperations({
     Key? key,
     required this.controller,
   }) : super(key: key);
 
   final SidebarXController controller;
+  final GeometricalController _geometricalController =
+      Get.put(GeometricalController());
+  final GridController _gridController = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -23,10 +28,9 @@ class ScreensOperations extends StatelessWidget {
           case 0:
             return ImageGrid();
           case 1:
-            return Text(
-              "Geométricas",
-              style: theme.textTheme.headline5,
-            );
+            _geometricalController
+                .init(_gridController.selectedChildren.toList().elementAt(0)!);
+            return const GeometricalPage();
           case 2:
             return Text(
               "Color Systems",

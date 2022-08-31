@@ -14,7 +14,7 @@ class ImageGrid extends StatelessWidget {
   final _scrollController = ScrollController();
   final _gridViewKey = GlobalKey();
 
-  final GridController gridController = Get.find();
+  final GridController _gridController = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -25,9 +25,9 @@ class ImageGrid extends StatelessWidget {
             scrollController: _scrollController,
             onReorder: (List<OrderUpdateEntity> orderUpdateEntities) {
               for (final orderUpdateEntity in orderUpdateEntities) {
-                final widget = gridController.gridChildren
+                final widget = _gridController.gridChildren
                     .removeAt(orderUpdateEntity.oldIndex);
-                gridController.gridChildren
+                _gridController.gridChildren
                     .insert(orderUpdateEntity.newIndex, widget);
               }
             },
@@ -42,20 +42,20 @@ class ImageGrid extends StatelessWidget {
               );
             },
             children: List.generate(
-              gridController.gridChildren.length,
+              _gridController.gridChildren.length,
               (index) => Stack(
-                key: Key(gridController.gridChildren
+                key: Key(_gridController.gridChildren
                     .elementAt(index)
                     .hashCode
                     .toString()),
                 children: [
                   Container(
                     decoration: BoxDecoration(
-                      border: gridController.firstSelected.value == index
+                      border: _gridController.firstSelected.value == index
                           ? Border.all(
                               color: const Color.fromARGB(255, 39, 196, 25),
                               width: 5)
-                          : gridController.secondSelected.value == index
+                          : _gridController.secondSelected.value == index
                               ? Border.all(
                                   color:
                                       const Color.fromARGB(255, 230, 118, 43),
@@ -63,12 +63,12 @@ class ImageGrid extends StatelessWidget {
                               : null,
                     ),
                     child: InkWell(
-                        onTap: () => gridController.selectImage(index),
+                        onTap: () => _gridController.selectImage(index),
                         child: Image(
                           width: 500,
                           height: 500,
                           image: MemoryImage(
-                              gridController.gridChildren.elementAt(index)),
+                              _gridController.gridChildren.elementAt(index)),
                         )),
                   ),
                   RemoveIcon(

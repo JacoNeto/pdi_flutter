@@ -122,8 +122,10 @@ class GridController extends GetxController {
   /// clears all data from this [GridController]
   void clear() {
     gridChildren.clear();
+    selectedChildren.clear();
     firstSelected.value = -1;
     secondSelected.value = -1;
+    needAloneOperations.value = false;
     i = 0;
   }
 }
