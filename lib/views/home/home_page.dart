@@ -2,10 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pdi_flutter/views/home/components/buttons/operations/logical_button.dart';
 import 'package:pdi_flutter/views/home/components/grid/image_grid.dart';
+import 'package:pdi_flutter/views/home/components/sidebar/sidebar.dart';
+import 'package:sidebarx/sidebarx.dart';
 
 import '../../controllers/home/grid_controller.dart';
 import '../../controllers/processings/operations_controller.dart';
 import 'components/buttons/operations/arithmetics_button.dart';
+import 'components/sidebar/screens.dart';
 
 /// This [HomePage] widget has the first screen present at the widget tree
 /// when opening the app
@@ -19,9 +22,13 @@ class HomePage extends StatelessWidget {
   final OperationsController _operationsController =
       Get.put(OperationsController());
 
+  final _controller = SidebarXController(selectedIndex: 0, extended: true);
+  final _key = GlobalKey<ScaffoldState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _key,
       appBar: AppBar(
         title: Text(title),
         actions: [
@@ -31,8 +38,20 @@ class HomePage extends StatelessWidget {
         ],
       ),
       body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: ImageGrid(),
+        padding: const EdgeInsets.only(right: 8.0),
+        child: Row(
+          children: [
+            if (!(MediaQuery.of(context).size.width < 600))
+              AppSidebar(controller: _controller),
+            Expanded(
+              child: Center(
+                child: ScreensExample(
+                  controller: _controller,
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
       floatingActionButton: Obx(() => Row(
             mainAxisAlignment: MainAxisAlignment.end,

@@ -18,60 +18,64 @@ class ImageGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(() => ReorderableBuilder(
-          longPressDelay: const Duration(milliseconds: 300),
-          scrollController: _scrollController,
-          onReorder: (List<OrderUpdateEntity> orderUpdateEntities) {
-            for (final orderUpdateEntity in orderUpdateEntities) {
-              final widget = gridController.gridChildren
-                  .removeAt(orderUpdateEntity.oldIndex);
-              gridController.gridChildren
-                  .insert(orderUpdateEntity.newIndex, widget);
-            }
-          },
-          builder: (children) {
-            return GridView.extent(
-              key: _gridViewKey,
-              controller: _scrollController,
-              maxCrossAxisExtent: 200,
-              mainAxisSpacing: 20,
-              crossAxisSpacing: 20,
-              children: children,
-            );
-          },
-          children: List.generate(
-            gridController.gridChildren.length,
-            (index) => Stack(
-              key: Key(gridController.gridChildren
-                  .elementAt(index)
-                  .hashCode
-                  .toString()),
-              children: [
-                Container(
-                  decoration: BoxDecoration(
-                    border: gridController.firstSelected.value == index
-                        ? Border.all(
-                            color: const Color.fromARGB(255, 39, 196, 25),
-                            width: 5)
-                        : gridController.secondSelected.value == index
-                            ? Border.all(
-                                color: const Color.fromARGB(255, 230, 118, 43),
-                                width: 5)
-                            : null,
+    return Obx(() => Padding(
+          padding: const EdgeInsets.all(18.0),
+          child: ReorderableBuilder(
+            longPressDelay: const Duration(milliseconds: 300),
+            scrollController: _scrollController,
+            onReorder: (List<OrderUpdateEntity> orderUpdateEntities) {
+              for (final orderUpdateEntity in orderUpdateEntities) {
+                final widget = gridController.gridChildren
+                    .removeAt(orderUpdateEntity.oldIndex);
+                gridController.gridChildren
+                    .insert(orderUpdateEntity.newIndex, widget);
+              }
+            },
+            builder: (children) {
+              return GridView.extent(
+                key: _gridViewKey,
+                controller: _scrollController,
+                maxCrossAxisExtent: 200,
+                mainAxisSpacing: 20,
+                crossAxisSpacing: 20,
+                children: children,
+              );
+            },
+            children: List.generate(
+              gridController.gridChildren.length,
+              (index) => Stack(
+                key: Key(gridController.gridChildren
+                    .elementAt(index)
+                    .hashCode
+                    .toString()),
+                children: [
+                  Container(
+                    decoration: BoxDecoration(
+                      border: gridController.firstSelected.value == index
+                          ? Border.all(
+                              color: const Color.fromARGB(255, 39, 196, 25),
+                              width: 5)
+                          : gridController.secondSelected.value == index
+                              ? Border.all(
+                                  color:
+                                      const Color.fromARGB(255, 230, 118, 43),
+                                  width: 5)
+                              : null,
+                    ),
+                    child: InkWell(
+                        onTap: () => gridController.selectImage(index),
+                        child: Image(
+                          width: 500,
+                          height: 500,
+                          image: MemoryImage(
+                              gridController.gridChildren.elementAt(index)),
+                        )),
                   ),
-                  child: InkWell(
-                      onTap: () => gridController.selectImage(index),
-                      child: Image(
-                        width: 500,
-                        height: 500,
-                        image: MemoryImage(
-                            gridController.gridChildren.elementAt(index)),
-                      )),
-                ),
-                RemoveIcon(
-                  i: index,
-                )
-              ],
+                  RemoveIcon(
+                    i: index,
+                  )
+                ],
+              ),
             ),
           ),
         ));
