@@ -46,10 +46,21 @@ class GeometricalPage extends StatelessWidget {
                                   ? geometricalController.translationValueY.value
                                   : 0) /
                               1.0),
-                      child: Image(
-                        image: MemoryImage(gridController.selectedChildren
-                            .toList()
-                            .elementAt(0)!),
+                      child: Transform(
+                        // shearing in X
+                        transform: Matrix4.skewX(
+                            geometricalController.shearingValueX.value / 100.0),
+                        child: Transform(
+                          // shearing in Y
+                          transform: Matrix4.skewY(
+                              geometricalController.shearingValueY.value /
+                                  100.0),
+                          child: Image(
+                            image: MemoryImage(gridController.selectedChildren
+                                .toList()
+                                .elementAt(0)!),
+                          ),
+                        ),
                       ),
                     ),
                   )),
@@ -130,10 +141,12 @@ class GeometricalPage extends StatelessWidget {
                 //
 
                 GeometricalButton(
-                  onPressed: () => GeometricalDialogs.showInsertValueDialog(
-                      context, "Shear Scale", "",
-                      action: "shear",
-                      getxControllerValue: geometricalController),
+                  onPressed: () =>
+                      GeometricalDialogs.showShearingTranslationValueDialog(
+                    context,
+                    "Shear Scale",
+                    "",
+                  ),
                   title: "shear",
                   color: const Color.fromARGB(255, 122, 33, 18),
                 )

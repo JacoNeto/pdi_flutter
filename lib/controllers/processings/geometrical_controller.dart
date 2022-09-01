@@ -29,7 +29,8 @@ class GeometricalController extends GetxController {
   var translationValueY = 0.obs;
   var scaleValue = 0.obs;
   var reflectionValue = 0.obs;
-  var aliasing = 0.obs;
+  var shearingValueX = 0.obs;
+  var shearingValueY = 0.obs;
 
   Future<void> rotateImage() async {
     await _imagesPreProcessing();

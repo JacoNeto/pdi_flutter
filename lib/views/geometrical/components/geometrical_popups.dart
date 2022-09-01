@@ -112,4 +112,61 @@ class GeometricalDialogs {
       },
     );
   }
+
+  static void showShearingTranslationValueDialog(
+    BuildContext context,
+    String? title,
+    String? description,
+  ) {
+    final GeometricalController geometricalController = Get.find();
+    final textEditingControllerX = TextEditingController();
+    final textEditingControllerY = TextEditingController();
+
+    // set up the button
+    Widget okButton = TextButton(
+      onPressed: () {
+        geometricalController.shearingValueX.value =
+            int.parse(textEditingControllerX.text);
+        geometricalController.shearingValueY.value =
+            int.parse(textEditingControllerY.text);
+        Get.back();
+      },
+      child: const Text("Submit"),
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text("$title"),
+      content: Row(
+        children: [
+          Expanded(
+            child: TextField(
+              decoration: const InputDecoration(label: Text("x")),
+              controller: textEditingControllerX,
+              keyboardType: TextInputType.number,
+            ),
+          ),
+          const SizedBox(width: 8),
+          Expanded(
+            child: TextField(
+              decoration: const InputDecoration(label: Text("y")),
+              controller: textEditingControllerY,
+              keyboardType: TextInputType.number,
+            ),
+          ),
+        ],
+      ),
+      actions: [
+        okButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
 }
