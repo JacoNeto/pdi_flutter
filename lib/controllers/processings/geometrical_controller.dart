@@ -28,7 +28,8 @@ class GeometricalController extends GetxController {
   var translationValueX = 0.obs;
   var translationValueY = 0.obs;
   var scaleValue = 0.obs;
-  var reflectionValue = 0.obs;
+  var reflectionXValue = 0.obs;
+  var reflectionYValue = 0.obs;
   var shearingValueX = 0.obs;
   var shearingValueY = 0.obs;
 

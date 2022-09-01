@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pdi_flutter/controllers/processings/geometrical_controller.dart';
@@ -55,10 +57,27 @@ class GeometricalPage extends StatelessWidget {
                           transform: Matrix4.skewY(
                               geometricalController.shearingValueY.value /
                                   100.0),
-                          child: Image(
-                            image: MemoryImage(gridController.selectedChildren
-                                .toList()
-                                .elementAt(0)!),
+                          child: Transform(
+                            alignment: Alignment.center,
+                            transform: Matrix4.rotationY(
+                                geometricalController.reflectionXValue.value ==
+                                        1
+                                    ? pi
+                                    : 0),
+                            child: Transform(
+                              alignment: Alignment.center,
+                              transform: Matrix4.rotationX(geometricalController
+                                          .reflectionYValue.value ==
+                                      1
+                                  ? pi
+                                  : 0),
+                              child: Image(
+                                image: MemoryImage(gridController
+                                    .selectedChildren
+                                    .toList()
+                                    .elementAt(0)!),
+                              ),
+                            ),
                           ),
                         ),
                       ),
@@ -126,10 +145,8 @@ class GeometricalPage extends StatelessWidget {
                 //
 
                 GeometricalButton(
-                  onPressed: () => GeometricalDialogs.showInsertValueDialog(
-                      context, "Reflection Scale", "",
-                      action: "reflection",
-                      getxControllerValue: geometricalController),
+                  onPressed: () => GeometricalDialogs.showReflectionValueDialog(
+                      context, "Reflection Scale", ""),
                   title: "Reflection",
                   color: const Color.fromARGB(255, 233, 125, 220),
                 ),
