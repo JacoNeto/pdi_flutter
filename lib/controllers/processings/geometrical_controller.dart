@@ -25,7 +25,8 @@ class GeometricalController extends GetxController {
   var str = "";
 
   var rotationValue = 0.obs;
-  var translationValue = 0.obs;
+  var translationValueX = 0.obs;
+  var translationValueY = 0.obs;
   var scaleValue = 0.obs;
   var reflectionValue = 0.obs;
   var aliasing = 0.obs;
