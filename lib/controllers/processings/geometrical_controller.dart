@@ -36,6 +36,15 @@ class GeometricalController extends GetxController {
     await _addImageToGrid();
   }
 
+  Future<void> resizeImage() async {
+    await _imagesPreProcessing();
+    print("valoooor: ${scaleValue.value}");
+    image1 = img.copyResize(image1!,
+        width: image1!.width + scaleValue.value,
+        height: image1!.height + scaleValue.value);
+    await _addImageToGrid();
+  }
+
   Future<void> _imagesPreProcessing() async {
     // list1 = _gridController.selectedChildren.toList().elementAt(0)!;
     image1 = img.decodeImage(baseImage!);
@@ -45,7 +54,7 @@ class GeometricalController extends GetxController {
     Completer<Image> c = Completer<Image>();
     decodedBytes1 = image1!.getBytes(format: img.Format.rgba);
     decodeImageFromPixels(
-        decodedBytes1!, image1!.width, image1!.width, PixelFormat.rgba8888,
+        decodedBytes1!, image1!.width, image1!.height, PixelFormat.rgba8888,
         (image) {
       c.complete(image);
     });
