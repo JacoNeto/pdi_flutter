@@ -8,6 +8,9 @@ import 'package:pdi_flutter/views/home/components/sidebar/screens/screens_operat
 import 'package:pdi_flutter/views/home/components/sidebar/sidebar.dart';
 import 'package:sidebarx/sidebarx.dart';
 
+import 'package:pdi_flutter/views/home/components/buttons/operations/pseudo_color_button.dart';
+import 'package:pdi_flutter/controllers/processings/pseudocolor_controller.dart';
+
 import '../../controllers/home/grid_controller.dart';
 import '../../controllers/processings/operations_controller.dart';
 import 'components/buttons/operations/arithmetics_button.dart';
@@ -24,6 +27,8 @@ class HomePage extends StatelessWidget {
   final GridController _gridController = Get.put(GridController());
   final ColorSystemsController _colorSystemsController =
       Get.put(ColorSystemsController());
+  final PseudoColorController _pseudoColorController =
+      Get.put(PseudoColorController());
   final OperationsController _operationsController =
       Get.put(OperationsController());
 
@@ -67,12 +72,23 @@ class HomePage extends StatelessWidget {
             children: [
               if (_gridController.firstSelected.value != -1 &&
                   _gridController.secondSelected.value == -1)
-                ColorsButton(
-                  redOnTap: () => _colorSystemsController.redImage(),
-                  greenOnTap: () => _colorSystemsController.greenImage(),
-                  blueOnTap: () => _colorSystemsController.blueImage(),
-                  hsbOntap: () => _colorSystemsController.hsbImage(),
-                  cmykOntap: () => _colorSystemsController.cmykImage(),
+                Row(
+                  children: [
+                    ColorsButton(
+                      redOnTap: () => _colorSystemsController.redImage(),
+                      greenOnTap: () => _colorSystemsController.greenImage(),
+                      blueOnTap: () => _colorSystemsController.blueImage(),
+                      hsbOntap: () => _colorSystemsController.hsbImage(),
+                      cmykOntap: () => _colorSystemsController.cmykImage(),
+                    ),
+                    const SizedBox(
+                      width: 6,
+                    ),
+                    PseudoColorButton(
+                      pseudoOnTap: () => _pseudoColorController.pseudoColor(),
+                      realceOnTap: () => _pseudoColorController.pseudoColor(),
+                    )
+                  ],
                 ),
 
               /// If two images were selected, show [OperationsButton]
