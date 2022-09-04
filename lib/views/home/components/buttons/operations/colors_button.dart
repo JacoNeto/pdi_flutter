@@ -3,12 +3,20 @@ import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class ColorsButton extends StatelessWidget {
-  const ColorsButton({Key? key, this.redOnTap, this.greenOnTap, this.blueOnTap})
+  const ColorsButton(
+      {Key? key,
+      this.redOnTap,
+      this.greenOnTap,
+      this.blueOnTap,
+      this.hsbOntap,
+      this.cmykOntap})
       : super(key: key);
 
   final void Function()? redOnTap;
   final void Function()? greenOnTap;
   final void Function()? blueOnTap;
+  final void Function()? hsbOntap;
+  final void Function()? cmykOntap;
 
   @override
   Widget build(BuildContext context) {
@@ -56,6 +64,24 @@ class ColorsButton extends StatelessWidget {
           label: "Blue",
           labelStyle: const TextStyle(fontSize: 18.0),
           onTap: blueOnTap,
+        ),
+        SpeedDialChild(
+          child: const Text(
+            "H",
+          ),
+          backgroundColor: Colors.orange,
+          label: "HSB",
+          labelStyle: const TextStyle(fontSize: 18.0),
+          onTap: hsbOntap,
+        ),
+        SpeedDialChild(
+          child: const Text(
+            "C",
+          ),
+          backgroundColor: Colors.pink,
+          label: "CMYK",
+          labelStyle: const TextStyle(fontSize: 18.0),
+          onTap: cmykOntap,
         ),
       ],
     );

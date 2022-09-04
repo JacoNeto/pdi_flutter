@@ -71,6 +71,8 @@ class HomePage extends StatelessWidget {
                   redOnTap: () => _colorSystemsController.redImage(),
                   greenOnTap: () => _colorSystemsController.greenImage(),
                   blueOnTap: () => _colorSystemsController.blueImage(),
+                  hsbOntap: () => _colorSystemsController.hsbImage(),
+                  cmykOntap: () => _colorSystemsController.cmykImage(),
                 ),
 
               /// If two images were selected, show [OperationsButton]
