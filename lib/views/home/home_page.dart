@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:pdi_flutter/controllers/processings/color_systems_controller.dart';
+import 'package:pdi_flutter/views/home/components/buttons/operations/colors_button.dart';
 import 'package:pdi_flutter/views/home/components/buttons/operations/logical_button.dart';
 import 'package:pdi_flutter/views/home/components/grid/image_grid.dart';
 import 'package:pdi_flutter/views/home/components/sidebar/screens/screens_operations.dart';
@@ -20,6 +22,8 @@ class HomePage extends StatelessWidget {
 
   final String title;
   final GridController _gridController = Get.put(GridController());
+  final ColorSystemsController _colorSystemsController =
+      Get.put(ColorSystemsController());
   final OperationsController _operationsController =
       Get.put(OperationsController());
 
@@ -61,6 +65,14 @@ class HomePage extends StatelessWidget {
       floatingActionButton: Obx(() => Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
+              if (_gridController.firstSelected.value != -1 &&
+                  _gridController.secondSelected.value == -1)
+                ColorsButton(
+                  redOnTap: () => _colorSystemsController.redImage(),
+                  greenOnTap: () => _colorSystemsController.greenImage(),
+                  blueOnTap: () => _colorSystemsController.blueImage(),
+                ),
+
               /// If two images were selected, show [OperationsButton]
               if (_gridController.firstSelected.value != -1 &&
                   _gridController.secondSelected.value != -1)
