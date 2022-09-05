@@ -74,12 +74,23 @@ class HomePage extends StatelessWidget {
                   _gridController.secondSelected.value == -1)
                 Row(
                   children: [
+                    CmykButton(
+                      cyanOnTap: () =>
+                          _colorSystemsController.cmykImage("cyan"),
+                      magentaOnTap: () =>
+                          _colorSystemsController.cmykImage("magenta"),
+                      yellowOnTap: () =>
+                          _colorSystemsController.cmykImage("yellow"),
+                      keyOntap: () => _colorSystemsController.cmykImage("key"),
+                    ),
+                    const SizedBox(
+                      width: 6,
+                    ),
                     ColorsButton(
                       redOnTap: () => _colorSystemsController.redImage(),
                       greenOnTap: () => _colorSystemsController.greenImage(),
                       blueOnTap: () => _colorSystemsController.blueImage(),
                       hsbOntap: () => _colorSystemsController.hsbImage(),
-                      cmykOntap: () => _colorSystemsController.cmykImage(),
                     ),
                     const SizedBox(
                       width: 6,

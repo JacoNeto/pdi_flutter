@@ -19,6 +19,8 @@ class ColorSystemsController extends GetxController {
 
   Uint8List? result;
 
+  Uint8List? cmyk;
+
   var str = "";
 
   Future<void> redImage() async {
@@ -101,7 +103,29 @@ class ColorSystemsController extends GetxController {
     await _addImageToGrid();
   }
 
-  Future<void> cmykImage() async {
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+
+  //TODO botar isso em outro arquivo
+  Future<void> cmykImage(String space) async {
     await _imagePreProcessing();
     int ctrlRGB = 0;
     var rgbListAux = <int>[];
@@ -119,16 +143,81 @@ class ColorSystemsController extends GetxController {
       }
       if (ctrlRGB > 3) {
         cmykListAux = cmykColor!.toList();
-        result![i - 3] = cmykListAux[0].toInt();
-        result![i - 2] = cmykListAux[1].toInt();
-        result![i - 1] = cmykListAux[2].toInt();
-        result![i] = decodedBytes1![i];
+        cmyk![i - 3] = cmykListAux[0].toInt();
+        cmyk![i - 2] = cmykListAux[1].toInt();
+        cmyk![i - 1] = cmykListAux[2].toInt();
+        cmyk![i - 0] = cmykListAux[3].toInt();
+
         ctrlRGB = 0;
         rgbListAux.clear();
       }
     }
+    ctrlRGB = 0;
+    int usedSpace = 0;
+
+    //TODO fazer isso aqui como enum
+    if (space == "cyan") {
+      usedSpace = 0;
+    } else if (space == "magenta") {
+      usedSpace = 1;
+    } else if (space == "yellow") {
+      usedSpace = 2;
+    } else {
+      usedSpace = 3;
+    }
+    for (var i = 0; i < decodedBytes1!.length; i++) {
+      if (ctrlRGB == usedSpace) {
+      } else {
+        cmyk![i] = 0;
+      }
+      ctrlRGB++;
+      if (ctrlRGB > 3) {
+        ctrlRGB = 0;
+      }
+    }
+
+    rgbListAux = <int>[];
+    cmykListAux = <num>[];
+    for (var i = 0; i < decodedBytes1!.length; i++) {
+      if (ctrlRGB < 4) {
+        cmykListAux.add(cmyk![i]);
+      }
+      ctrlRGB++;
+      if (ctrlRGB == 4) {
+        cmykColor = CmykColor.fromList(cmykListAux);
+        rgbColor = cmykColor.toRgbColor();
+      }
+      if (ctrlRGB > 3) {
+        rgbListAux = rgbColor!.toList();
+        result![i - 3] = rgbListAux[0].toInt();
+        result![i - 2] = rgbListAux[1].toInt();
+        result![i - 1] = rgbListAux[2].toInt();
+        result![i] = decodedBytes1![i];
+        ctrlRGB = 0;
+        rgbListAux = <int>[];
+        cmykListAux = <num>[];
+      }
+    }
+    print("bom dia");
     await _addImageToGrid();
   }
+
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
 
   Future<void> _imagePreProcessing() async {
     list1 = _gridController.selectedChildren.toList().elementAt(0)!;
@@ -137,6 +226,7 @@ class ColorSystemsController extends GetxController {
     decodedBytes1 = image1!.getBytes(format: img.Format.rgba);
 
     result = Uint8List(decodedBytes1!.length);
+    cmyk = Uint8List(decodedBytes1!.length);
   }
 
   Future<void> _addImageToGrid() async {

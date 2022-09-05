@@ -12,7 +12,7 @@ class PseudoColorButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return SpeedDial(
       activeIcon: Icons.remove,
-      icon: Icons.color_lens,
+      icon: Icons.colorize_sharp,
       visible: true,
       closeManually: false,
       renderOverlay: false,

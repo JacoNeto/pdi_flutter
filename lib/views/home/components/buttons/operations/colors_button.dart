@@ -74,16 +74,82 @@ class ColorsButton extends StatelessWidget {
           labelStyle: const TextStyle(fontSize: 18.0),
           onTap: hsbOntap,
         ),
+      ],
+    );
+  }
+}
+
+class CmykButton extends StatelessWidget {
+  const CmykButton({
+    Key? key,
+    this.cyanOnTap,
+    this.magentaOnTap,
+    this.yellowOnTap,
+    this.keyOntap,
+  }) : super(key: key);
+
+  final void Function()? cyanOnTap;
+  final void Function()? magentaOnTap;
+  final void Function()? yellowOnTap;
+  final void Function()? keyOntap;
+
+  @override
+  Widget build(BuildContext context) {
+    return SpeedDial(
+      activeIcon: Icons.remove,
+      visible: true,
+      closeManually: false,
+      renderOverlay: false,
+      curve: Curves.bounceIn,
+      overlayColor: Colors.black,
+      overlayOpacity: 0.5,
+      onOpen: () => debugPrint('OPENING DIAL'),
+      onClose: () => debugPrint('DIAL CLOSED'),
+      tooltip: 'Speed Dial',
+      heroTag: 'speed-dial-hero-tag',
+      backgroundColor: Colors.black,
+      foregroundColor: Colors.white,
+      elevation: 8.0,
+      shape: const CircleBorder(),
+      children: [
         SpeedDialChild(
           child: const Text(
             "C",
           ),
-          backgroundColor: Colors.pink,
-          label: "CMYK",
+          backgroundColor: Colors.cyan,
+          label: "Cyan",
           labelStyle: const TextStyle(fontSize: 18.0),
-          onTap: cmykOntap,
+          onTap: cyanOnTap,
+        ),
+        SpeedDialChild(
+          child: const Text(
+            "M",
+          ),
+          backgroundColor: Colors.red,
+          label: "Magenta",
+          labelStyle: const TextStyle(fontSize: 18.0),
+          onTap: magentaOnTap,
+        ),
+        SpeedDialChild(
+          child: const Text(
+            "Y",
+          ),
+          backgroundColor: const Color.fromARGB(255, 234, 192, 57),
+          label: "Yellow",
+          labelStyle: const TextStyle(fontSize: 18.0),
+          onTap: yellowOnTap,
+        ),
+        SpeedDialChild(
+          child: const Text(
+            "K",
+          ),
+          backgroundColor: Colors.grey,
+          label: "Key",
+          labelStyle: const TextStyle(fontSize: 18.0),
+          onTap: keyOntap,
         ),
       ],
+      child: const Text("cmyk"),
     );
   }
 }
