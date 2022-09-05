@@ -20,6 +20,7 @@ class ColorSystemsController extends GetxController {
   Uint8List? result;
 
   Uint8List? cmyk;
+  Uint8List? hsb;
 
   var str = "";
 
@@ -92,14 +93,63 @@ class ColorSystemsController extends GetxController {
       }
       if (ctrlRGB > 3) {
         hsbListAux = hsbColor!.toList();
-        result![i - 3] = hsbListAux[0].toInt();
-        result![i - 2] = hsbListAux[1].toInt();
-        result![i - 1] = hsbListAux[2].toInt();
-        result![i] = decodedBytes1![i];
+        hsb![i - 3] = hsbListAux[0].toInt();
+        hsb![i - 2] = hsbListAux[1].toInt();
+        hsb![i - 1] = hsbListAux[2].toInt();
+        hsb![i - 0] = 0;
+
         ctrlRGB = 0;
         rgbListAux.clear();
       }
     }
+    ctrlRGB = 0;
+    /*int usedSpace = 0;
+
+    //TODO fazer isso aqui como enum
+    if (space == "cyan") {
+      usedSpace = 0;
+    } else if (space == "magenta") {
+      usedSpace = 1;
+    } else if (space == "yellow") {
+      usedSpace = 2;
+    } else {
+      usedSpace = 3;
+    }*/
+    for (var i = 0; i < decodedBytes1!.length; i++) {
+      if (ctrlRGB == 2 || ctrlRGB == 3) {
+      } else {
+        hsb![i] = 0;
+      }
+      ctrlRGB++;
+      if (ctrlRGB > 3) {
+        ctrlRGB = 0;
+      }
+    }
+
+    rgbListAux = <int>[];
+    hsbListAux = <num>[];
+    for (var i = 0; i < decodedBytes1!.length; i++) {
+      if (ctrlRGB < 3) {
+        hsbListAux.add(hsb![i]);
+      }
+      ctrlRGB++;
+      if (ctrlRGB == 3) {
+        hsbColor = HsbColor.fromList(hsbListAux);
+        rgbColor = hsbColor.toRgbColor();
+      }
+      if (ctrlRGB > 3) {
+        rgbListAux = rgbColor!.toList();
+        result![i - 3] = rgbListAux[0].toInt();
+        str += "${rgbListAux[0].toInt()} ";
+        result![i - 2] = rgbListAux[1].toInt();
+        result![i - 1] = rgbListAux[2].toInt();
+        result![i] = decodedBytes1![i];
+        ctrlRGB = 0;
+        rgbListAux = <int>[];
+        hsbListAux = <num>[];
+      }
+    }
+    print(str);
     await _addImageToGrid();
   }
 
@@ -227,6 +277,7 @@ class ColorSystemsController extends GetxController {
 
     result = Uint8List(decodedBytes1!.length);
     cmyk = Uint8List(decodedBytes1!.length);
+    hsb = Uint8List(decodedBytes1!.length);
   }
 
   Future<void> _addImageToGrid() async {
