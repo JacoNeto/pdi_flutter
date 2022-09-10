@@ -1,5 +1,7 @@
+import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:file_picker/file_picker.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:image/image.dart' as img;
@@ -28,14 +30,16 @@ class GridController extends GetxController {
   /// using [addChildToGrid]
   Future<void> addImageTest() async {
     /// list of Image Files selected by the user
-    final files = await ImageUtils.getImage();
+    final pickedImageFiles = await ImageUtils.getImageFile();
 
-    if (files != null) {
+    if (pickedImageFiles != null) {
       /// this loop adds each image file from the [files] list
       /// into the home grid
-      for (XFile xFile in files) {
-        var teste = await xFile.readAsBytes();
-        addChildToGrid(teste);
+      List<File> files =
+          pickedImageFiles.paths.map((path) => File(path!)).toList();
+      for (File platformFile in files) {
+        var imageBytes = await platformFile.readAsBytes();
+        addChildToGrid(imageBytes);
       }
     }
 

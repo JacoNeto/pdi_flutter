@@ -1,3 +1,4 @@
+import 'package:file_picker/file_picker.dart';
 import 'package:image/image.dart' as img;
 import 'package:image_picker/image_picker.dart';
 
@@ -9,6 +10,26 @@ class ImageUtils {
     var pickedFile = await picker.pickMultiImage();
 
     return pickedFile;
+  }
+
+  // Pick an image file
+  static Future<FilePickerResult?> getImageFile() async {
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
+      type: FileType.custom,
+      allowMultiple: true,
+      allowedExtensions: [
+        'jpg',
+        'jpeg',
+        'png',
+        'jpg',
+        'gif',
+        'tiff',
+        'pgm',
+        'bitmap'
+      ],
+    );
+
+    return result;
   }
 
   /// Verify if an image has the specified dimension given [width] and [height]
