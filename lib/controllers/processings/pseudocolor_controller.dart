@@ -27,10 +27,16 @@ class PseudoColorController extends GetxController {
 
         ///RED
         case 1:
-          if (decodedBytes1![i] < 70) {
+          if (decodedBytes1![i] < 50) {
+            result![i] = 254;
+          } else if (decodedBytes1![i] < 100) {
             result![i] = 200;
           } else if (decodedBytes1![i] < 140) {
             result![i] = 0;
+          } else if (decodedBytes1![i] < 180) {
+            result![i] = 106;
+          } else if (decodedBytes1![i] < 220) {
+            result![i] = 52;
           } else {
             result![i] = 0;
           }
@@ -38,10 +44,16 @@ class PseudoColorController extends GetxController {
 
         ///BLUE
         case 2:
-          if (decodedBytes1![i] < 70) {
+          if (decodedBytes1![i] < 50) {
+            result![i] = 165;
+          } else if (decodedBytes1![i] < 100) {
             result![i] = 0;
           } else if (decodedBytes1![i] < 140) {
             result![i] = 200;
+          } else if (decodedBytes1![i] < 180) {
+            result![i] = 90;
+          } else if (decodedBytes1![i] < 220) {
+            result![i] = 97;
           } else {
             result![i] = 0;
           }
@@ -49,9 +61,15 @@ class PseudoColorController extends GetxController {
 
         ///GREEN
         case 3:
-          if (decodedBytes1![i] < 70) {
+          if (decodedBytes1![i] < 50) {
+            result![i] = 0;
+          } else if (decodedBytes1![i] < 100) {
             result![i] = 0;
           } else if (decodedBytes1![i] < 140) {
+            result![i] = 0;
+          } else if (decodedBytes1![i] < 180) {
+            result![i] = 205;
+          } else if (decodedBytes1![i] < 220) {
             result![i] = 0;
           } else {
             result![i] = 200;
