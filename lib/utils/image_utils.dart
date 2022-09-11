@@ -38,13 +38,22 @@ class ImageUtils {
     return result;
   }
 
-  static Future<Uint8List?> bmpToRGB(File pgmFile) async {
-    var teste = await pgmFile.readAsLines();
-    var intList = <int>[];
-    Uint8List? result;
-    print(teste.length);
-    for (int i = 3; i < 259; i++) {
-      var str = teste[i].split(' ');
+  static Future<Uint8List?> pgmToRGB(File pgmFile) async {
+    Uint8List? result; // RGBA Values List
+    var intList = <int>[]; // Auxiliar RGBA Values List (used to converting)
+
+    var fileLines = await pgmFile.readAsLines(); // file lines from pgm file
+
+    var width = int.parse(fileLines[1].split(' ').first); // image height
+    var height = int.parse(fileLines[1].split(' ').last); // image height
+
+    // iterates through all the greyscale values lines
+    for (int i = 3; i < width + 3; i++) {
+      var str = fileLines[i].split(' ');
+
+      // each greyscale value is converted to RGBA.
+      // To achieve this just repeat the grey scale
+      // in R, G and B. The A is filled with 254.
       for (String numberString in str) {
         int greyValue = int.parse(numberString);
         intList.add(greyValue);
@@ -53,9 +62,10 @@ class ImageUtils {
         intList.add(254);
       }
     }
+
     result = Uint8List.fromList(intList);
     Completer<Image> c = Completer<Image>();
-    decodeImageFromPixels(result, 256, 256, PixelFormat.rgba8888, (image) {
+    decodeImageFromPixels(result, width, height, PixelFormat.rgba8888, (image) {
       c.complete(image);
     });
     var future = await c.future;

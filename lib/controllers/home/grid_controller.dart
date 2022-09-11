@@ -41,7 +41,7 @@ class GridController extends GetxController {
         Uint8List? imageBytes;
 
         if (platformFile.path.split('.').last == 'pgm') {
-          imageBytes = await ImageUtils.bmpToRGB(platformFile);
+          imageBytes = await ImageUtils.pgmToRGB(platformFile);
         } else {
           imageBytes = await platformFile.readAsBytes();
         }
