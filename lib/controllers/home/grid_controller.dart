@@ -38,8 +38,15 @@ class GridController extends GetxController {
       List<File> files =
           pickedImageFiles.paths.map((path) => File(path!)).toList();
       for (File platformFile in files) {
-        var imageBytes = await platformFile.readAsBytes();
-        addChildToGrid(imageBytes);
+        Uint8List? imageBytes;
+
+        if (platformFile.path.split('.').last == 'pgm') {
+          imageBytes = await ImageUtils.bmpToRGB(platformFile);
+        } else {
+          imageBytes = await platformFile.readAsBytes();
+        }
+
+        addChildToGrid(imageBytes!);
       }
     }
 
