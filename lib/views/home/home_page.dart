@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:pdi_flutter/controllers/home/home_controller.dart';
 import 'package:pdi_flutter/controllers/processings/color_systems_controller.dart';
+import 'package:pdi_flutter/models/enums/sidebar_enum.dart';
 import 'package:pdi_flutter/views/home/components/buttons/operations/colors_button.dart';
 import 'package:pdi_flutter/views/home/components/buttons/operations/logical_button.dart';
 import 'package:pdi_flutter/views/home/components/grid/image_grid.dart';
@@ -25,6 +27,7 @@ class HomePage extends StatelessWidget {
 
   final String title;
   final GridController _gridController = Get.put(GridController());
+  final HomeController _homeController = Get.find();
   final ColorSystemsController _colorSystemsController =
       Get.put(ColorSystemsController());
   final PseudoColorController _pseudoColorController =
@@ -70,8 +73,8 @@ class HomePage extends StatelessWidget {
       floatingActionButton: Obx(() => Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              if (_gridController.firstSelected.value != -1 &&
-                  _gridController.secondSelected.value == -1)
+              // if you are in the color conversion tab
+              if (_isItemGridSelected(SidebarItem.conversion))
                 Row(
                   children: [
                     CmykButton(
@@ -92,19 +95,20 @@ class HomePage extends StatelessWidget {
                       blueOnTap: () => _colorSystemsController.blueImage(),
                       hsbOntap: () => _colorSystemsController.hsbImage(),
                     ),
-                    const SizedBox(
-                      width: 6,
-                    ),
-                    PseudoColorButton(
-                      pseudoOnTap: () => _pseudoColorController.pseudoColor(),
-                      realceOnTap: () => _pseudoColorController.pseudoColor(),
-                    )
                   ],
+                ),
+
+              // If you are in the pseudocolor tab
+              if (_isItemGridSelected(SidebarItem.pseudocolor))
+                PseudoColorButton(
+                  pseudoOnTap: () => _pseudoColorController.pseudoColor(),
+                  realceOnTap: () => _pseudoColorController.pseudoColor(),
                 ),
 
               /// If two images were selected, show [OperationsButton]
               if (_gridController.firstSelected.value != -1 &&
-                  _gridController.secondSelected.value != -1)
+                  _gridController.secondSelected.value != -1 &&
+                  _isItemSelected(SidebarItem.home))
                 Row(
                   children: [
                     ArithmeticsButton(
@@ -129,15 +133,29 @@ class HomePage extends StatelessWidget {
               ),
 
               /// [AddImage] Button
-              FloatingActionButton(
-                  backgroundColor: Colors.white,
-                  child: const Icon(
-                    Icons.add_a_photo,
-                    color: Colors.black,
-                  ),
-                  onPressed: () async => await _gridController.addImageTest()),
+              if (_homeController.selectedSidebarItem.value == SidebarItem.home)
+                FloatingActionButton(
+                    backgroundColor: Colors.white,
+                    child: const Icon(
+                      Icons.add_a_photo,
+                      color: Colors.black,
+                    ),
+                    onPressed: () async =>
+                        await _gridController.addImageTest()),
             ],
           )),
     );
+  }
+
+  bool _isFirstSelected() {
+    return _gridController.firstSelected.value != -1;
+  }
+
+  bool _isItemSelected(SidebarItem sidebarItem) {
+    return _homeController.selectedSidebarItem.value == sidebarItem;
+  }
+
+  bool _isItemGridSelected(SidebarItem sidebarItem) {
+    return _isFirstSelected() && _isItemSelected(sidebarItem);
   }
 }

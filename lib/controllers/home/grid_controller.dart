@@ -1,12 +1,13 @@
 import 'dart:io';
 import 'dart:typed_data';
 
-import 'package:file_picker/file_picker.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:image/image.dart' as img;
+import 'package:oktoast/oktoast.dart';
 
 import '../../utils/image_utils.dart';
+
+enum Selected { primary, secondary }
 
 /// The [GridController] is responsible for the state of the
 /// [ImageGrid] UI.
@@ -79,8 +80,7 @@ class GridController extends GetxController {
   /// updates the [needAloneOperations] value
   var needAloneOperations = false.obs;
   void setNeedAloneOperationsOptions() {
-    needAloneOperations.value =
-        firstSelected.value != -1 && secondSelected.value == -1;
+    needAloneOperations.value = firstSelected.value != -1;
   }
 
   /// [selectImage]
@@ -92,14 +92,18 @@ class GridController extends GetxController {
   void selectImage(int i) {
     if (firstSelected.value == -1 && secondSelected.value == -1) {
       firstSelected.value = i;
+      showSelectedToast(Selected.primary);
     } else if (i == firstSelected.value) {
-      firstSelected.value = -1;
+      firstSelected.value = secondSelected.value;
+      secondSelected.value = -1;
     } else if (firstSelected.value != -1 && secondSelected.value == -1) {
       secondSelected.value = i;
+      showSelectedToast(Selected.secondary);
     } else if (secondSelected.value == i) {
       secondSelected.value = -1;
     } else {
       firstSelected.value = i;
+      showSelectedToast(Selected.primary);
     }
 
     if (firstSelected.value != -1) {
@@ -110,6 +114,33 @@ class GridController extends GetxController {
     }
 
     setNeedAloneOperationsOptions();
+  }
+
+  /// [showSelectedToast] defines the widget returned in the toast depending
+  /// on the image that just got selected by the user
+  ToastFuture showSelectedToast(Selected selected) {
+    return showToastWidget(
+        selected == Selected.primary
+            ? const Card(
+                color: Color.fromARGB(255, 39, 196, 25),
+                child: Padding(
+                  padding: EdgeInsets.all(14.0),
+                  child: Text(
+                    "Primary Selected",
+                    style: TextStyle(color: Colors.white, fontSize: 20),
+                  ),
+                ))
+            : const Card(
+                color: Color.fromARGB(255, 230, 118, 43),
+                child: Padding(
+                  padding: EdgeInsets.all(14.0),
+                  child: Text(
+                    "Secondary Selected",
+                    style: TextStyle(color: Colors.white, fontSize: 20),
+                  ),
+                )),
+        position: const ToastPosition(align: Alignment.topRight, offset: 60),
+        duration: const Duration(milliseconds: 1050));
   }
 
   //////
@@ -124,8 +155,15 @@ class GridController extends GetxController {
   /// remove from the [gridChildren] list the image at the
   /// index [i]
   void removeImage(int i) {
-    if (firstSelected.value == i || secondSelected.value == i) {
-      selectImage(i);
+    if (firstSelected.value == i) {
+      firstSelected.value = secondSelected.value - 1;
+      secondSelected.value = -1;
+    }
+    if (secondSelected.value == i) {
+      if (firstSelected.value > secondSelected.value) {
+        firstSelected.value = firstSelected.value - 1;
+      }
+      secondSelected.value = -1;
     }
     gridChildren.removeAt(i);
   }

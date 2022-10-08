@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
+import 'package:pdi_flutter/controllers/home/home_controller.dart';
+import 'package:pdi_flutter/models/enums/sidebar_enum.dart';
 import 'package:sidebarx/sidebarx.dart';
 
 import '../../../../controllers/home/grid_controller.dart';
@@ -14,7 +14,7 @@ class AppSidebar extends StatelessWidget {
         super(key: key);
 
   final GridController _gridController = Get.find();
-
+  final HomeController _homeController = Get.find();
   final SidebarXController _controller;
   static const primaryColor = Color(0xFF685BFF);
   static const canvasColor = Color(0xFF2E2E48);
@@ -91,28 +91,40 @@ class AppSidebar extends StatelessWidget {
               icon: Icons.home,
               label: 'Home',
               onTap: () {
-                debugPrint('Home');
+                debugPrint(_controller.selectedIndex.toString());
+                _homeController.selectedSidebarItem.value = SidebarItem.home;
               },
             ),
             if (_gridController.needAloneOperations.value)
-              const SidebarXItem(
-                icon: Icons.crop_square,
-                label: 'Geométricas',
-              ),
+              SidebarXItem(
+                  icon: Icons.crop_square,
+                  label: 'Geométricas',
+                  onTap: () {
+                    _homeController.selectedSidebarItem.value =
+                        SidebarItem.geometric;
+                  }),
             if (_gridController.needAloneOperations.value)
-              const SidebarXItem(
-                icon: Icons.people,
-                label: 'Conversão',
-              ),
+              SidebarXItem(
+                  icon: Icons.people,
+                  label: 'Conversão',
+                  onTap: () {
+                    _homeController.selectedSidebarItem.value =
+                        SidebarItem.conversion;
+                  }),
             if (_gridController.needAloneOperations.value)
-              const SidebarXItem(
-                icon: Icons.favorite,
-                label: 'Pseudocor',
-              ),
-            const SidebarXItem(
-              iconWidget: FlutterLogo(size: 20),
-              label: 'Sobre',
-            ),
+              SidebarXItem(
+                  icon: Icons.favorite,
+                  label: 'Pseudocor',
+                  onTap: () {
+                    _homeController.selectedSidebarItem.value =
+                        SidebarItem.pseudocolor;
+                  }),
+            SidebarXItem(
+                iconWidget: const FlutterLogo(size: 20),
+                label: 'Sobre',
+                onTap: () {
+                  _homeController.selectedSidebarItem.value = SidebarItem.about;
+                }),
           ],
         ));
   }

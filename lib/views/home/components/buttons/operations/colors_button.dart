@@ -105,7 +105,7 @@ class CmykButton extends StatelessWidget {
       overlayOpacity: 0.5,
       onOpen: () => debugPrint('OPENING DIAL'),
       onClose: () => debugPrint('DIAL CLOSED'),
-      tooltip: 'Speed Dial',
+      tooltip: 'RGB Conversion',
       heroTag: 'speed-dial-hero-tag',
       backgroundColor: Colors.black,
       foregroundColor: Colors.white,

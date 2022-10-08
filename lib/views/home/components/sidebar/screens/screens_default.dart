@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:pdi_flutter/views/home/components/grid/image_grid.dart';
 import 'package:sidebarx/sidebarx.dart';
-
-import '../../../../../controllers/home/grid_controller.dart';
 
 class ScreensDefault extends StatelessWidget {
   const ScreensDefault({

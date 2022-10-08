@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:pdi_flutter/controllers/core/app_controller.dart';
 
 import 'controllers/home/grid_controller.dart';
+import 'controllers/home/home_controller.dart';
 import 'core/app.dart';
 
 /// Please, follow these patterns when coding:
@@ -41,4 +42,5 @@ void main() {
 void initialize() {
   Get.lazyPut(() => AppController());
   Get.lazyPut(() => GridController());
+  Get.lazyPut(() => HomeController());
 }

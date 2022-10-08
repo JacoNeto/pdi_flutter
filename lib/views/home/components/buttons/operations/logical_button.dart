@@ -22,7 +22,7 @@ class LogicalButton extends StatelessWidget {
       overlayOpacity: 0.5,
       onOpen: () => debugPrint('OPENING DIAL'),
       onClose: () => debugPrint('DIAL CLOSED'),
-      tooltip: 'Speed Dial',
+      tooltip: 'Logical Operations',
       heroTag: 'speed-dial-hero-tag',
       backgroundColor: Colors.black,
       foregroundColor: Colors.white,
