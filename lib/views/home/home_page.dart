@@ -15,7 +15,9 @@ import 'package:pdi_flutter/views/home/components/buttons/operations/pseudo_colo
 import 'package:pdi_flutter/controllers/processings/pseudocolor_controller.dart';
 
 import '../../controllers/home/grid_controller.dart';
+import '../../controllers/processings/filtering/high_pass_filtering_controller.dart';
 import '../../controllers/processings/operations_controller.dart';
+import 'components/buttons/filtering/high_pass.dart';
 import 'components/buttons/filtering/low_pass.dart';
 import 'components/buttons/operations/arithmetics_button.dart';
 import 'components/sidebar/screens/screens_default.dart';
@@ -38,6 +40,8 @@ class HomePage extends StatelessWidget {
       Get.put(OperationsController());
   final LowPassFilteringController _lowPassFilteringController =
       Get.put(LowPassFilteringController());
+  final HighPassFilteringController _highPassFilteringController =
+      Get.put(HighPassFilteringController());
 
   final _controller = SidebarXController(selectedIndex: 0, extended: true);
   final _key = GlobalKey<ScaffoldState>();
@@ -116,6 +120,16 @@ class HomePage extends StatelessWidget {
                       _lowPassFilteringController.average3x3(),
                   average5x5OnTap: () =>
                       _lowPassFilteringController.average5x5(),
+                ),
+
+              // If you are in the low pass filtering tab
+              if (_isItemGridSelected(SidebarItem.highpass))
+                HighPassButton(
+                  h1: () => _highPassFilteringController.h1(),
+                  h2: () => _highPassFilteringController.h2(),
+                  m1: () => _highPassFilteringController.m1(),
+                  m2: () => _highPassFilteringController.m2(),
+                  m3: () => _highPassFilteringController.m3(),
                 ),
 
               /// If two images were selected, show [OperationsButton]

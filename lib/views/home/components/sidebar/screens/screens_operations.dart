@@ -31,7 +31,7 @@ class ScreensOperations extends StatelessWidget {
             _geometricalController
                 .init(_gridController.selectedChildren.toList().elementAt(0)!);
             return const GeometricalPage();
-          case 5:
+          case 6:
             return Text(
               "Sobre",
               style: theme.textTheme.headline5,

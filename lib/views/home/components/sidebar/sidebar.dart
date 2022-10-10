@@ -127,6 +127,14 @@ class AppSidebar extends StatelessWidget {
                     _homeController.selectedSidebarItem.value =
                         SidebarItem.lowpass;
                   }),
+            if (_gridController.needAloneOperations.value)
+              SidebarXItem(
+                  icon: Icons.favorite,
+                  label: 'Filtros passa-alta',
+                  onTap: () {
+                    _homeController.selectedSidebarItem.value =
+                        SidebarItem.highpass;
+                  }),
             SidebarXItem(
                 iconWidget: const FlutterLogo(size: 20),
                 label: 'Sobre',
