@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pdi_flutter/controllers/home/home_controller.dart';
 import 'package:pdi_flutter/controllers/processings/color_systems_controller.dart';
+import 'package:pdi_flutter/controllers/processings/filtering/low_pass_filtering_controller.dart';
 import 'package:pdi_flutter/models/enums/sidebar_enum.dart';
 import 'package:pdi_flutter/views/home/components/buttons/operations/colors_button.dart';
 import 'package:pdi_flutter/views/home/components/buttons/operations/logical_button.dart';
@@ -15,6 +16,7 @@ import 'package:pdi_flutter/controllers/processings/pseudocolor_controller.dart'
 
 import '../../controllers/home/grid_controller.dart';
 import '../../controllers/processings/operations_controller.dart';
+import 'components/buttons/filtering/low_pass.dart';
 import 'components/buttons/operations/arithmetics_button.dart';
 import 'components/sidebar/screens/screens_default.dart';
 
@@ -34,6 +36,8 @@ class HomePage extends StatelessWidget {
       Get.put(PseudoColorController());
   final OperationsController _operationsController =
       Get.put(OperationsController());
+  final LowPassFilteringController _lowPassFilteringController =
+      Get.put(LowPassFilteringController());
 
   final _controller = SidebarXController(selectedIndex: 0, extended: true);
   final _key = GlobalKey<ScaffoldState>();
@@ -103,6 +107,15 @@ class HomePage extends StatelessWidget {
                 PseudoColorButton(
                   pseudoOnTap: () => _pseudoColorController.pseudoColor(),
                   realceOnTap: () => _pseudoColorController.pseudoColor(),
+                ),
+
+              // If you are in the low pass filtering tab
+              if (_isItemGridSelected(SidebarItem.lowpass))
+                LowPassButton(
+                  average3x3OnTap: () =>
+                      _lowPassFilteringController.average3x3(),
+                  average5x5OnTap: () =>
+                      _lowPassFilteringController.average5x5(),
                 ),
 
               /// If two images were selected, show [OperationsButton]

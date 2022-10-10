@@ -7,6 +7,8 @@ import 'package:image/image.dart' as img;
 import 'package:pdi_flutter/controllers/home/grid_controller.dart';
 import 'package:pdi_flutter/utils/image_utils.dart';
 
+import '../../constants/img_default.dart';
+
 /// this [OperationsController] uses two images selected from
 /// [GridController] to make arithmetic and logical operations
 /// between them
@@ -106,12 +108,14 @@ class OperationsController extends GetxController {
   Future<void> _imagesPreProcessing() async {
     list1 = _gridController.selectedChildren.toList().elementAt(0)!;
     image1 = img.decodeImage(list1!);
-    image1 = ImageUtils.resizeImage(image1!, width: 220, height: 220);
+    image1 =
+        ImageUtils.resizeImage(image1!, width: imgDefault, height: imgDefault);
     decodedBytes1 = image1!.getBytes(format: img.Format.rgba);
 
     list2 = _gridController.selectedChildren.toList().elementAt(1)!;
     image2 = img.decodeImage(list2!);
-    image2 = ImageUtils.resizeImage(image2!, width: 220, height: 220);
+    image2 =
+        ImageUtils.resizeImage(image2!, width: imgDefault, height: imgDefault);
     decodedBytes2 = image2!.getBytes(format: img.Format.rgba);
 
     result = Uint8List(decodedBytes1!.length);

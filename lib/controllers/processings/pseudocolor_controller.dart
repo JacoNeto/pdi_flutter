@@ -4,6 +4,7 @@ import 'dart:ui';
 
 import 'package:get/get.dart';
 import 'package:image/image.dart' as img;
+import 'package:pdi_flutter/constants/img_default.dart';
 
 import '../../utils/image_utils.dart';
 import '../home/grid_controller.dart';
@@ -35,7 +36,7 @@ class PseudoColorController extends GetxController {
             result![i] = 0;
           } else if (decodedBytes1![i] < 180) {
             result![i] = 106;
-          } else if (decodedBytes1![i] < 220) {
+          } else if (decodedBytes1![i] < imgDefault) {
             result![i] = 52;
           } else {
             result![i] = 0;
@@ -52,7 +53,7 @@ class PseudoColorController extends GetxController {
             result![i] = 200;
           } else if (decodedBytes1![i] < 180) {
             result![i] = 90;
-          } else if (decodedBytes1![i] < 220) {
+          } else if (decodedBytes1![i] < imgDefault) {
             result![i] = 97;
           } else {
             result![i] = 0;
@@ -69,7 +70,7 @@ class PseudoColorController extends GetxController {
             result![i] = 0;
           } else if (decodedBytes1![i] < 180) {
             result![i] = 205;
-          } else if (decodedBytes1![i] < 220) {
+          } else if (decodedBytes1![i] < imgDefault) {
             result![i] = 0;
           } else {
             result![i] = 200;
@@ -98,7 +99,8 @@ class PseudoColorController extends GetxController {
   Future<void> _imagePreProcessing() async {
     list1 = _gridController.selectedChildren.toList().elementAt(0)!;
     image1 = img.decodeImage(list1!);
-    image1 = ImageUtils.resizeImage(image1!, width: 220, height: 220);
+    image1 =
+        ImageUtils.resizeImage(image1!, width: imgDefault, height: imgDefault);
     decodedBytes1 = image1!.getBytes(format: img.Format.rgba);
 
     result = Uint8List(decodedBytes1!.length);

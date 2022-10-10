@@ -1,1 +1,1 @@
-enum SidebarItem { home, geometric, conversion, pseudocolor, about }
+enum SidebarItem { home, geometric, conversion, pseudocolor, lowpass, about }

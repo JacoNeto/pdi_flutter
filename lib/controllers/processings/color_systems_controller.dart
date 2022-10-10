@@ -7,6 +7,7 @@ import 'dart:ui';
 
 import 'package:image/image.dart' as img;
 
+import '../../constants/img_default.dart';
 import '../../utils/image_utils.dart';
 import '../home/grid_controller.dart';
 
@@ -272,7 +273,8 @@ class ColorSystemsController extends GetxController {
   Future<void> _imagePreProcessing() async {
     list1 = _gridController.selectedChildren.toList().elementAt(0)!;
     image1 = img.decodeImage(list1!);
-    image1 = ImageUtils.resizeImage(image1!, width: 220, height: 220);
+    image1 =
+        ImageUtils.resizeImage(image1!, width: imgDefault, height: imgDefault);
     decodedBytes1 = image1!.getBytes(format: img.Format.rgba);
 
     result = Uint8List(decodedBytes1!.length);

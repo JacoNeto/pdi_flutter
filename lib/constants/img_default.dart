@@ -1,0 +1,1 @@
+const imgDefault = 256;

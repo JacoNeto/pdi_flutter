@@ -29,6 +29,15 @@ class ImageGrid extends StatelessWidget {
                     .removeAt(orderUpdateEntity.oldIndex);
                 _gridController.gridChildren
                     .insert(orderUpdateEntity.newIndex, widget);
+                if (orderUpdateEntity.oldIndex ==
+                    _gridController.firstSelected.value) {
+                  _gridController.firstSelected.value =
+                      orderUpdateEntity.newIndex;
+                } else if (orderUpdateEntity.oldIndex ==
+                    _gridController.secondSelected.value) {
+                  _gridController.secondSelected.value =
+                      orderUpdateEntity.newIndex;
+                }
               }
             },
             builder: (children) {

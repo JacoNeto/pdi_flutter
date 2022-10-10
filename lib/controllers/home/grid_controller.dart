@@ -156,7 +156,8 @@ class GridController extends GetxController {
   /// index [i]
   void removeImage(int i) {
     if (firstSelected.value == i) {
-      firstSelected.value = secondSelected.value - 1;
+      firstSelected.value =
+          secondSelected.value == -1 ? -1 : secondSelected.value - 1;
       secondSelected.value = -1;
     }
     if (secondSelected.value == i) {
@@ -165,6 +166,15 @@ class GridController extends GetxController {
       }
       secondSelected.value = -1;
     }
+
+    if (firstSelected.value != -1) {
+      selectedChildren[0] = gridChildren.elementAt(firstSelected.value);
+    }
+    if (secondSelected.value != -1) {
+      selectedChildren[1] = gridChildren.elementAt(secondSelected.value);
+    }
+    setNeedAloneOperationsOptions();
+
     gridChildren.removeAt(i);
   }
 
