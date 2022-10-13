@@ -1,11 +1,13 @@
 import 'dart:math';
 import 'dart:typed_data';
 
+import 'package:pdi_flutter/utils/math_utils.dart';
+
 class ImageFilterUtils {
+  /// Convolution filter
+  static int clampPixel(int x) => x.clamp(0, 255);
   static Uint8List convolute(
       Uint8List pixels, int width, int height, List<num> weights, num bias) {
-    int clampPixel(int x) => x.clamp(0, 255);
-
     var bytes = Uint8List.fromList(pixels);
     int side = sqrt(weights.length).round();
     int halfSide = ~~(side / 2).round() - side % 2;
@@ -57,5 +59,20 @@ class ImageFilterUtils {
     }
 
     return kernel;
+  }
+
+  // Kawahara filter
+
+  // this function calculates the variancy of a given quadrant
+  static double quadrantVariancy(List<int> quadrantValues) {
+    double maskAverage = MathUtils.mean(quadrantValues);
+    double sum = 0;
+    int length = quadrantValues.length;
+
+    for (int i = 0; i < length; i++) {
+      sum += pow((quadrantValues[i] - maskAverage), 2);
+    }
+
+    return sum;
   }
 }

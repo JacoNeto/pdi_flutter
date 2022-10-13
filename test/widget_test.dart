@@ -5,25 +5,17 @@
 // gestures. You can also use WidgetTester to find child widgets in the widget
 // tree, read text, and verify that the values of widget properties are correct.
 
-import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pdi_flutter/core/app.dart';
+import 'package:pdi_flutter/utils/image_filter_utils.dart';
+import 'package:pdi_flutter/utils/math_utils.dart';
+import 'package:pdi_flutter/utils/quarters.dart';
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(const PDIFlutter());
-
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
-
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
-
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
-  });
+  test('Mean must be correct: ', (() {
+    expect(MathUtils.mean([1, 2, 3, 4, 5, 6]), 3.5);
+  }));
+  test('Variancy must be correct: ', (() {
+    expect(ImageFilterUtils.quadrantVariancy([1, 2, 3, 4, 5, 6]), 3.5);
+  }));
 }

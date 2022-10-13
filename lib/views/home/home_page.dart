@@ -115,11 +115,21 @@ class HomePage extends StatelessWidget {
 
               // If you are in the low pass filtering tab
               if (_isItemGridSelected(SidebarItem.lowpass))
-                LowPassButton(
-                  average3x3OnTap: () =>
-                      _lowPassFilteringController.average3x3(),
-                  average5x5OnTap: () =>
-                      _lowPassFilteringController.average5x5(),
+                Row(
+                  children: [
+                    BorderPreservingButton(
+                      kuwahara: () => _lowPassFilteringController.kuwahara(),
+                    ),
+                    const SizedBox(
+                      width: 6,
+                    ),
+                    LowPassButton(
+                      average3x3OnTap: () =>
+                          _lowPassFilteringController.average3x3(),
+                      average5x5OnTap: () =>
+                          _lowPassFilteringController.average5x5(),
+                    ),
+                  ],
                 ),
 
               // If you are in the low pass filtering tab

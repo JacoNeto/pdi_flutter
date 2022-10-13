@@ -75,3 +75,78 @@ class LowPassButton extends StatelessWidget {
     );
   }
 }
+
+class BorderPreservingButton extends StatelessWidget {
+  const BorderPreservingButton({
+    Key? key,
+    this.kuwahara,
+    this.tomitaTsuji,
+    this.nagaoMatsuyama,
+    this.somboonkaew,
+  }) : super(key: key);
+
+  final void Function()? kuwahara;
+  final void Function()? tomitaTsuji;
+  final void Function()? nagaoMatsuyama;
+  final void Function()? somboonkaew;
+
+  @override
+  Widget build(BuildContext context) {
+    return SpeedDial(
+      activeIcon: Icons.remove,
+      icon: Icons.filter,
+      visible: true,
+      closeManually: false,
+      renderOverlay: false,
+      curve: Curves.bounceIn,
+      overlayColor: Colors.black,
+      overlayOpacity: 0.5,
+      onOpen: () => debugPrint('OPENING DIAL'),
+      onClose: () => debugPrint('DIAL CLOSED'),
+      tooltip: 'Low Pass Filters',
+      heroTag: 'speed-dial-hero-tag',
+      backgroundColor: Colors.black,
+      foregroundColor: Colors.white,
+      elevation: 8.0,
+      shape: const CircleBorder(),
+      children: [
+        SpeedDialChild(
+          child: const Text(
+            "K",
+          ),
+          backgroundColor: Colors.red,
+          label: "Kawahara",
+          labelStyle: const TextStyle(fontSize: 18.0),
+          onTap: kuwahara,
+        ),
+        SpeedDialChild(
+          child: const Text(
+            "T",
+          ),
+          backgroundColor: Colors.blue,
+          label: "Tomita & Tsuji",
+          labelStyle: const TextStyle(fontSize: 18.0),
+          onTap: tomitaTsuji,
+        ),
+        SpeedDialChild(
+          child: const Text(
+            "N",
+          ),
+          backgroundColor: Colors.green,
+          label: "Nagao & Matsuyama",
+          labelStyle: const TextStyle(fontSize: 18.0),
+          onTap: nagaoMatsuyama,
+        ),
+        SpeedDialChild(
+          child: const Text(
+            "S",
+          ),
+          backgroundColor: Colors.orange,
+          label: "Somboonkaew",
+          labelStyle: const TextStyle(fontSize: 18.0),
+          onTap: somboonkaew,
+        ),
+      ],
+    );
+  }
+}
