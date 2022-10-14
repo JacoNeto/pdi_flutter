@@ -118,8 +118,9 @@ class HomePage extends StatelessWidget {
                 Row(
                   children: [
                     BorderPreservingButton(
-                      kuwahara: () => _lowPassFilteringController.kuwahara(),
-                    ),
+                        kuwahara: () => _lowPassFilteringController.kuwahara(),
+                        tomitaTsuji: () =>
+                            _lowPassFilteringController.tomitaTsuji()),
                     const SizedBox(
                       width: 6,
                     ),

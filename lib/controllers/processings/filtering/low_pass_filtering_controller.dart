@@ -73,28 +73,10 @@ class LowPassFilteringController extends GetxController {
     int aux = 0;
     int auxx = 0;
     for (var i = 0; i < greyScalePixels.length; i++) {
-      // print("[$pixelX][$pixelY]");
-
-      /*int aux = 0;
-
-      for (int j = 0; j < imgDefault; j++) {
-        for (int k = 0; k < imgDefault; k++) {
-          if (aux == i) {
-            pixelX = j;
-            pixelY = k;
-          }
-          twoDList[j][k] = greyScalePixels[aux];
-          aux++;
-        }
-      }*/
-      var q1 = Quarters.q1(
-          greyScalePixels, i, imgDefault, imgDefault, twoDList, pixelX, pixelY);
-      var q2 = Quarters.q2(
-          greyScalePixels, i, imgDefault, imgDefault, twoDList, pixelX, pixelY);
-      var q3 = Quarters.q3(
-          greyScalePixels, i, imgDefault, imgDefault, twoDList, pixelX, pixelY);
-      var q4 = Quarters.q4(
-          greyScalePixels, i, imgDefault, imgDefault, twoDList, pixelX, pixelY);
+      var q1 = Quarters.q1(imgDefault, imgDefault, twoDList, pixelX, pixelY);
+      var q2 = Quarters.q2(imgDefault, imgDefault, twoDList, pixelX, pixelY);
+      var q3 = Quarters.q3(imgDefault, imgDefault, twoDList, pixelX, pixelY);
+      var q4 = Quarters.q4(imgDefault, imgDefault, twoDList, pixelX, pixelY);
 
       var q1Variance = ImageFilterUtils.quadrantVariancy(q1);
       lesserVariance = q1Variance;
@@ -116,6 +98,96 @@ class LowPassFilteringController extends GetxController {
       if (q4Variance < lesserVariance) {
         lesserVariance = q4Variance;
         usedMean = MathUtils.mean(q4);
+      }
+
+      resultBefore.add(usedMean.round());
+      resultBefore.add(usedMean.round());
+      resultBefore.add(usedMean.round());
+      resultBefore.add(254);
+
+      aux++;
+      if (aux < imgDefault) {
+        pixelY++;
+      } else {
+        if (auxx < imgDefault) {
+          pixelX++;
+        }
+
+        pixelY = 0;
+        aux = 0;
+        auxx++;
+      }
+    }
+    // print(str);
+    result = Uint8List.fromList(resultBefore);
+    await _addImageToGrid();
+  }
+
+  Future<void> tomitaTsuji() async {
+    await _imagePreProcessing();
+    double lesserVariance = 0;
+    double usedMean = 0;
+
+    int pixelX = 0;
+    int pixelY = 0;
+
+    var twoDList = List.generate(
+        imgDefault, (i) => List.filled(imgDefault, 0, growable: false),
+        growable: false);
+
+    List<int> greyScaleList = [];
+
+    for (var i = 0; i < decodedBytes1!.length; i += 4) {
+      greyScaleList.add(decodedBytes1![i]);
+    }
+
+    var greyScalePixels = Uint8List.fromList(greyScaleList);
+
+    List<int> resultBefore = [];
+
+    int auxTwo = 0;
+    for (int i = 0; i < imgDefault; i++) {
+      for (int j = 0; j < imgDefault; j++) {
+        twoDList[i][j] = greyScalePixels[auxTwo];
+        auxTwo++;
+      }
+    }
+
+    int aux = 0;
+    int auxx = 0;
+    for (var i = 0; i < greyScalePixels.length; i++) {
+      var q1 = Quarters.q1(imgDefault, imgDefault, twoDList, pixelX, pixelY);
+      var q2 = Quarters.q2(imgDefault, imgDefault, twoDList, pixelX, pixelY);
+      var q3 = Quarters.q3(imgDefault, imgDefault, twoDList, pixelX, pixelY);
+      var q4 = Quarters.q4(imgDefault, imgDefault, twoDList, pixelX, pixelY);
+      var q5 = Quarters.q5(imgDefault, imgDefault, twoDList, pixelX, pixelY);
+
+      var q1Variance = ImageFilterUtils.quadrantVariancy(q1);
+      lesserVariance = q1Variance;
+      usedMean = MathUtils.mean(q1);
+
+      var q2Variance = ImageFilterUtils.quadrantVariancy(q2);
+      if (q2Variance < lesserVariance) {
+        lesserVariance = q2Variance;
+        usedMean = MathUtils.mean(q2);
+      }
+
+      var q3Variance = ImageFilterUtils.quadrantVariancy(q3);
+      if (q3Variance < lesserVariance) {
+        lesserVariance = q3Variance;
+        usedMean = MathUtils.mean(q3);
+      }
+
+      var q4Variance = ImageFilterUtils.quadrantVariancy(q4);
+      if (q4Variance < lesserVariance) {
+        lesserVariance = q4Variance;
+        usedMean = MathUtils.mean(q4);
+      }
+
+      var q5Variance = ImageFilterUtils.quadrantVariancy(q4);
+      if (q5Variance < lesserVariance) {
+        lesserVariance = q5Variance;
+        usedMean = MathUtils.mean(q5);
       }
 
       resultBefore.add(usedMean.round());
