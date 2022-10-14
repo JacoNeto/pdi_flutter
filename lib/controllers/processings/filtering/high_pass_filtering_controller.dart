@@ -5,9 +5,9 @@ import 'dart:ui';
 import 'package:get/get.dart';
 import 'package:image/image.dart' as img;
 import 'package:pdi_flutter/utils/convolution_kernel.dart';
-import 'package:pdi_flutter/utils/image_filter_utils.dart';
 
 import '../../../constants/img_default.dart';
+import '../../../utils/image_filter_utils/image_filter_utils.dart';
 import '../../../utils/image_utils.dart';
 import '../../home/grid_controller.dart';
 

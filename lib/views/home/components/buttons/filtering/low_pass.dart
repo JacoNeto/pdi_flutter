@@ -19,7 +19,7 @@ class LowPassButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return SpeedDial(
       activeIcon: Icons.remove,
-      icon: Icons.color_lens,
+      icon: Icons.filter_alt_outlined,
       visible: true,
       closeManually: false,
       renderOverlay: false,
@@ -103,7 +103,7 @@ class BorderPreservingButton extends StatelessWidget {
       overlayOpacity: 0.5,
       onOpen: () => debugPrint('OPENING DIAL'),
       onClose: () => debugPrint('DIAL CLOSED'),
-      tooltip: 'Low Pass Filters',
+      tooltip: 'Border Preserving',
       heroTag: 'speed-dial-hero-tag',
       backgroundColor: Colors.black,
       foregroundColor: Colors.white,

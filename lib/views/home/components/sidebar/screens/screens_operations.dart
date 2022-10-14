@@ -4,7 +4,6 @@ import 'package:pdi_flutter/views/home/components/grid/image_grid.dart';
 import 'package:sidebarx/sidebarx.dart';
 
 import '../../../../../controllers/home/grid_controller.dart';
-import '../../../../../controllers/home/home_controller.dart';
 import '../../../../../controllers/processings/geometrical_controller.dart';
 import '../../../../geometrical/geometrical_page.dart';
 
