@@ -5,5 +5,6 @@ enum SidebarItem {
   pseudocolor,
   lowpass,
   highpass,
+  halftoning,
   about
 }

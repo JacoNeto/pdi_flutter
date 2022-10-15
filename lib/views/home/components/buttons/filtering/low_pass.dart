@@ -6,14 +6,14 @@ class LowPassButton extends StatelessWidget {
     Key? key,
     this.average3x3OnTap,
     this.average5x5OnTap,
-    this.medianOnTap,
-    this.modeOnTap,
+    this.median3x3OnTap,
+    this.median5x5OnTap,
   }) : super(key: key);
 
   final void Function()? average3x3OnTap;
   final void Function()? average5x5OnTap;
-  final void Function()? medianOnTap;
-  final void Function()? modeOnTap;
+  final void Function()? median3x3OnTap;
+  final void Function()? median5x5OnTap;
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +40,7 @@ class LowPassButton extends StatelessWidget {
             "Av3",
           ),
           backgroundColor: Colors.red,
-          label: "Média 3x3",
+          label: "Mean 3x3",
           labelStyle: const TextStyle(fontSize: 18.0),
           onTap: average3x3OnTap,
         ),
@@ -49,27 +49,27 @@ class LowPassButton extends StatelessWidget {
             "Av5",
           ),
           backgroundColor: Colors.red,
-          label: "Média 5x5",
+          label: "Mean 5x5",
           labelStyle: const TextStyle(fontSize: 18.0),
           onTap: average5x5OnTap,
         ),
         SpeedDialChild(
           child: const Text(
-            "ME",
+            "Me3",
           ),
           backgroundColor: Colors.green,
-          label: "Median",
+          label: "Median 3 x 3",
           labelStyle: const TextStyle(fontSize: 18.0),
-          onTap: medianOnTap,
+          onTap: median3x3OnTap,
         ),
         SpeedDialChild(
           child: const Text(
-            "MO",
+            "Me5",
           ),
-          backgroundColor: Colors.blue,
-          label: "Mode",
+          backgroundColor: Colors.green,
+          label: "Median 5 x 5",
           labelStyle: const TextStyle(fontSize: 18.0),
-          onTap: modeOnTap,
+          onTap: median5x5OnTap,
         ),
       ],
     );

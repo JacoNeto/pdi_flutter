@@ -40,6 +40,12 @@ class LowPassFilteringController extends GetxController {
     await _addImageToGrid();
   }
 
+  Future<void> median3x3() async {
+    await _imagePreProcessing();
+    // print(str);
+    await _addImageToGrid();
+  }
+
   Future<void> kuwahara() async {
     await _imagePreProcessing();
     double lesserVariance = 0;
@@ -131,10 +137,6 @@ class LowPassFilteringController extends GetxController {
     int pixelX = 0;
     int pixelY = 0;
 
-    var twoDList = List.generate(
-        imgDefault, (i) => List.filled(imgDefault, 0, growable: false),
-        growable: false);
-
     List<int> greyScaleList = [];
 
     for (var i = 0; i < decodedBytes1!.length; i += 4) {
@@ -145,13 +147,8 @@ class LowPassFilteringController extends GetxController {
 
     List<int> resultBefore = [];
 
-    int auxTwo = 0;
-    for (int i = 0; i < imgDefault; i++) {
-      for (int j = 0; j < imgDefault; j++) {
-        twoDList[i][j] = greyScalePixels[auxTwo];
-        auxTwo++;
-      }
-    }
+    List<List<int>> twoDList = [];
+    twoDList = ImageUtils.listTo2dList(greyScalePixels);
 
     int aux = 0;
     int auxx = 0;
@@ -221,10 +218,6 @@ class LowPassFilteringController extends GetxController {
     int pixelX = 0;
     int pixelY = 0;
 
-    var twoDList = List.generate(
-        imgDefault, (i) => List.filled(imgDefault, 0, growable: false),
-        growable: false);
-
     List<int> greyScaleList = [];
 
     for (var i = 0; i < decodedBytes1!.length; i += 4) {
@@ -235,13 +228,8 @@ class LowPassFilteringController extends GetxController {
 
     List<int> resultBefore = [];
 
-    int auxTwo = 0;
-    for (int i = 0; i < imgDefault; i++) {
-      for (int j = 0; j < imgDefault; j++) {
-        twoDList[i][j] = greyScalePixels[auxTwo];
-        auxTwo++;
-      }
-    }
+    List<List<int>> twoDList = [];
+    twoDList = ImageUtils.listTo2dList(greyScalePixels);
 
     int aux = 0;
     int auxx = 0;
@@ -340,10 +328,6 @@ class LowPassFilteringController extends GetxController {
     int pixelX = 0;
     int pixelY = 0;
 
-    var twoDList = List.generate(
-        imgDefault, (i) => List.filled(imgDefault, 0, growable: false),
-        growable: false);
-
     List<int> greyScaleList = [];
 
     for (var i = 0; i < decodedBytes1!.length; i += 4) {
@@ -354,13 +338,8 @@ class LowPassFilteringController extends GetxController {
 
     List<int> resultBefore = [];
 
-    int auxTwo = 0;
-    for (int i = 0; i < imgDefault; i++) {
-      for (int j = 0; j < imgDefault; j++) {
-        twoDList[i][j] = greyScalePixels[auxTwo];
-        auxTwo++;
-      }
-    }
+    List<List<int>> twoDList = [];
+    twoDList = ImageUtils.listTo2dList(greyScalePixels);
 
     int aux = 0;
     int auxx = 0;

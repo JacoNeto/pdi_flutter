@@ -41,6 +41,5 @@ ConvolutionKernel h2Kernel =
     ConvolutionKernel([-1, -1, -1, -1, 8, -1, -1, -1, -1]);
 ConvolutionKernel m1Kernel =
     ConvolutionKernel([-1, -1, -1, -1, 9, -1, -1, -1, -1]);
-ConvolutionKernel m2Kernel =
-    ConvolutionKernel([-1, -1, -1, -1, 8, -1, -1, -1, -1]);
+ConvolutionKernel m2Kernel = ConvolutionKernel([1, -2, 1, -2, 5, -2, 1, -2, 1]);
 ConvolutionKernel m3Kernel = ConvolutionKernel([0, -1, 0, -1, 5, -1, 0, -1, 0]);

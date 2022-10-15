@@ -8,6 +8,8 @@ import 'package:file_picker/file_picker.dart';
 import 'package:image/image.dart' as img;
 import 'package:image_picker/image_picker.dart';
 
+import '../constants/img_default.dart';
+
 class ImageUtils {
   // Pick an image from gallery
   static Future<List<XFile>?> getImage() async {
@@ -81,5 +83,33 @@ class ImageUtils {
       return img.copyResize(image, width: width, height: height);
     }
     return image;
+  }
+
+  static List<List<int>> listTo2dList(Uint8List pixels) {
+    int auxTwo = 0;
+    var twoDList = List.generate(
+        imgDefault, (i) => List.filled(imgDefault, 0, growable: false),
+        growable: false);
+    for (int i = 0; i < imgDefault; i++) {
+      for (int j = 0; j < imgDefault; j++) {
+        twoDList[i][j] = pixels[auxTwo];
+        auxTwo++;
+      }
+    }
+    return twoDList;
+  }
+
+  static List<List<double>> listTo2dDoubleList(List<double> pixels) {
+    int auxTwo = 0;
+    var twoDList = List.generate(
+        imgDefault, (i) => List.filled(imgDefault, 0.0, growable: false),
+        growable: false);
+    for (int i = 0; i < imgDefault; i++) {
+      for (int j = 0; j < imgDefault; j++) {
+        twoDList[i][j] = pixels[auxTwo];
+        auxTwo++;
+      }
+    }
+    return twoDList;
   }
 }

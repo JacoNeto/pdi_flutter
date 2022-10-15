@@ -15,8 +15,10 @@ import 'package:pdi_flutter/views/home/components/buttons/operations/pseudo_colo
 import 'package:pdi_flutter/controllers/processings/pseudocolor_controller.dart';
 
 import '../../controllers/home/grid_controller.dart';
+import '../../controllers/processings/filtering/halftoning_filtering_controller.dart';
 import '../../controllers/processings/filtering/high_pass_filtering_controller.dart';
 import '../../controllers/processings/operations_controller.dart';
+import 'components/buttons/filtering/halftoning.dart';
 import 'components/buttons/filtering/high_pass.dart';
 import 'components/buttons/filtering/low_pass.dart';
 import 'components/buttons/operations/arithmetics_button.dart';
@@ -42,6 +44,8 @@ class HomePage extends StatelessWidget {
       Get.put(LowPassFilteringController());
   final HighPassFilteringController _highPassFilteringController =
       Get.put(HighPassFilteringController());
+  final HalftoningFilteringController _halftoningFilteringController =
+      Get.put(HalftoningFilteringController());
 
   final _controller = SidebarXController(selectedIndex: 0, extended: true);
   final _key = GlobalKey<ScaffoldState>();
@@ -136,6 +140,13 @@ class HomePage extends StatelessWidget {
                           _lowPassFilteringController.average5x5(),
                     ),
                   ],
+                ),
+
+              // If you are in the low pass filtering tab
+              if (_isItemGridSelected(SidebarItem.halftoning))
+                HalftoningButton(
+                  ordered2x2OnTap: () =>
+                      _halftoningFilteringController.ordered2x2(),
                 ),
 
               // If you are in the low pass filtering tab

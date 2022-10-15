@@ -19,6 +19,7 @@ void main() {
   test('Variancy must be correct: ', (() {
     expect(ImageFilterUtils.quadrantVariancy([1, 2, 3, 4, 5, 6]), 3.5);
   }));
+
   test('Q5 must be correct: ', (() {
     expect(
         Quarters.q5(
