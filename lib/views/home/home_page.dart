@@ -147,6 +147,10 @@ class HomePage extends StatelessWidget {
                 HalftoningButton(
                   ordered2x2OnTap: () =>
                       _halftoningFilteringController.ordered2x2(),
+                  ordered2x3OnTap: () =>
+                      _halftoningFilteringController.ordered2x3(),
+                  ordered3x3OnTap: () =>
+                      _halftoningFilteringController.ordered3x3(),
                 ),
 
               // If you are in the low pass filtering tab
