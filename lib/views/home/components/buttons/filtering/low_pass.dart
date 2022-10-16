@@ -100,8 +100,8 @@ class MaxMinButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SpeedDial(
-      activeIcon: Icons.maximize,
-      icon: Icons.filter_alt_outlined,
+      activeIcon: Icons.remove,
+      icon: Icons.date_range,
       visible: true,
       closeManually: false,
       renderOverlay: false,
