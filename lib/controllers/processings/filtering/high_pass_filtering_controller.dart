@@ -24,40 +24,35 @@ class HighPassFilteringController extends GetxController {
 
   Future<void> h1() async {
     await _imagePreProcessing();
-    result = ImageFilterUtils.convolute(decodedBytes1!, imgDefault, imgDefault,
-        ImageFilterUtils.normalizeKernel(h1Kernel.convolution), 0);
+    result = ImageFilterUtils.convolution(image1!, h1Kernel.convolution);
     // print(str);
     await _addImageToGrid();
   }
 
   Future<void> h2() async {
     await _imagePreProcessing();
-    result = ImageFilterUtils.convolute(decodedBytes1!, imgDefault, imgDefault,
-        ImageFilterUtils.normalizeKernel(h2Kernel.convolution), 0);
+    result = ImageFilterUtils.convolution(image1!, h2Kernel.convolution);
     // print(str);
     await _addImageToGrid();
   }
 
   Future<void> m1() async {
     await _imagePreProcessing();
-    result = ImageFilterUtils.convolute(decodedBytes1!, imgDefault, imgDefault,
-        ImageFilterUtils.normalizeKernel(m1Kernel.convolution), 0);
+    result = ImageFilterUtils.convolution(image1!, m1Kernel.convolution);
     // print(str);
     await _addImageToGrid();
   }
 
   Future<void> m2() async {
     await _imagePreProcessing();
-    result = ImageFilterUtils.convolute(decodedBytes1!, imgDefault, imgDefault,
-        ImageFilterUtils.normalizeKernel(m2Kernel.convolution), 0);
+    result = ImageFilterUtils.convolution(image1!, m2Kernel.convolution);
     // print(str);
     await _addImageToGrid();
   }
 
   Future<void> m3() async {
     await _imagePreProcessing();
-    result = ImageFilterUtils.convolute(decodedBytes1!, imgDefault, imgDefault,
-        ImageFilterUtils.normalizeKernel(m3Kernel.convolution), 0);
+    result = ImageFilterUtils.convolution(image1!, m3Kernel.convolution);
     // print(str);
     await _addImageToGrid();
   }

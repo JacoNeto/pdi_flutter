@@ -133,11 +133,23 @@ class HomePage extends StatelessWidget {
                     const SizedBox(
                       width: 6,
                     ),
+                    MaxMinButton(
+                      maxOnTap: () => _lowPassFilteringController.max(),
+                      minOnTap: () => _lowPassFilteringController.min(),
+                    ),
+                    const SizedBox(
+                      width: 6,
+                    ),
                     LowPassButton(
                       average3x3OnTap: () =>
                           _lowPassFilteringController.average3x3(),
                       average5x5OnTap: () =>
                           _lowPassFilteringController.average5x5(),
+                      median3x3OnTap: () =>
+                          _lowPassFilteringController.median3x3(),
+                      median5x5OnTap: () =>
+                          _lowPassFilteringController.median5x5(),
+                      modeOnTap: () => _lowPassFilteringController.mode(),
                     ),
                   ],
                 ),

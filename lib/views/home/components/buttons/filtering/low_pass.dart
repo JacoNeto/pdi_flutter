@@ -8,12 +8,14 @@ class LowPassButton extends StatelessWidget {
     this.average5x5OnTap,
     this.median3x3OnTap,
     this.median5x5OnTap,
+    this.modeOnTap,
   }) : super(key: key);
 
   final void Function()? average3x3OnTap;
   final void Function()? average5x5OnTap;
   final void Function()? median3x3OnTap;
   final void Function()? median5x5OnTap;
+  final void Function()? modeOnTap;
 
   @override
   Widget build(BuildContext context) {
@@ -70,6 +72,68 @@ class LowPassButton extends StatelessWidget {
           label: "Median 5 x 5",
           labelStyle: const TextStyle(fontSize: 18.0),
           onTap: median5x5OnTap,
+        ),
+        SpeedDialChild(
+          child: const Text(
+            "Mo",
+          ),
+          backgroundColor: Colors.green,
+          label: "Mode",
+          labelStyle: const TextStyle(fontSize: 18.0),
+          onTap: modeOnTap,
+        ),
+      ],
+    );
+  }
+}
+
+class MaxMinButton extends StatelessWidget {
+  const MaxMinButton({
+    Key? key,
+    this.maxOnTap,
+    this.minOnTap,
+  }) : super(key: key);
+
+  final void Function()? maxOnTap;
+  final void Function()? minOnTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return SpeedDial(
+      activeIcon: Icons.maximize,
+      icon: Icons.filter_alt_outlined,
+      visible: true,
+      closeManually: false,
+      renderOverlay: false,
+      curve: Curves.bounceIn,
+      overlayColor: Colors.black,
+      overlayOpacity: 0.5,
+      onOpen: () => debugPrint('OPENING DIAL'),
+      onClose: () => debugPrint('DIAL CLOSED'),
+      tooltip: 'MaxMin Filters',
+      heroTag: 'speed-dial-hero-tag',
+      backgroundColor: Colors.black,
+      foregroundColor: Colors.white,
+      elevation: 8.0,
+      shape: const CircleBorder(),
+      children: [
+        SpeedDialChild(
+          child: const Text(
+            "Max",
+          ),
+          backgroundColor: Colors.red,
+          label: "Maximum",
+          labelStyle: const TextStyle(fontSize: 18.0),
+          onTap: maxOnTap,
+        ),
+        SpeedDialChild(
+          child: const Text(
+            "Min",
+          ),
+          backgroundColor: Colors.blueAccent,
+          label: "Minimum",
+          labelStyle: const TextStyle(fontSize: 18.0),
+          onTap: minOnTap,
         ),
       ],
     );

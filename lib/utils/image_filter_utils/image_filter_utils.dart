@@ -1,50 +1,264 @@
 import 'dart:math';
 import 'dart:typed_data';
 
+import 'package:image/image.dart';
 import 'package:pdi_flutter/utils/math_utils.dart';
 
 class ImageFilterUtils {
   /// Convolution filter
   static int clampPixel(int x) => x.clamp(0, 255);
-  static Uint8List convolute(
-      Uint8List pixels, int width, int height, List<num> weights, num bias) {
-    var bytes = Uint8List.fromList(pixels);
-    int side = sqrt(weights.length).round();
-    int halfSide = ~~(side / 2).round() - side % 2;
-    int sw = width;
-    int sh = height;
 
-    int w = sw;
-    int h = sh;
+  static Uint8List convolution(Image src, List<num> filter,
+      {num div = 1.0, num offset = 0.0}) {
+    final tmp = Image.from(src);
 
-    for (int y = 0; y < h; y++) {
-      for (int x = 0; x < w; x++) {
-        int sy = y;
-        int sx = x;
-        int dstOff = (y * w + x) * 4;
-        num r = bias, g = bias, b = bias;
-        for (int cy = 0; cy < side; cy++) {
-          for (int cx = 0; cx < side; cx++) {
-            int scy = sy + cy - halfSide;
-            int scx = sx + cx - halfSide;
+    int side = sqrt(filter.length).round();
 
-            if (scy >= 0 && scy < sh && scx >= 0 && scx < sw) {
-              int srcOff = (scy * sw + scx) * 4;
-              num wt = weights[cy * side + cx];
+    for (var y = 0; y < src.height; ++y) {
+      for (var x = 0; x < src.width; ++x) {
+        final c = tmp.getPixel(x, y);
+        num r = 0.0;
+        num g = 0.0;
+        num b = 0.0;
+        final a = getAlpha(c);
 
-              r += bytes[srcOff] * wt;
-              g += bytes[srcOff + 1] * wt;
-              b += bytes[srcOff + 2] * wt;
-            }
+        for (var j = 0, fi = 0; j < side; ++j) {
+          final yv = min(max(y - 1 + j, 0), src.height - 1);
+          for (var i = 0; i < side; ++i, ++fi) {
+            final xv = min(max(x - 1 + i, 0), src.width - 1);
+            final c2 = tmp.getPixel(xv, yv);
+            r += getRed(c2) * filter[fi];
+            g += getGreen(c2) * filter[fi];
+            b += getBlue(c2) * filter[fi];
           }
         }
-        pixels[dstOff] = clampPixel(r.round());
-        pixels[dstOff + 1] = clampPixel(g.round());
-        pixels[dstOff + 2] = clampPixel(b.round());
+
+        r = (r / div) + offset;
+        g = (g / div) + offset;
+        b = (b / div) + offset;
+
+        r = (r > 255.0) ? 255.0 : ((r < 0.0) ? 0.0 : r);
+        g = (g > 255.0) ? 255.0 : ((g < 0.0) ? 0.0 : g);
+        b = (b > 255.0) ? 255.0 : ((b < 0.0) ? 0.0 : b);
+
+        src.setPixel(x, y, getColor(r.toInt(), g.toInt(), b.toInt(), a));
       }
     }
 
-    return pixels;
+    return src.getBytes(format: Format.rgba);
+  }
+
+  static Uint8List convolutionMean(Image src, List<num> filter,
+      {num div = 1.0, num offset = 0.0}) {
+    final tmp = Image.from(src);
+
+    int side = sqrt(filter.length).round();
+
+    for (var y = 0; y < src.height; ++y) {
+      for (var x = 0; x < src.width; ++x) {
+        final c = tmp.getPixel(x, y);
+        num r = 0.0;
+        num g = 0.0;
+        num b = 0.0;
+        final a = getAlpha(c);
+
+        var cont = 0;
+        for (var j = 0, fi = 0; j < side; ++j) {
+          final yv = min(max(y - 1 + j, 0), src.height - 1);
+          for (var i = 0; i < side; ++i, ++fi) {
+            final xv = min(max(x - 1 + i, 0), src.width - 1);
+            final c2 = tmp.getPixel(xv, yv);
+            r += getRed(c2) * filter[fi];
+            g += getGreen(c2) * filter[fi];
+            b += getBlue(c2) * filter[fi];
+          }
+        }
+
+        r = (r / filter.length) + offset;
+        g = (g / filter.length) + offset;
+        b = (b / filter.length) + offset;
+
+        r = (r > 255.0) ? 255.0 : ((r < 0.0) ? 0.0 : r);
+        g = (g > 255.0) ? 255.0 : ((g < 0.0) ? 0.0 : g);
+        b = (b > 255.0) ? 255.0 : ((b < 0.0) ? 0.0 : b);
+
+        src.setPixel(x, y, getColor(r.toInt(), g.toInt(), b.toInt(), a));
+      }
+    }
+
+    return src.getBytes(format: Format.rgba);
+  }
+
+  static Uint8List convolutionMedian(Image src, List<num> filter,
+      {num div = 1.0, num offset = 0.0}) {
+    final tmp = Image.from(src);
+
+    int side = sqrt(filter.length).round();
+
+    for (var y = 0; y < src.height; ++y) {
+      for (var x = 0; x < src.width; ++x) {
+        final c = tmp.getPixel(x, y);
+        num r = 0.0;
+        num g = 0.0;
+        num b = 0.0;
+        final a = getAlpha(c);
+
+        List<int> medianListR = [];
+        List<int> medianListG = [];
+        List<int> medianListB = [];
+        for (var j = 0, fi = 0; j < side; ++j) {
+          final yv = min(max(y - 1 + j, 0), src.height - 1);
+          for (var i = 0; i < side; ++i, ++fi) {
+            final xv = min(max(x - 1 + i, 0), src.width - 1);
+            final c2 = tmp.getPixel(xv, yv);
+            medianListR.add(getRed(c2) * filter[fi].toInt());
+            medianListG.add(getGreen(c2) * filter[fi].toInt());
+            medianListB.add(getBlue(c2) * filter[fi].toInt());
+          }
+        }
+
+        r = MathUtils.median(medianListR);
+        g = MathUtils.median(medianListG);
+        b = MathUtils.median(medianListB);
+
+        r = (r > 255.0) ? 255.0 : ((r < 0.0) ? 0.0 : r);
+        g = (g > 255.0) ? 255.0 : ((g < 0.0) ? 0.0 : g);
+        b = (b > 255.0) ? 255.0 : ((b < 0.0) ? 0.0 : b);
+
+        src.setPixel(x, y, getColor(r.toInt(), g.toInt(), b.toInt(), a));
+      }
+    }
+
+    return src.getBytes(format: Format.rgba);
+  }
+
+  static Uint8List convolutionMode(Image src, List<num> filter,
+      {num div = 1.0, num offset = 0.0}) {
+    final tmp = Image.from(src);
+
+    int side = sqrt(filter.length).round();
+
+    for (var y = 0; y < src.height; ++y) {
+      for (var x = 0; x < src.width; ++x) {
+        final c = tmp.getPixel(x, y);
+        num r = 0.0;
+        num g = 0.0;
+        num b = 0.0;
+        final a = getAlpha(c);
+
+        List<int> medianListR = [];
+        List<int> medianListG = [];
+        List<int> medianListB = [];
+        for (var j = 0, fi = 0; j < side; ++j) {
+          final yv = min(max(y - 1 + j, 0), src.height - 1);
+          for (var i = 0; i < side; ++i, ++fi) {
+            final xv = min(max(x - 1 + i, 0), src.width - 1);
+            final c2 = tmp.getPixel(xv, yv);
+            medianListR.add(getRed(c2) * filter[fi].toInt());
+            medianListG.add(getGreen(c2) * filter[fi].toInt());
+            medianListB.add(getBlue(c2) * filter[fi].toInt());
+          }
+        }
+
+        r = MathUtils.mode(medianListR);
+        g = MathUtils.mode(medianListG);
+        b = MathUtils.mode(medianListB);
+
+        r = (r > 255.0) ? 255.0 : ((r < 0.0) ? 0.0 : r);
+        g = (g > 255.0) ? 255.0 : ((g < 0.0) ? 0.0 : g);
+        b = (b > 255.0) ? 255.0 : ((b < 0.0) ? 0.0 : b);
+
+        src.setPixel(x, y, getColor(r.toInt(), g.toInt(), b.toInt(), a));
+      }
+    }
+
+    return src.getBytes(format: Format.rgba);
+  }
+
+  static Uint8List convolutionMax(Image src, List<num> filter,
+      {num div = 1.0, num offset = 0.0}) {
+    final tmp = Image.from(src);
+
+    int side = sqrt(filter.length).round();
+
+    for (var y = 0; y < src.height; ++y) {
+      for (var x = 0; x < src.width; ++x) {
+        final c = tmp.getPixel(x, y);
+        num r = 0.0;
+        num g = 0.0;
+        num b = 0.0;
+        final a = getAlpha(c);
+
+        List<int> medianListR = [];
+        List<int> medianListG = [];
+        List<int> medianListB = [];
+        for (var j = 0, fi = 0; j < side; ++j) {
+          final yv = min(max(y - 1 + j, 0), src.height - 1);
+          for (var i = 0; i < side; ++i, ++fi) {
+            final xv = min(max(x - 1 + i, 0), src.width - 1);
+            final c2 = tmp.getPixel(xv, yv);
+            medianListR.add(getRed(c2) * filter[fi].toInt());
+            medianListG.add(getGreen(c2) * filter[fi].toInt());
+            medianListB.add(getBlue(c2) * filter[fi].toInt());
+          }
+        }
+
+        r = medianListR.reduce(max);
+        g = medianListG.reduce(max);
+        b = medianListB.reduce(max);
+
+        r = (r > 255.0) ? 255.0 : ((r < 0.0) ? 0.0 : r);
+        g = (g > 255.0) ? 255.0 : ((g < 0.0) ? 0.0 : g);
+        b = (b > 255.0) ? 255.0 : ((b < 0.0) ? 0.0 : b);
+
+        src.setPixel(x, y, getColor(r.toInt(), g.toInt(), b.toInt(), a));
+      }
+    }
+
+    return src.getBytes(format: Format.rgba);
+  }
+
+  static Uint8List convolutionMin(Image src, List<num> filter,
+      {num div = 1.0, num offset = 0.0}) {
+    final tmp = Image.from(src);
+
+    int side = sqrt(filter.length).round();
+
+    for (var y = 0; y < src.height; ++y) {
+      for (var x = 0; x < src.width; ++x) {
+        final c = tmp.getPixel(x, y);
+        num r = 0.0;
+        num g = 0.0;
+        num b = 0.0;
+        final a = getAlpha(c);
+
+        List<int> medianListR = [];
+        List<int> medianListG = [];
+        List<int> medianListB = [];
+        for (var j = 0, fi = 0; j < side; ++j) {
+          final yv = min(max(y - 1 + j, 0), src.height - 1);
+          for (var i = 0; i < side; ++i, ++fi) {
+            final xv = min(max(x - 1 + i, 0), src.width - 1);
+            final c2 = tmp.getPixel(xv, yv);
+            medianListR.add(getRed(c2) * filter[fi].toInt());
+            medianListG.add(getGreen(c2) * filter[fi].toInt());
+            medianListB.add(getBlue(c2) * filter[fi].toInt());
+          }
+        }
+
+        r = medianListR.reduce(min);
+        g = medianListG.reduce(min);
+        b = medianListB.reduce(min);
+
+        r = (r > 255.0) ? 255.0 : ((r < 0.0) ? 0.0 : r);
+        g = (g > 255.0) ? 255.0 : ((g < 0.0) ? 0.0 : g);
+        b = (b > 255.0) ? 255.0 : ((b < 0.0) ? 0.0 : b);
+
+        src.setPixel(x, y, getColor(r.toInt(), g.toInt(), b.toInt(), a));
+      }
+    }
+
+    return src.getBytes(format: Format.rgba);
   }
 
   static List<num> normalizeKernel(List<num> kernel) {

@@ -26,23 +26,48 @@ class LowPassFilteringController extends GetxController {
 
   Future<void> average3x3() async {
     await _imagePreProcessing();
-    result = ImageFilterUtils.convolute(decodedBytes1!, imgDefault, imgDefault,
-        ImageFilterUtils.normalizeKernel(avg3x3Kernel.convolution), 0);
-    // print(str);
+    result =
+        ImageFilterUtils.convolutionMean(image1!, avg3x3Kernel.convolution);
     await _addImageToGrid();
   }
 
   Future<void> average5x5() async {
     await _imagePreProcessing();
-    result = ImageFilterUtils.convolute(decodedBytes1!, imgDefault, imgDefault,
-        ImageFilterUtils.normalizeKernel(avg5x5Kernel.convolution), 0);
-    // print(str);
+    result =
+        ImageFilterUtils.convolutionMean(image1!, avg5x5Kernel.convolution);
     await _addImageToGrid();
   }
 
   Future<void> median3x3() async {
     await _imagePreProcessing();
-    // print(str);
+    result =
+        ImageFilterUtils.convolutionMedian(image1!, avg3x3Kernel.convolution);
+    await _addImageToGrid();
+  }
+
+  Future<void> median5x5() async {
+    await _imagePreProcessing();
+    result =
+        ImageFilterUtils.convolutionMedian(image1!, avg5x5Kernel.convolution);
+    await _addImageToGrid();
+  }
+
+  Future<void> max() async {
+    await _imagePreProcessing();
+    result = ImageFilterUtils.convolutionMax(image1!, avg5x5Kernel.convolution);
+    await _addImageToGrid();
+  }
+
+  Future<void> min() async {
+    await _imagePreProcessing();
+    result = ImageFilterUtils.convolutionMin(image1!, avg5x5Kernel.convolution);
+    await _addImageToGrid();
+  }
+
+  Future<void> mode() async {
+    await _imagePreProcessing();
+    result =
+        ImageFilterUtils.convolutionMode(image1!, avg5x5Kernel.convolution);
     await _addImageToGrid();
   }
 
