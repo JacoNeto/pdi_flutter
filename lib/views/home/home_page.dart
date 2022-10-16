@@ -144,13 +144,24 @@ class HomePage extends StatelessWidget {
 
               // If you are in the low pass filtering tab
               if (_isItemGridSelected(SidebarItem.halftoning))
-                HalftoningButton(
-                  ordered2x2OnTap: () =>
-                      _halftoningFilteringController.ordered2x2(),
-                  ordered2x3OnTap: () =>
-                      _halftoningFilteringController.ordered2x3(),
-                  ordered3x3OnTap: () =>
-                      _halftoningFilteringController.ordered3x3(),
+                Row(
+                  children: [
+                    ErrorDiffusionButton(
+                      rogersOnTap: () =>
+                          _halftoningFilteringController.rogers(),
+                    ),
+                    const SizedBox(
+                      width: 6,
+                    ),
+                    HalftoningButton(
+                      ordered2x2OnTap: () =>
+                          _halftoningFilteringController.ordered2x2(),
+                      ordered2x3OnTap: () =>
+                          _halftoningFilteringController.ordered2x3(),
+                      ordered3x3OnTap: () =>
+                          _halftoningFilteringController.ordered3x3(),
+                    ),
+                  ],
                 ),
 
               // If you are in the low pass filtering tab

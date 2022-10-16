@@ -26,7 +26,7 @@ class HalftoningButton extends StatelessWidget {
       overlayOpacity: 0.5,
       onOpen: () => debugPrint('OPENING DIAL'),
       onClose: () => debugPrint('DIAL CLOSED'),
-      tooltip: 'Low Pass Filters',
+      tooltip: 'Ordered Dithering',
       heroTag: 'speed-dial-hero-tag',
       backgroundColor: Colors.black,
       foregroundColor: Colors.white,
@@ -59,6 +59,81 @@ class HalftoningButton extends StatelessWidget {
           label: "Median 3 x 3",
           labelStyle: const TextStyle(fontSize: 18.0),
           onTap: ordered3x3OnTap,
+        ),
+      ],
+    );
+  }
+}
+
+class ErrorDiffusionButton extends StatelessWidget {
+  const ErrorDiffusionButton({
+    Key? key,
+    this.rogersOnTap,
+    this.floydOnTap,
+    this.jarvisOnTap,
+    this.stuckiOnTap,
+  }) : super(key: key);
+
+  final void Function()? rogersOnTap;
+  final void Function()? floydOnTap;
+  final void Function()? jarvisOnTap;
+  final void Function()? stuckiOnTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return SpeedDial(
+      activeIcon: Icons.remove,
+      icon: Icons.directions_off_outlined,
+      visible: true,
+      closeManually: false,
+      renderOverlay: false,
+      curve: Curves.bounceIn,
+      overlayColor: Colors.black,
+      overlayOpacity: 0.5,
+      onOpen: () => debugPrint('OPENING DIAL'),
+      onClose: () => debugPrint('DIAL CLOSED'),
+      tooltip: 'Error Diffusion Dithering',
+      heroTag: 'speed-dial-hero-tag',
+      backgroundColor: Colors.black,
+      foregroundColor: Colors.white,
+      elevation: 8.0,
+      shape: const CircleBorder(),
+      children: [
+        SpeedDialChild(
+          child: const Text(
+            "R",
+          ),
+          backgroundColor: Colors.red,
+          label: "Rogers",
+          labelStyle: const TextStyle(fontSize: 18.0),
+          onTap: rogersOnTap,
+        ),
+        SpeedDialChild(
+          child: const Text(
+            "FS",
+          ),
+          backgroundColor: Colors.green,
+          label: "Floyd & Steinberg",
+          labelStyle: const TextStyle(fontSize: 18.0),
+          onTap: floydOnTap,
+        ),
+        SpeedDialChild(
+          child: const Text(
+            "JJN",
+          ),
+          backgroundColor: Colors.blue,
+          label: "Jarvis, Judice & Ninke",
+          labelStyle: const TextStyle(fontSize: 18.0),
+          onTap: jarvisOnTap,
+        ),
+        SpeedDialChild(
+          child: const Text(
+            "S",
+          ),
+          backgroundColor: Colors.purple,
+          label: "Stucki",
+          labelStyle: const TextStyle(fontSize: 18.0),
+          onTap: stuckiOnTap,
         ),
       ],
     );

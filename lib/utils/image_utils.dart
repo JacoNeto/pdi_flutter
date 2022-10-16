@@ -112,4 +112,8 @@ class ImageUtils {
     }
     return twoDList;
   }
+
+  static List<int> greyScale(int pixel) {
+    return [pixel, pixel, pixel, 254];
+  }
 }

@@ -49,32 +49,20 @@ class HalftoningFilteringController extends GetxController {
       for (int j = 0; j < imgDefault; j += 2) {
         // 0
         var q0 = twoDList[i][j] <= 0 ? 0 : 255;
-        resultBefore.add(q0);
-        resultBefore.add(q0);
-        resultBefore.add(q0);
-        resultBefore.add(254);
+        resultBefore.addAll(ImageUtils.greyScale(q0));
 
         // 2
         var q2 = twoDList[i][j + 1] <= 2 ? 0 : 255;
-        resultBefore.add(q2);
-        resultBefore.add(q2);
-        resultBefore.add(q2);
-        resultBefore.add(254);
+        resultBefore.addAll(ImageUtils.greyScale(q2));
       }
       for (int j = 0; j < imgDefault; j += 2) {
         // 3
         var q3 = twoDList[i + 1][j] <= 3 ? 0 : 255;
-        resultBefore.add(q3);
-        resultBefore.add(q3);
-        resultBefore.add(q3);
-        resultBefore.add(254);
+        resultBefore.addAll(ImageUtils.greyScale(q3));
 
         // 1
         var q1 = twoDList[i + 1][j + 1] <= 1 ? 0 : 255;
-        resultBefore.add(q1);
-        resultBefore.add(q1);
-        resultBefore.add(q1);
-        resultBefore.add(254);
+        resultBefore.addAll(ImageUtils.greyScale(q1));
       }
     }
     // print(str);
@@ -108,53 +96,35 @@ class HalftoningFilteringController extends GetxController {
       for (int j = 0; j < imgDefault; j += 3) {
         // 3
         var q3 = twoDList[i][j] <= 3 ? 0 : 255;
-        resultBefore.add(q3);
-        resultBefore.add(q3);
-        resultBefore.add(q3);
-        resultBefore.add(254);
+        resultBefore.addAll(ImageUtils.greyScale(q3));
 
         // 0
         if (j + 1 < imgDefault) {
           var q0 = twoDList[i][j + 1] <= 0 ? 0 : 255;
-          resultBefore.add(q0);
-          resultBefore.add(q0);
-          resultBefore.add(q0);
-          resultBefore.add(254);
+          resultBefore.addAll(ImageUtils.greyScale(q3));
         }
 
         // 4
         if (j + 2 < imgDefault) {
           var q4 = twoDList[i + 1][j + 2] <= 4 ? 0 : 255;
-          resultBefore.add(q4);
-          resultBefore.add(q4);
-          resultBefore.add(q4);
-          resultBefore.add(254);
+          resultBefore.addAll(ImageUtils.greyScale(q4));
         }
       }
       for (int j = 0; j < imgDefault; j += 3) {
         // 5
         var q5 = twoDList[i + 1][j] <= 5 ? 0 : 255;
-        resultBefore.add(q5);
-        resultBefore.add(q5);
-        resultBefore.add(q5);
-        resultBefore.add(254);
+        resultBefore.addAll(ImageUtils.greyScale(q5));
 
         // 2
         if (j + 1 < imgDefault) {
           var q2 = twoDList[i + 1][j + 1] <= 2 ? 0 : 255;
-          resultBefore.add(q2);
-          resultBefore.add(q2);
-          resultBefore.add(q2);
-          resultBefore.add(254);
+          resultBefore.addAll(ImageUtils.greyScale(q2));
         }
 
         // 1
         if (j + 2 < imgDefault) {
           var q1 = twoDList[i + 1][j + 2] <= 2 ? 0 : 255;
-          resultBefore.add(q1);
-          resultBefore.add(q1);
-          resultBefore.add(q1);
-          resultBefore.add(254);
+          resultBefore.addAll(ImageUtils.greyScale(q1));
         }
       }
     }
@@ -190,55 +160,37 @@ class HalftoningFilteringController extends GetxController {
       for (int j = 0; j < imgDefault; j += 3) {
         // 6
         var q6 = twoDList[i][j] <= 6 ? 0 : 255;
-        resultBefore.add(q6);
-        resultBefore.add(q6);
-        resultBefore.add(q6);
-        resultBefore.add(254);
+        resultBefore.addAll(ImageUtils.greyScale(q6));
 
         // 8
         if (j + 1 < imgDefault) {
           var q8 = twoDList[i][j + 1] <= 8 ? 0 : 255;
-          resultBefore.add(q8);
-          resultBefore.add(q8);
-          resultBefore.add(q8);
-          resultBefore.add(254);
+          resultBefore.addAll(ImageUtils.greyScale(q8));
         }
 
         // 4
         if (j + 2 < imgDefault) {
           var q4 = twoDList[i][j + 2] <= 4 ? 0 : 255;
-          resultBefore.add(q4);
-          resultBefore.add(q4);
-          resultBefore.add(q4);
-          resultBefore.add(254);
+          resultBefore.addAll(ImageUtils.greyScale(q4));
         }
       }
       for (int j = 0; j < imgDefault; j += 3) {
         // 1
         if (i + 1 < imgDefault) {
           var q1 = twoDList[i + 1][j] <= 1 ? 0 : 255;
-          resultBefore.add(q1);
-          resultBefore.add(q1);
-          resultBefore.add(q1);
-          resultBefore.add(254);
+          resultBefore.addAll(ImageUtils.greyScale(q1));
         }
 
         // 0
         if (i + 1 < imgDefault && j + 1 < imgDefault) {
           var q0 = twoDList[i + 1][j + 1] <= 0 ? 0 : 255;
-          resultBefore.add(q0);
-          resultBefore.add(q0);
-          resultBefore.add(q0);
-          resultBefore.add(254);
+          resultBefore.addAll(ImageUtils.greyScale(q0));
         }
 
         // 3
         if (i + 1 < imgDefault && j + 2 < imgDefault) {
           var q3 = twoDList[i + 1][j + 2] <= 3 ? 0 : 255;
-          resultBefore.add(q3);
-          resultBefore.add(q3);
-          resultBefore.add(q3);
-          resultBefore.add(254);
+          resultBefore.addAll(ImageUtils.greyScale(q3));
         }
       }
 
@@ -246,28 +198,77 @@ class HalftoningFilteringController extends GetxController {
         // 5
         if (i + 2 < imgDefault) {
           var q5 = twoDList[i + 2][j] <= 5 ? 0 : 255;
-          resultBefore.add(q5);
-          resultBefore.add(q5);
-          resultBefore.add(q5);
-          resultBefore.add(254);
+          resultBefore.addAll(ImageUtils.greyScale(q5));
         }
 
         // 2
         if (i + 2 < imgDefault && j + 1 < imgDefault) {
           var q2 = twoDList[i + 2][j + 1] <= 2 ? 0 : 255;
-          resultBefore.add(q2);
-          resultBefore.add(q2);
-          resultBefore.add(q2);
-          resultBefore.add(254);
+          resultBefore.addAll(ImageUtils.greyScale(q2));
         }
 
         // 7
         if (i + 2 < imgDefault && j + 2 < imgDefault) {
           var q7 = twoDList[i + 2][j + 2] <= 7 ? 0 : 255;
-          resultBefore.add(q7);
-          resultBefore.add(q7);
-          resultBefore.add(q7);
-          resultBefore.add(254);
+          resultBefore.addAll(ImageUtils.greyScale(q7));
+        }
+      }
+    }
+    // print(str);
+    result = Uint8List.fromList(resultBefore);
+    await _addImageToGrid();
+  }
+
+  // Error Diffusion Dithering Rogers
+  Future<void> rogers() async {
+    await _imagePreProcessing();
+
+    List<double> greyScaleList = [];
+    List<int> resultBefore = [];
+
+    for (var i = 0; i < decodedBytes1!.length; i += 4) {
+      greyScaleList.add(decodedBytes1![i].toDouble());
+    }
+
+    List<List<double>> originalGreyScales2d = [];
+    originalGreyScales2d = ImageUtils.listTo2dDoubleList(greyScaleList);
+
+    /*
+    <>  3/8
+    3/8 2/8
+    */
+    double error;
+    List<List<int>> resultGreyScales = List.generate(
+        imgDefault, (i) => List.filled(imgDefault, 0, growable: false),
+        growable: false);
+    for (int i = 0; i < imgDefault; i++) {
+      for (int j = 0; j < imgDefault; j++) {
+        if (originalGreyScales2d[i][j] < 128) {
+          resultBefore.addAll(ImageUtils.greyScale(0));
+          resultGreyScales[i][j] = 0;
+        } else {
+          resultBefore.addAll(ImageUtils.greyScale(255));
+          resultGreyScales[i][j] = 1;
+        }
+
+        error = originalGreyScales2d[i][j] - resultGreyScales[i][j] * 255;
+
+        // 3/8
+        if (j + 1 < imgDefault) {
+          originalGreyScales2d[i][j + 1] =
+              originalGreyScales2d[i][j + 1] + ((3 / 8) * error);
+        }
+
+        // 3/8
+        if (i + 1 < imgDefault && j - 1 >= 0) {
+          originalGreyScales2d[i + 1][j - 1] =
+              originalGreyScales2d[i + 1][j - 1] + ((3 / 8) * error);
+        }
+
+        // 2/8
+        if (i + 1 < imgDefault && j + 1 < imgDefault) {
+          originalGreyScales2d[i + 1][j + 1] =
+              originalGreyScales2d[i + 1][j + 1] + ((2 / 8) * error);
         }
       }
     }
