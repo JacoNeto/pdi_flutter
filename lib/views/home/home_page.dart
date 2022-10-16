@@ -149,6 +149,14 @@ class HomePage extends StatelessWidget {
                     ErrorDiffusionButton(
                       rogersOnTap: () =>
                           _halftoningFilteringController.rogers(),
+                      floydOnTap: () =>
+                          _halftoningFilteringController.floydSteinberg(),
+                      jarvisOnTap: () =>
+                          _halftoningFilteringController.jarvisJudiceNinke(),
+                      stuckiOnTap: () =>
+                          _halftoningFilteringController.stucki(),
+                      stevensonOnTap: () =>
+                          _halftoningFilteringController.stevenson(),
                     ),
                     const SizedBox(
                       width: 6,

@@ -66,18 +66,20 @@ class HalftoningButton extends StatelessWidget {
 }
 
 class ErrorDiffusionButton extends StatelessWidget {
-  const ErrorDiffusionButton({
-    Key? key,
-    this.rogersOnTap,
-    this.floydOnTap,
-    this.jarvisOnTap,
-    this.stuckiOnTap,
-  }) : super(key: key);
+  const ErrorDiffusionButton(
+      {Key? key,
+      this.rogersOnTap,
+      this.floydOnTap,
+      this.jarvisOnTap,
+      this.stuckiOnTap,
+      this.stevensonOnTap})
+      : super(key: key);
 
   final void Function()? rogersOnTap;
   final void Function()? floydOnTap;
   final void Function()? jarvisOnTap;
   final void Function()? stuckiOnTap;
+  final void Function()? stevensonOnTap;
 
   @override
   Widget build(BuildContext context) {
@@ -134,6 +136,15 @@ class ErrorDiffusionButton extends StatelessWidget {
           label: "Stucki",
           labelStyle: const TextStyle(fontSize: 18.0),
           onTap: stuckiOnTap,
+        ),
+        SpeedDialChild(
+          child: const Text(
+            "St",
+          ),
+          backgroundColor: Colors.purple,
+          label: "Stevenson",
+          labelStyle: const TextStyle(fontSize: 18.0),
+          onTap: stevensonOnTap,
         ),
       ],
     );
