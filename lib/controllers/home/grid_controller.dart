@@ -180,7 +180,7 @@ class GridController extends GetxController {
 
   /// clears all data from this [GridController]
   void clear() {
-    gridChildren.clear();
+    gridChildren.removeWhere((element) => element != selectedChildren[0]);
     selectedChildren.clear();
     firstSelected.value = -1;
     secondSelected.value = -1;

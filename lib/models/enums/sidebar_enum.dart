@@ -6,5 +6,6 @@ enum SidebarItem {
   lowpass,
   highpass,
   halftoning,
+  enhancement,
   about
 }

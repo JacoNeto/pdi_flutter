@@ -143,6 +143,14 @@ class AppSidebar extends StatelessWidget {
                     _homeController.selectedSidebarItem.value =
                         SidebarItem.halftoning;
                   }),
+            if (_gridController.needAloneOperations.value)
+              SidebarXItem(
+                  icon: Icons.favorite,
+                  label: 'Realce',
+                  onTap: () {
+                    _homeController.selectedSidebarItem.value =
+                        SidebarItem.enhancement;
+                  }),
             SidebarXItem(
                 iconWidget: const FlutterLogo(size: 20),
                 label: 'Sobre',

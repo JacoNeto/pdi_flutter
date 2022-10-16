@@ -4,6 +4,7 @@ import 'package:pdi_flutter/controllers/home/home_controller.dart';
 import 'package:pdi_flutter/controllers/processings/color_systems_controller.dart';
 import 'package:pdi_flutter/controllers/processings/filtering/low_pass_filtering_controller.dart';
 import 'package:pdi_flutter/models/enums/sidebar_enum.dart';
+import 'package:pdi_flutter/views/home/components/buttons/enhancement/popups/linear_popups.dart';
 import 'package:pdi_flutter/views/home/components/buttons/operations/colors_button.dart';
 import 'package:pdi_flutter/views/home/components/buttons/operations/logical_button.dart';
 import 'package:pdi_flutter/views/home/components/grid/image_grid.dart';
@@ -15,12 +16,14 @@ import 'package:pdi_flutter/views/home/components/buttons/operations/pseudo_colo
 import 'package:pdi_flutter/controllers/processings/pseudocolor_controller.dart';
 
 import '../../controllers/home/grid_controller.dart';
+import '../../controllers/processings/enhancement/linear_transformations._controller.dart';
 import '../../controllers/processings/filtering/halftoning_filtering_controller.dart';
 import '../../controllers/processings/filtering/high_pass_filtering_controller.dart';
 import '../../controllers/processings/operations_controller.dart';
-import 'components/buttons/filtering/halftoning.dart';
-import 'components/buttons/filtering/high_pass.dart';
-import 'components/buttons/filtering/low_pass.dart';
+import 'components/buttons/enhancement/linear_transformations_button.dart';
+import 'components/buttons/filtering/halftoning_button.dart';
+import 'components/buttons/filtering/high_pass_button.dart';
+import 'components/buttons/filtering/low_pass_button.dart';
 import 'components/buttons/operations/arithmetics_button.dart';
 import 'components/sidebar/screens/screens_default.dart';
 
@@ -46,6 +49,8 @@ class HomePage extends StatelessWidget {
       Get.put(HighPassFilteringController());
   final HalftoningFilteringController _halftoningFilteringController =
       Get.put(HalftoningFilteringController());
+  final LinearTransformationController _linearTransformationController =
+      Get.put(LinearTransformationController());
 
   final _controller = SidebarXController(selectedIndex: 0, extended: true);
   final _key = GlobalKey<ScaffoldState>();
@@ -184,7 +189,7 @@ class HomePage extends StatelessWidget {
                   ],
                 ),
 
-              // If you are in the low pass filtering tab
+              // If you are in the high pass filtering tab
               if (_isItemGridSelected(SidebarItem.highpass))
                 HighPassButton(
                   h1: () => _highPassFilteringController.h1(),
@@ -192,6 +197,17 @@ class HomePage extends StatelessWidget {
                   m1: () => _highPassFilteringController.m1(),
                   m2: () => _highPassFilteringController.m2(),
                   m3: () => _highPassFilteringController.m3(),
+                ),
+
+              // If you are in the enhancement tab
+
+              if (_isItemGridSelected(SidebarItem.enhancement))
+                LinearTransformationButton(
+                  greyRangeOnTap: () =>
+                      LinearDialogs.showInsertGreyscaleValueDialog(
+                          context, 'Grey Scale', ''),
+                  negativeOnTap: () =>
+                      _linearTransformationController.negative(),
                 ),
 
               /// If two images were selected, show [OperationsButton]

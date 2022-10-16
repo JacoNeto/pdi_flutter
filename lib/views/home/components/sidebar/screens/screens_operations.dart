@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:pdi_flutter/models/enums/sidebar_enum.dart';
 import 'package:pdi_flutter/views/home/components/grid/image_grid.dart';
 import 'package:sidebarx/sidebarx.dart';
 
@@ -25,18 +26,17 @@ class ScreensOperations extends StatelessWidget {
     return AnimatedBuilder(
       animation: controller,
       builder: (context, child) {
-        switch (controller.selectedIndex) {
-          case 1:
-            _geometricalController
-                .init(_gridController.selectedChildren.toList().elementAt(0)!);
-            return const GeometricalPage();
-          case 7:
-            return Text(
-              "Sobre",
-              style: theme.textTheme.headline5,
-            );
-          default:
-            return ImageGrid();
+        if (controller.selectedIndex == 1) {
+          _geometricalController
+              .init(_gridController.selectedChildren.toList().elementAt(0)!);
+          return const GeometricalPage();
+        } else if (controller.selectedIndex == SidebarItem.values.length) {
+          return Text(
+            "Sobre",
+            style: theme.textTheme.headline5,
+          );
+        } else {
+          return ImageGrid();
         }
       },
     );
