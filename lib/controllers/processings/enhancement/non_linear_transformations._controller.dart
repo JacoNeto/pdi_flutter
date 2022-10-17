@@ -12,7 +12,7 @@ import '../../../utils/image_filter_utils/image_filter_utils.dart';
 import '../../../utils/image_utils.dart';
 import '../../home/grid_controller.dart';
 
-class LinearTransformationController extends GetxController {
+class NonLinearTransformationController extends GetxController {
   final GridController _gridController = Get.find();
 
   Uint8List? list1;
@@ -23,7 +23,7 @@ class LinearTransformationController extends GetxController {
 
   var str = "";
 
-  Future<void> greyScaleRange(int max, int min) async {
+  Future<void> logarithm() async {
     await _imagePreProcessing();
     List<int> greyScaleList = [];
     List<int> resultBefore = [];
@@ -35,15 +35,15 @@ class LinearTransformationController extends GetxController {
     var greyScalePixels = Uint8List.fromList(greyScaleList);
 
     for (int i = 0; i < greyScalePixels.length; i++) {
-      resultBefore.addAll(ImageUtils.greyScale(
-          GreyScale.rangeTransformation(greyScalePixels[i], 0, 255, min, max)));
+      resultBefore.addAll(
+          ImageUtils.greyScale(GreyScale.logarithm(greyScalePixels[i], 255)));
     }
     result = Uint8List.fromList(resultBefore);
     // print(str);
     await _addImageToGrid();
   }
 
-  Future<void> negative() async {
+  Future<void> exponential() async {
     await _imagePreProcessing();
     List<int> greyScaleList = [];
     List<int> resultBefore = [];
@@ -55,17 +55,50 @@ class LinearTransformationController extends GetxController {
     var greyScalePixels = Uint8List.fromList(greyScaleList);
 
     for (int i = 0; i < greyScalePixels.length; i++) {
-      resultBefore.addAll(ImageUtils.greyScale(
-          GreyScale.rangeTransformation(greyScalePixels[i], 255, 0, 255, 0)));
+      resultBefore.addAll(
+          ImageUtils.greyScale(GreyScale.exponential(greyScalePixels[i], 255)));
     }
     result = Uint8List.fromList(resultBefore);
     // print(str);
     await _addImageToGrid();
   }
 
-  Future<void> h2() async {
+  Future<void> squared() async {
     await _imagePreProcessing();
-    result = ImageFilterUtils.convolution(image1!, h2Kernel.convolution);
+    List<int> greyScaleList = [];
+    List<int> resultBefore = [];
+
+    for (var i = 0; i < decodedBytes1!.length; i += 4) {
+      greyScaleList.add(decodedBytes1![i]);
+    }
+
+    var greyScalePixels = Uint8List.fromList(greyScaleList);
+
+    for (int i = 0; i < greyScalePixels.length; i++) {
+      resultBefore.addAll(
+          ImageUtils.greyScale(GreyScale.squared(greyScalePixels[i], 255)));
+    }
+    result = Uint8List.fromList(resultBefore);
+    // print(str);
+    await _addImageToGrid();
+  }
+
+  Future<void> square() async {
+    await _imagePreProcessing();
+    List<int> greyScaleList = [];
+    List<int> resultBefore = [];
+
+    for (var i = 0; i < decodedBytes1!.length; i += 4) {
+      greyScaleList.add(decodedBytes1![i]);
+    }
+
+    var greyScalePixels = Uint8List.fromList(greyScaleList);
+
+    for (int i = 0; i < greyScalePixels.length; i++) {
+      resultBefore.addAll(
+          ImageUtils.greyScale(GreyScale.square(greyScalePixels[i], 255)));
+    }
+    result = Uint8List.fromList(resultBefore);
     // print(str);
     await _addImageToGrid();
   }

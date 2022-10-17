@@ -56,7 +56,7 @@ class HalftoningButton extends StatelessWidget {
             "o33",
           ),
           backgroundColor: Colors.red,
-          label: "Median 3 x 3",
+          label: "Ordered 3 x 3",
           labelStyle: const TextStyle(fontSize: 18.0),
           onTap: ordered3x3OnTap,
         ),

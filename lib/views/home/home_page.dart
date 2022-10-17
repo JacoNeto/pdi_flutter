@@ -17,10 +17,12 @@ import 'package:pdi_flutter/controllers/processings/pseudocolor_controller.dart'
 
 import '../../controllers/home/grid_controller.dart';
 import '../../controllers/processings/enhancement/linear_transformations._controller.dart';
+import '../../controllers/processings/enhancement/non_linear_transformations._controller.dart';
 import '../../controllers/processings/filtering/halftoning_filtering_controller.dart';
 import '../../controllers/processings/filtering/high_pass_filtering_controller.dart';
 import '../../controllers/processings/operations_controller.dart';
 import 'components/buttons/enhancement/linear_transformations_button.dart';
+import 'components/buttons/enhancement/non_linear_transformations_button.dart';
 import 'components/buttons/filtering/halftoning_button.dart';
 import 'components/buttons/filtering/high_pass_button.dart';
 import 'components/buttons/filtering/low_pass_button.dart';
@@ -51,6 +53,8 @@ class HomePage extends StatelessWidget {
       Get.put(HalftoningFilteringController());
   final LinearTransformationController _linearTransformationController =
       Get.put(LinearTransformationController());
+  final NonLinearTransformationController _nonLinearTransformationController =
+      Get.put(NonLinearTransformationController());
 
   final _controller = SidebarXController(selectedIndex: 0, extended: true);
   final _key = GlobalKey<ScaffoldState>();
@@ -202,12 +206,27 @@ class HomePage extends StatelessWidget {
               // If you are in the enhancement tab
 
               if (_isItemGridSelected(SidebarItem.enhancement))
-                LinearTransformationButton(
-                  greyRangeOnTap: () =>
-                      LinearDialogs.showInsertGreyscaleValueDialog(
-                          context, 'Grey Scale', ''),
-                  negativeOnTap: () =>
-                      _linearTransformationController.negative(),
+                Row(
+                  children: [
+                    NonLinearTransformationsButton(
+                      log: () => _nonLinearTransformationController.logarithm(),
+                      exponential: () =>
+                          _nonLinearTransformationController.exponential(),
+                      squared: () =>
+                          _nonLinearTransformationController.squared(),
+                      square: () => _nonLinearTransformationController.square(),
+                    ),
+                    const SizedBox(
+                      width: 6,
+                    ),
+                    LinearTransformationButton(
+                      greyRangeOnTap: () =>
+                          LinearDialogs.showInsertGreyscaleValueDialog(
+                              context, 'Grey Scale', ''),
+                      negativeOnTap: () =>
+                          _linearTransformationController.negative(),
+                    ),
+                  ],
                 ),
 
               /// If two images were selected, show [OperationsButton]

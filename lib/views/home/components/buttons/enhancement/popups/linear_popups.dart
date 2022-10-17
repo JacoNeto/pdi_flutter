@@ -22,8 +22,8 @@ class LinearDialogs {
     Widget okButton = TextButton(
       onPressed: () {
         linearTransformationController.greyScaleRange(
-            int.parse(textEditingControllerMIN.text) * -1,
-            int.parse(textEditingControllerMAX.text) * -1);
+            int.parse(textEditingControllerMIN.text),
+            int.parse(textEditingControllerMAX.text));
         Get.back();
       },
       child: const Text("Submit"),
