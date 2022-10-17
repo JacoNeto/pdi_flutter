@@ -5,6 +5,7 @@ import 'package:pdi_flutter/controllers/processings/color_systems_controller.dar
 import 'package:pdi_flutter/controllers/processings/filtering/low_pass_filtering_controller.dart';
 import 'package:pdi_flutter/models/enums/sidebar_enum.dart';
 import 'package:pdi_flutter/views/home/components/buttons/enhancement/popups/linear_popups.dart';
+import 'package:pdi_flutter/views/home/components/buttons/filtering/popups/dialogs.dart';
 import 'package:pdi_flutter/views/home/components/buttons/operations/colors_button.dart';
 import 'package:pdi_flutter/views/home/components/buttons/operations/logical_button.dart';
 import 'package:pdi_flutter/views/home/components/grid/image_grid.dart';
@@ -195,13 +196,20 @@ class HomePage extends StatelessWidget {
 
               // If you are in the high pass filtering tab
               if (_isItemGridSelected(SidebarItem.highpass))
-                HighPassButton(
-                  h1: () => _highPassFilteringController.h1(),
-                  h2: () => _highPassFilteringController.h2(),
-                  m1: () => _highPassFilteringController.m1(),
-                  m2: () => _highPassFilteringController.m2(),
-                  m3: () => _highPassFilteringController.m3(),
+                HighBoostButton(
+                  onPressed: () =>
+                      showHighBoostValueDialog(context, 'High Boost', ''),
                 ),
+              const SizedBox(
+                width: 6,
+              ),
+              HighPassButton(
+                h1: () => _highPassFilteringController.h1(),
+                h2: () => _highPassFilteringController.h2(),
+                m1: () => _highPassFilteringController.m1(),
+                m2: () => _highPassFilteringController.m2(),
+                m3: () => _highPassFilteringController.m3(),
+              ),
 
               // If you are in the enhancement tab
 

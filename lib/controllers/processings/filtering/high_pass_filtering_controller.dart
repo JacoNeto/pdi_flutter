@@ -57,9 +57,23 @@ class HighPassFilteringController extends GetxController {
     await _addImageToGrid();
   }
 
-  Future<void> realce() async {
+  Future<void> highBoost(int scale) async {
     await _imagePreProcessing();
-
+    List<int> original = decodedBytes1!.toList(growable: true);
+    List<int> rescaled = [];
+    var lowPass =
+        ImageFilterUtils.convolutionMean(image1!, avg3x3Kernel.convolution);
+    int ctrlRBG = 0;
+    for (int i = 0; i < original.length; i++) {
+      if (++ctrlRBG > 3) {
+        ctrlRBG = 0;
+        rescaled.add(original[i]);
+      } else {
+        rescaled.add(((scale - 1) * original[i]) + original[i] - lowPass[i]);
+      }
+    }
+    result = Uint8List.fromList(rescaled);
+    // print(str);
     await _addImageToGrid();
   }
 

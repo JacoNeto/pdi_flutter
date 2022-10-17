@@ -86,3 +86,35 @@ class HighPassButton extends StatelessWidget {
     );
   }
 }
+
+class HighBoostButton extends StatelessWidget {
+  const HighBoostButton({
+    Key? key,
+    this.onPressed,
+  }) : super(key: key);
+
+  final void Function()? onPressed;
+
+  @override
+  Widget build(BuildContext context) {
+    return SpeedDial(
+      activeIcon: Icons.remove,
+      icon: Icons.high_quality,
+      visible: true,
+      closeManually: false,
+      renderOverlay: false,
+      curve: Curves.bounceIn,
+      overlayColor: Colors.black,
+      overlayOpacity: 0.5,
+      onOpen: () => debugPrint('OPENING DIAL'),
+      onClose: () => debugPrint('DIAL CLOSED'),
+      tooltip: 'High Boost',
+      heroTag: 'speed-dial-hero-tag',
+      backgroundColor: Colors.black,
+      foregroundColor: Colors.white,
+      elevation: 8.0,
+      shape: const CircleBorder(),
+      onPress: onPressed,
+    );
+  }
+}
