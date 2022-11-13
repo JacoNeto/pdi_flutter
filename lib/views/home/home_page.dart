@@ -288,13 +288,15 @@ class HomePage extends StatelessWidget {
                     const SizedBox(
                       width: 6,
                     ),
-                    SobelKrishButton(
+                    SobelKirschButton(
                       sobelGxOnTap: () =>
                           _edgeDetectionController.sobelGxComp(),
                       sobelGyOnTap: () =>
                           _edgeDetectionController.sobelGyComp(),
                       sobelMagnitudeOnTap: () =>
                           _edgeDetectionController.sobelMagnitude(),
+                      kirschOnTap: () =>
+                          _edgeDetectionController.kirschMagnitude(),
                     ),
                   ],
                 ),

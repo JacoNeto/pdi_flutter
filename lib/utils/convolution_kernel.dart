@@ -66,10 +66,15 @@ ConvolutionKernel prewittGx = ConvolutionKernel([-1, 0, 1, -1, 0, 1, -1, 0, 1]);
 ConvolutionKernel prewittGy = ConvolutionKernel([-1, -1, -1, 0, 0, 0, 1, 1, 1]);
 ConvolutionKernel sobelGx = ConvolutionKernel([-1, 0, 1, -2, 0, 2, -1, 0, 1]);
 ConvolutionKernel sobelGy = ConvolutionKernel([-1, -2, -1, 0, 0, 0, 1, 2, 1]);
-//ConvolutionKernel prewittGy = ConvolutionKernel([-1, 0, 1, -1, 0, 1, -1, 0, 1]);
 
-/*
-ConvolutionKernel crossRobertsGx =
-    ConvolutionKernel([1, 0, 0, 0, -1, 0, 0, 0, 0]);
-ConvolutionKernel crossRobertsGy =
-    ConvolutionKernel([0, 1, 0, -1, 0, 0, 0, 0, 0]);*/
+// Segmentation - Edge Detection - Kirsch
+List<ConvolutionKernel> kirsch = [
+  ConvolutionKernel([5, -3, -3, 5, 0, -3, 5, -3, -3]),
+  ConvolutionKernel([-3, -3, -3, 5, 0, -3, 5, 5, -3]),
+  ConvolutionKernel([-3, -3, -3, -3, 0, -3, 5, 5, 5]),
+  ConvolutionKernel([-3, -3, -3, -3, 0, 5, -3, 5, 5]),
+  ConvolutionKernel([-3, -3, 5, -3, 0, 5, -3, -3, 5]),
+  ConvolutionKernel([-3, 5, 5, -3, 0, 5, -3, -3, -3]),
+  ConvolutionKernel([5, 5, 5, -3, 0, -3, -3, -3, -3]),
+  ConvolutionKernel([5, 5, -3, 5, 0, -3, -3, -3, -3]),
+];

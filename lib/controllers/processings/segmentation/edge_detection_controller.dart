@@ -5,6 +5,7 @@ import 'dart:ui';
 import 'package:get/get.dart';
 import 'package:image/image.dart' as img;
 import 'package:pdi_flutter/utils/convolution_kernel.dart';
+import 'package:scidart/numdart.dart';
 
 import '../../../constants/img_default.dart';
 import '../../../utils/image_segmentation_utils/image_segmentation_utils.dart';
@@ -149,6 +150,38 @@ class EdgeDetectionController extends GetxController {
             ImageSegmetationUtils.gradientMagnitude(gx[i], gy[i]).toInt());
       }
     }
+    await _addImageToGrid();
+  }
+
+  Future<void> kirschMagnitude() async {
+    await _imagePreProcessing();
+
+    List<Uint8List> images = [];
+    int length = kirsch.length;
+    print(length);
+
+    for (int i = 0; i < length; i++) {
+      images.add(Uint8List.fromList(ImageSegmetationUtils.convolutionLine(
+        image1!,
+        kirsch[i].convolution,
+      )));
+    }
+
+    for (int i = 0; i < decodedBytes1!.length; i++) {
+      List<int> values = [];
+      int aux = 0;
+
+      if (++aux > 3) {
+        aux = 0;
+        result![i] = decodedBytes1![i];
+      } else {
+        for (int j = 0; j < length; j++) {
+          values.add(images[j][i]);
+        }
+        result![i] = values.reduce(max);
+      }
+    }
+
     await _addImageToGrid();
   }
 

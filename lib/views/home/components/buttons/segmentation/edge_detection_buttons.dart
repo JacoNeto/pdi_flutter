@@ -87,19 +87,19 @@ class RobertsPrewiitButton extends StatelessWidget {
   }
 }
 
-class SobelKrishButton extends StatelessWidget {
-  const SobelKrishButton(
+class SobelKirschButton extends StatelessWidget {
+  const SobelKirschButton(
       {Key? key,
       this.sobelGxOnTap,
       this.sobelGyOnTap,
       this.sobelMagnitudeOnTap,
-      this.krishOnTap})
+      this.kirschOnTap})
       : super(key: key);
 
   final void Function()? sobelGxOnTap;
   final void Function()? sobelGyOnTap;
   final void Function()? sobelMagnitudeOnTap;
-  final void Function()? krishOnTap;
+  final void Function()? kirschOnTap;
 
   @override
   Widget build(BuildContext context) {
@@ -113,7 +113,7 @@ class SobelKrishButton extends StatelessWidget {
       overlayOpacity: 0.5,
       onOpen: () => debugPrint('OPENING DIAL'),
       onClose: () => debugPrint('DIAL CLOSED'),
-      tooltip: 'Sobel & Krish Gradients',
+      tooltip: 'Sobel & Kirsch Gradients',
       heroTag: 'speed-dial-hero-tag',
       backgroundColor: Colors.black,
       foregroundColor: Colors.white,
@@ -152,9 +152,9 @@ class SobelKrishButton extends StatelessWidget {
             "K",
           ),
           backgroundColor: Colors.green,
-          label: "Krish",
+          label: "Kirsch",
           labelStyle: const TextStyle(fontSize: 18.0),
-          onTap: krishOnTap,
+          onTap: kirschOnTap,
         ),
       ],
       child: const Text("SK"),
