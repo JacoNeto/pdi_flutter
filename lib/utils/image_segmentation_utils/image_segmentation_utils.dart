@@ -4,9 +4,10 @@ import 'dart:typed_data';
 import 'package:image/image.dart';
 import 'package:pdi_flutter/utils/math_utils.dart';
 
+int clampPixel(int x) => x.clamp(0, 255);
+
 class ImageSegmetationUtils {
   /// Convolution filter
-  static int clampPixel(int x) => x.clamp(0, 255);
 
   static Uint8List convolutionPoint(Image src, List<num> filter,
       {num div = 1.0, int t = 0}) {
@@ -53,6 +54,7 @@ class ImageSegmetationUtils {
   static Uint8List convolutionLine(Image src, List<num> filter,
       {num div = 1.0}) {
     final tmp = Image.from(src);
+    final aux = Image.from(src);
 
     int side = sqrt(filter.length).round();
 
@@ -83,11 +85,15 @@ class ImageSegmetationUtils {
         g = (g > 255.0) ? 255.0 : ((g < 0.0) ? 0.0 : g);
         b = (b > 255.0) ? 255.0 : ((b < 0.0) ? 0.0 : b);
 
-        src.setPixel(x, y, getColor(r.toInt(), g.toInt(), b.toInt(), a));
+        aux.setPixel(x, y, getColor(r.toInt(), g.toInt(), b.toInt(), a));
       }
     }
 
-    return src.getBytes(format: Format.rgba);
+    return aux.getBytes(format: Format.rgba);
+  }
+
+  static num gradientMagnitude(num x, num y) {
+    return sqrt(pow(x, 2) + pow(y, 2));
   }
 
   static List<num> normalizeKernel(List<num> kernel) {

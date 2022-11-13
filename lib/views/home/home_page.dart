@@ -8,6 +8,7 @@ import 'package:pdi_flutter/views/home/components/buttons/enhancement/popups/lin
 import 'package:pdi_flutter/views/home/components/buttons/filtering/popups/dialogs.dart';
 import 'package:pdi_flutter/views/home/components/buttons/operations/colors_button.dart';
 import 'package:pdi_flutter/views/home/components/buttons/operations/logical_button.dart';
+import 'package:pdi_flutter/views/home/components/buttons/segmentation/edge_detection_buttons.dart';
 import 'package:pdi_flutter/views/home/components/buttons/segmentation/line_detection_buttons.dart';
 import 'package:pdi_flutter/views/home/components/buttons/segmentation/points_detection_button.dart';
 import 'package:pdi_flutter/views/home/components/grid/image_grid.dart';
@@ -24,6 +25,7 @@ import '../../controllers/processings/enhancement/non_linear_transformations._co
 import '../../controllers/processings/filtering/halftoning_filtering_controller.dart';
 import '../../controllers/processings/filtering/high_pass_filtering_controller.dart';
 import '../../controllers/processings/operations_controller.dart';
+import '../../controllers/processings/segmentation/edge_detection_controller.dart';
 import '../../controllers/processings/segmentation/lines_detection_controller.dart';
 import 'components/buttons/enhancement/linear_transformations_button.dart';
 import 'components/buttons/enhancement/non_linear_transformations_button.dart';
@@ -62,6 +64,8 @@ class HomePage extends StatelessWidget {
       Get.put(NonLinearTransformationController());
   final LinesDetectionController _linesDetectionController =
       Get.put(LinesDetectionController());
+  final EdgeDetectionController _edgeDetectionController =
+      Get.put(EdgeDetectionController());
 
   final _controller = SidebarXController(selectedIndex: 0, extended: true);
   final _key = GlobalKey<ScaffoldState>();
@@ -263,6 +267,35 @@ class HomePage extends StatelessWidget {
                       h3: () => _linesDetectionController.h3(),
                       h4: () => _linesDetectionController.h4(),
                     )
+                  ],
+                ),
+
+              // If you are in the Edge Detection tab
+              if (_isItemGridSelected(SidebarItem.edgeDetection))
+                Row(
+                  children: [
+                    RobertsPrewiitButton(
+                      crossRobertsOnTap: () =>
+                          _edgeDetectionController.crossRoberts(),
+                      robertsOnTap: () => _edgeDetectionController.roberts(),
+                      prewiitGxOnTap: () =>
+                          _edgeDetectionController.prewittGxComp(),
+                      prewiitGyOnTap: () =>
+                          _edgeDetectionController.prewittGyComp(),
+                      prewiitMagnitudeOnTap: () =>
+                          _edgeDetectionController.prewittMagnitude(),
+                    ),
+                    const SizedBox(
+                      width: 6,
+                    ),
+                    SobelKrishButton(
+                      sobelGxOnTap: () =>
+                          _edgeDetectionController.sobelGxComp(),
+                      sobelGyOnTap: () =>
+                          _edgeDetectionController.sobelGyComp(),
+                      sobelMagnitudeOnTap: () =>
+                          _edgeDetectionController.sobelMagnitude(),
+                    ),
                   ],
                 ),
 

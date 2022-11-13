@@ -56,3 +56,20 @@ ConvolutionKernel h3LineKernel =
     ConvolutionKernel([-1, 2, -1, -1, 2, -1, -1, 2, -1]);
 ConvolutionKernel h4LineKernel =
     ConvolutionKernel([2, -1, -1, -1, 2, -1, -1, -1, 2]);
+
+// Segmentation - Edge Detection
+ConvolutionKernel crossRobertsGx = ConvolutionKernel([1, 0, 0, -1]);
+ConvolutionKernel crossRobertsGy = ConvolutionKernel([0, 1, -1, 0]);
+ConvolutionKernel robertsGx = ConvolutionKernel([1, 0, -1, 0]);
+ConvolutionKernel robertsGy = ConvolutionKernel([1, -1, 0, 0]);
+ConvolutionKernel prewittGx = ConvolutionKernel([-1, 0, 1, -1, 0, 1, -1, 0, 1]);
+ConvolutionKernel prewittGy = ConvolutionKernel([-1, -1, -1, 0, 0, 0, 1, 1, 1]);
+ConvolutionKernel sobelGx = ConvolutionKernel([-1, 0, 1, -2, 0, 2, -1, 0, 1]);
+ConvolutionKernel sobelGy = ConvolutionKernel([-1, -2, -1, 0, 0, 0, 1, 2, 1]);
+//ConvolutionKernel prewittGy = ConvolutionKernel([-1, 0, 1, -1, 0, 1, -1, 0, 1]);
+
+/*
+ConvolutionKernel crossRobertsGx =
+    ConvolutionKernel([1, 0, 0, 0, -1, 0, 0, 0, 0]);
+ConvolutionKernel crossRobertsGy =
+    ConvolutionKernel([0, 1, 0, -1, 0, 0, 0, 0, 0]);*/

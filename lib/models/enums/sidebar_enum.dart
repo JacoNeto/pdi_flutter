@@ -8,5 +8,6 @@ enum SidebarItem {
   halftoning,
   enhancement,
   segmentation,
+  edgeDetection,
   about
 }
