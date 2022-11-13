@@ -8,6 +8,8 @@ import 'package:pdi_flutter/views/home/components/buttons/enhancement/popups/lin
 import 'package:pdi_flutter/views/home/components/buttons/filtering/popups/dialogs.dart';
 import 'package:pdi_flutter/views/home/components/buttons/operations/colors_button.dart';
 import 'package:pdi_flutter/views/home/components/buttons/operations/logical_button.dart';
+import 'package:pdi_flutter/views/home/components/buttons/segmentation/line_detection_buttons.dart';
+import 'package:pdi_flutter/views/home/components/buttons/segmentation/points_detection_button.dart';
 import 'package:pdi_flutter/views/home/components/grid/image_grid.dart';
 import 'package:pdi_flutter/views/home/components/sidebar/screens/screens_operations.dart';
 import 'package:pdi_flutter/views/home/components/sidebar/sidebar.dart';
@@ -22,12 +24,14 @@ import '../../controllers/processings/enhancement/non_linear_transformations._co
 import '../../controllers/processings/filtering/halftoning_filtering_controller.dart';
 import '../../controllers/processings/filtering/high_pass_filtering_controller.dart';
 import '../../controllers/processings/operations_controller.dart';
+import '../../controllers/processings/segmentation/lines_detection_controller.dart';
 import 'components/buttons/enhancement/linear_transformations_button.dart';
 import 'components/buttons/enhancement/non_linear_transformations_button.dart';
 import 'components/buttons/filtering/halftoning_button.dart';
 import 'components/buttons/filtering/high_pass_button.dart';
 import 'components/buttons/filtering/low_pass_button.dart';
 import 'components/buttons/operations/arithmetics_button.dart';
+import 'components/buttons/segmentation/popups/dialogs.dart';
 import 'components/sidebar/screens/screens_default.dart';
 
 /// This [HomePage] widget has the first screen present at the widget tree
@@ -56,6 +60,8 @@ class HomePage extends StatelessWidget {
       Get.put(LinearTransformationController());
   final NonLinearTransformationController _nonLinearTransformationController =
       Get.put(NonLinearTransformationController());
+  final LinesDetectionController _linesDetectionController =
+      Get.put(LinesDetectionController());
 
   final _controller = SidebarXController(selectedIndex: 0, extended: true);
   final _key = GlobalKey<ScaffoldState>();
@@ -196,23 +202,26 @@ class HomePage extends StatelessWidget {
 
               // If you are in the high pass filtering tab
               if (_isItemGridSelected(SidebarItem.highpass))
-                HighBoostButton(
-                  onPressed: () =>
-                      showHighBoostValueDialog(context, 'High Boost', ''),
+                Row(
+                  children: [
+                    HighBoostButton(
+                      onPressed: () =>
+                          showHighBoostValueDialog(context, 'High Boost', ''),
+                    ),
+                    const SizedBox(
+                      width: 6,
+                    ),
+                    HighPassButton(
+                      h1: () => _highPassFilteringController.h1(),
+                      h2: () => _highPassFilteringController.h2(),
+                      m1: () => _highPassFilteringController.m1(),
+                      m2: () => _highPassFilteringController.m2(),
+                      m3: () => _highPassFilteringController.m3(),
+                    ),
+                  ],
                 ),
-              const SizedBox(
-                width: 6,
-              ),
-              HighPassButton(
-                h1: () => _highPassFilteringController.h1(),
-                h2: () => _highPassFilteringController.h2(),
-                m1: () => _highPassFilteringController.m1(),
-                m2: () => _highPassFilteringController.m2(),
-                m3: () => _highPassFilteringController.m3(),
-              ),
 
               // If you are in the enhancement tab
-
               if (_isItemGridSelected(SidebarItem.enhancement))
                 Row(
                   children: [
@@ -234,6 +243,26 @@ class HomePage extends StatelessWidget {
                       negativeOnTap: () =>
                           _linearTransformationController.negative(),
                     ),
+                  ],
+                ),
+
+              // If you are in the secmentation tab
+              if (_isItemGridSelected(SidebarItem.segmentation))
+                Row(
+                  children: [
+                    PointsDetectionButton(
+                      onPressed: () => showPointsDetectionValueDialog(
+                          context, 'Points Detection', ''),
+                    ),
+                    const SizedBox(
+                      width: 6,
+                    ),
+                    LinesDetectionButton(
+                      h1: () => _linesDetectionController.h1(),
+                      h2: () => _linesDetectionController.h2(),
+                      h3: () => _linesDetectionController.h3(),
+                      h4: () => _linesDetectionController.h4(),
+                    )
                   ],
                 ),
 

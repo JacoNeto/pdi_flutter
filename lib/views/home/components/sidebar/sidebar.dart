@@ -151,6 +151,14 @@ class AppSidebar extends StatelessWidget {
                     _homeController.selectedSidebarItem.value =
                         SidebarItem.enhancement;
                   }),
+            if (_gridController.needAloneOperations.value)
+              SidebarXItem(
+                  icon: Icons.favorite,
+                  label: 'Segmentação',
+                  onTap: () {
+                    _homeController.selectedSidebarItem.value =
+                        SidebarItem.segmentation;
+                  }),
             SidebarXItem(
                 iconWidget: const FlutterLogo(size: 20),
                 label: 'Sobre',

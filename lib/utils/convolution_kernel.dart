@@ -43,3 +43,16 @@ ConvolutionKernel m1Kernel =
     ConvolutionKernel([-1, -1, -1, -1, 9, -1, -1, -1, -1]);
 ConvolutionKernel m2Kernel = ConvolutionKernel([1, -2, 1, -2, 5, -2, 1, -2, 1]);
 ConvolutionKernel m3Kernel = ConvolutionKernel([0, -1, 0, -1, 5, -1, 0, -1, 0]);
+
+// Segmentation
+ConvolutionKernel pointsKernel =
+    ConvolutionKernel([-1, -1, -1, -1, 8, -1, -1, -1, -1]);
+
+ConvolutionKernel h1LineKernel =
+    ConvolutionKernel([-1, -1, -1, 2, 2, 2, -1, -1, -1]);
+ConvolutionKernel h2LineKernel =
+    ConvolutionKernel([-1, -1, 2, -1, 2, -1, 2, -1, -1]);
+ConvolutionKernel h3LineKernel =
+    ConvolutionKernel([-1, 2, -1, -1, 2, -1, -1, 2, -1]);
+ConvolutionKernel h4LineKernel =
+    ConvolutionKernel([2, -1, -1, -1, 2, -1, -1, -1, 2]);
