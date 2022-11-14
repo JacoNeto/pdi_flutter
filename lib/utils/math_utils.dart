@@ -76,3 +76,10 @@ class MathUtils {
     return mode;
   }
 }
+
+List<num> multByNum(List<num> list, num number) {
+  for (int i = 0; i < list.length; i++) {
+    list[i] *= number;
+  }
+  return list;
+}

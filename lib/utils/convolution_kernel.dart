@@ -1,3 +1,7 @@
+import 'package:scidart/numdart.dart';
+
+import 'math_utils.dart';
+
 class ConvolutionKernel extends Object {
   final List<num> convolution;
   final double bias;
@@ -73,8 +77,35 @@ List<ConvolutionKernel> kirsch = [
   ConvolutionKernel([-3, -3, -3, 5, 0, -3, 5, 5, -3]),
   ConvolutionKernel([-3, -3, -3, -3, 0, -3, 5, 5, 5]),
   ConvolutionKernel([-3, -3, -3, -3, 0, 5, -3, 5, 5]),
+  //
   ConvolutionKernel([-3, -3, 5, -3, 0, 5, -3, -3, 5]),
   ConvolutionKernel([-3, 5, 5, -3, 0, 5, -3, -3, -3]),
   ConvolutionKernel([5, 5, 5, -3, 0, -3, -3, -3, -3]),
   ConvolutionKernel([5, 5, -3, 5, 0, -3, -3, -3, -3]),
+];
+
+// Segmentation - Edge Detection - Robison
+List<ConvolutionKernel> robison = [
+  ConvolutionKernel([1, 0, -1, 2, 0, -2, 1, 0, -1]),
+  ConvolutionKernel([0, -1, -2, 1, 0, -1, 2, 1, 0]),
+  ConvolutionKernel([-1, -2, -1, 0, 0, 0, 1, 2, 1]),
+  ConvolutionKernel([-2, -1, 0, -1, 0, 1, 0, 1, 2]),
+  //
+  ConvolutionKernel([-1, 0, 1, -2, 0, 2, -1, 0, 1]),
+  ConvolutionKernel([0, 1, 2, -1, 0, 1, -2, -1, 0]),
+  ConvolutionKernel([1, 2, 1, 0, 0, 0, -1, -2, -1]),
+  ConvolutionKernel([2, 1, 0, 1, 0, -1, 0, -1, -2]),
+];
+
+// Segmentation - Edge Detection - Frey-Chen
+List<ConvolutionKernel> freyChen = [
+  ConvolutionKernel(multByNum([1, sqrt2, 1, 0, 0, 0, -1, -sqrt2, -1], 1)),
+  ConvolutionKernel(multByNum([1, 0, -1, sqrt2, 0, -sqrt2, 1, 0, -1], 1)),
+  ConvolutionKernel(multByNum([0, -1, sqrt2, 1, 0, -1, -sqrt2, 1, 0], 1)),
+  ConvolutionKernel(multByNum([sqrt2, -1, 0, -1, 0, 1, 0, 1, -sqrt2], 1)),
+  ConvolutionKernel(multByNum([0, 1, 0, -1, 0, -1, 0, 1, 0], 1)),
+  ConvolutionKernel(multByNum([-1, 0, 1, 0, 0, 0, 1, 0, -1], 1)),
+  ConvolutionKernel(multByNum([1, -2, 1, -2, 4, -2, 1, -2, 1], 1)),
+  ConvolutionKernel(multByNum([-2, 1, -2, 1, 4, 1, -2, 1, -2], 1)),
+  ConvolutionKernel(multByNum([1, 1, 1, 1, 1, 1, 1, 1, 1], 1)),
 ];

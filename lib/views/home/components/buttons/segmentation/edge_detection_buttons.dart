@@ -87,19 +87,21 @@ class RobertsPrewiitButton extends StatelessWidget {
   }
 }
 
-class SobelKirschButton extends StatelessWidget {
-  const SobelKirschButton(
+class SobelKirschRobisonButton extends StatelessWidget {
+  const SobelKirschRobisonButton(
       {Key? key,
       this.sobelGxOnTap,
       this.sobelGyOnTap,
       this.sobelMagnitudeOnTap,
-      this.kirschOnTap})
+      this.kirschOnTap,
+      this.robisonOnTap})
       : super(key: key);
 
   final void Function()? sobelGxOnTap;
   final void Function()? sobelGyOnTap;
   final void Function()? sobelMagnitudeOnTap;
   final void Function()? kirschOnTap;
+  final void Function()? robisonOnTap;
 
   @override
   Widget build(BuildContext context) {
@@ -156,8 +158,81 @@ class SobelKirschButton extends StatelessWidget {
           labelStyle: const TextStyle(fontSize: 18.0),
           onTap: kirschOnTap,
         ),
+        SpeedDialChild(
+          child: const Text(
+            "R",
+          ),
+          backgroundColor: Colors.blueAccent,
+          label: "Robison",
+          labelStyle: const TextStyle(fontSize: 18.0),
+          onTap: robisonOnTap,
+        ),
       ],
-      child: const Text("SK"),
+      child: const Text("SKR"),
+    );
+  }
+}
+
+class FreyChenLaplacianButton extends StatelessWidget {
+  const FreyChenLaplacianButton(
+      {Key? key,
+      this.freyChenOnTap,
+      this.laplacianH1OnTap,
+      this.laplacianH2OnTap})
+      : super(key: key);
+
+  final void Function()? freyChenOnTap;
+  final void Function()? laplacianH1OnTap;
+  final void Function()? laplacianH2OnTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return SpeedDial(
+      activeIcon: Icons.remove,
+      visible: true,
+      closeManually: false,
+      renderOverlay: false,
+      curve: Curves.bounceIn,
+      overlayColor: Colors.black,
+      overlayOpacity: 0.5,
+      onOpen: () => debugPrint('OPENING DIAL'),
+      onClose: () => debugPrint('DIAL CLOSED'),
+      tooltip: 'Frey-Chen & Laplacian',
+      heroTag: 'speed-dial-hero-tag',
+      backgroundColor: Colors.black,
+      foregroundColor: Colors.white,
+      elevation: 8.0,
+      shape: const CircleBorder(),
+      children: [
+        SpeedDialChild(
+          child: const Text(
+            "FC",
+          ),
+          backgroundColor: Colors.blueGrey,
+          label: "Frey-Chen",
+          labelStyle: const TextStyle(fontSize: 18.0),
+          onTap: freyChenOnTap,
+        ),
+        SpeedDialChild(
+          child: const Text(
+            "LH1",
+          ),
+          backgroundColor: Colors.deepOrange,
+          label: "Laplacian H1",
+          labelStyle: const TextStyle(fontSize: 18.0),
+          onTap: laplacianH1OnTap,
+        ),
+        SpeedDialChild(
+          child: const Text(
+            "LH2",
+          ),
+          backgroundColor: Colors.deepOrange,
+          label: "Laplacian H1",
+          labelStyle: const TextStyle(fontSize: 18.0),
+          onTap: laplacianH2OnTap,
+        ),
+      ],
+      child: const Text("FcL"),
     );
   }
 }

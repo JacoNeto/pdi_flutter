@@ -288,7 +288,7 @@ class HomePage extends StatelessWidget {
                     const SizedBox(
                       width: 6,
                     ),
-                    SobelKirschButton(
+                    SobelKirschRobisonButton(
                       sobelGxOnTap: () =>
                           _edgeDetectionController.sobelGxComp(),
                       sobelGyOnTap: () =>
@@ -297,7 +297,16 @@ class HomePage extends StatelessWidget {
                           _edgeDetectionController.sobelMagnitude(),
                       kirschOnTap: () =>
                           _edgeDetectionController.kirschMagnitude(),
+                      robisonOnTap: () =>
+                          _edgeDetectionController.robisonMagnitude(),
                     ),
+                    const SizedBox(
+                      width: 6,
+                    ),
+                    FreyChenLaplacianButton(
+                      freyChenOnTap: () =>
+                          _edgeDetectionController.freyChenMagnitude(),
+                    )
                   ],
                 ),
 

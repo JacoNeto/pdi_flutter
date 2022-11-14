@@ -8,6 +8,7 @@ import 'package:pdi_flutter/utils/convolution_kernel.dart';
 import 'package:scidart/numdart.dart';
 
 import '../../../constants/img_default.dart';
+import '../../../utils/image_filter_utils/image_filter_utils.dart';
 import '../../../utils/image_segmentation_utils/image_segmentation_utils.dart';
 import '../../../utils/image_utils.dart';
 import '../../home/grid_controller.dart';
@@ -158,7 +159,6 @@ class EdgeDetectionController extends GetxController {
 
     List<Uint8List> images = [];
     int length = kirsch.length;
-    print(length);
 
     for (int i = 0; i < length; i++) {
       images.add(Uint8List.fromList(ImageSegmetationUtils.convolutionLine(
@@ -182,6 +182,76 @@ class EdgeDetectionController extends GetxController {
       }
     }
 
+    await _addImageToGrid();
+  }
+
+  Future<void> robisonMagnitude() async {
+    await _imagePreProcessing();
+
+    List<Uint8List> images = [];
+    int length = robison.length;
+
+    for (int i = 0; i < length; i++) {
+      images.add(Uint8List.fromList(ImageSegmetationUtils.convolutionLine(
+        image1!,
+        robison[i].convolution,
+      )));
+    }
+
+    for (int i = 0; i < decodedBytes1!.length; i++) {
+      List<int> values = [];
+      int aux = 0;
+
+      if (++aux > 3) {
+        aux = 0;
+        result![i] = decodedBytes1![i];
+      } else {
+        for (int j = 0; j < length; j++) {
+          values.add(images[j][i]);
+        }
+        result![i] = values.reduce(max);
+      }
+    }
+
+    await _addImageToGrid();
+  }
+
+  //TODO improve this method my aplying the average mask
+  Future<void> freyChenMagnitude() async {
+    await _imagePreProcessing();
+
+    List<Uint8List> images = [];
+    int length = freyChen.length;
+
+    for (int i = 0; i < length; i++) {
+      if (i == length - 1) {
+        images.add(Uint8List.fromList(ImageFilterUtils.convolutionMean(
+            image1!, freyChen[i].convolution)));
+      } else {
+        images.add(Uint8List.fromList(ImageSegmetationUtils.convolutionLine(
+          image1!,
+          freyChen[i].convolution,
+        )));
+      }
+    }
+    var str = '';
+    for (int i = 0; i < decodedBytes1!.length; i++) {
+      List<int> values = [];
+      int aux = 0;
+
+      if (++aux > 3) {
+        aux = 0;
+        result![i] = decodedBytes1![i];
+      } else {
+        for (int j = 0; j < length; j++) {
+          values.add(images[j][i]);
+        }
+        double m = (values[0] + values[1]) + (values[2] + values[3]).toDouble();
+        double s = (values[4] + values[5]).toDouble() +
+            (values[6] + values[7]).toDouble();
+        result![i] = clampPixel((m + s).toInt());
+      }
+    }
     await _addImageToGrid();
   }
 
