@@ -9,5 +9,6 @@ enum SidebarItem {
   enhancement,
   segmentation,
   edgeDetection,
+  thresholding,
   about
 }

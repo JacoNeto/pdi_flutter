@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pdi_flutter/controllers/home/home_controller.dart';
 import 'package:pdi_flutter/controllers/processings/color_systems_controller.dart';
+import 'package:pdi_flutter/controllers/processings/enhancement/general_transformations_controller.dart';
 import 'package:pdi_flutter/controllers/processings/filtering/low_pass_filtering_controller.dart';
 import 'package:pdi_flutter/models/enums/sidebar_enum.dart';
+import 'package:pdi_flutter/views/home/components/buttons/enhancement/general_transformations.dart';
 import 'package:pdi_flutter/views/home/components/buttons/enhancement/popups/linear_popups.dart';
 import 'package:pdi_flutter/views/home/components/buttons/filtering/popups/dialogs.dart';
 import 'package:pdi_flutter/views/home/components/buttons/operations/colors_button.dart';
@@ -27,6 +29,7 @@ import '../../controllers/processings/filtering/high_pass_filtering_controller.d
 import '../../controllers/processings/operations_controller.dart';
 import '../../controllers/processings/segmentation/edge_detection_controller.dart';
 import '../../controllers/processings/segmentation/lines_detection_controller.dart';
+import '../../controllers/processings/segmentation/thresholding_controller.dart';
 import 'components/buttons/enhancement/linear_transformations_button.dart';
 import 'components/buttons/enhancement/non_linear_transformations_button.dart';
 import 'components/buttons/filtering/halftoning_button.dart';
@@ -34,6 +37,7 @@ import 'components/buttons/filtering/high_pass_button.dart';
 import 'components/buttons/filtering/low_pass_button.dart';
 import 'components/buttons/operations/arithmetics_button.dart';
 import 'components/buttons/segmentation/popups/dialogs.dart';
+import 'components/buttons/segmentation/threshouding_buttons.dart';
 import 'components/sidebar/screens/screens_default.dart';
 
 /// This [HomePage] widget has the first screen present at the widget tree
@@ -62,10 +66,14 @@ class HomePage extends StatelessWidget {
       Get.put(LinearTransformationController());
   final NonLinearTransformationController _nonLinearTransformationController =
       Get.put(NonLinearTransformationController());
+  final GeneralTransformationsController _generalTransformationsController =
+      Get.put(GeneralTransformationsController());
   final LinesDetectionController _linesDetectionController =
       Get.put(LinesDetectionController());
   final EdgeDetectionController _edgeDetectionController =
       Get.put(EdgeDetectionController());
+  final ThresholdingController _thresholdingController =
+      Get.put(ThresholdingController());
 
   final _controller = SidebarXController(selectedIndex: 0, extended: true);
   final _key = GlobalKey<ScaffoldState>();
@@ -247,6 +255,13 @@ class HomePage extends StatelessWidget {
                       negativeOnTap: () =>
                           _linearTransformationController.negative(),
                     ),
+                    const SizedBox(
+                      width: 6,
+                    ),
+                    GeneralTransformationButton(
+                      bitsOnTap: () =>
+                          _generalTransformationsController.bitsSlicing(),
+                    )
                   ],
                 ),
 
@@ -310,6 +325,20 @@ class HomePage extends StatelessWidget {
                             _edgeDetectionController.laplacianH1Magnitude(),
                         laplacianH2OnTap: () =>
                             _edgeDetectionController.laplacianH2Magnitude())
+                  ],
+                ),
+
+              // If you are in the secmentation tab
+              if (_isItemGridSelected(SidebarItem.thresholding))
+                Row(
+                  children: [
+                    GlobalThresholdingButton(
+                      onPressed: () => _thresholdingController.ridlerCalvard(),
+                    ),
+                    const SizedBox(
+                      width: 6,
+                    ),
+                    const LocalThreshouldingButton(),
                   ],
                 ),
 

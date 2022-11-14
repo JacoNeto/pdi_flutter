@@ -124,4 +124,23 @@ class ImageSegmetationUtils {
 
     return sum;
   }
+
+  static double getImageMean(Uint8List image) {
+    int value = 0; // counter for the mean
+    int ctrlRBG = 0; // rgb aux
+    int length = image.length;
+    int cont = 0;
+    for (var i = 0; i < length; i++) {
+      if (++ctrlRBG > 3) {
+        ctrlRBG = 0;
+      } else {
+        if (value != -1) {
+          value += image[i];
+          cont++;
+        }
+      }
+    }
+
+    return value / length;
+  }
 }

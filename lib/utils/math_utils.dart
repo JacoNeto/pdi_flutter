@@ -1,3 +1,4 @@
+import 'package:binary/binary.dart';
 import 'package:flutter/foundation.dart';
 import 'dart:math';
 
@@ -82,4 +83,14 @@ List<num> multByNum(List<num> list, num number) {
     list[i] *= number;
   }
   return list;
+}
+
+// converts an int value to an binary one
+String intToBin(int value) {
+  return value.toBinaryPadded(3);
+}
+
+// converts an binary value to an binary one
+int binToInt(String binaryString) {
+  return int.parse(binaryString, radix: 2);
 }
