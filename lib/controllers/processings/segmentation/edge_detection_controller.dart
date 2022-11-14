@@ -255,6 +255,24 @@ class EdgeDetectionController extends GetxController {
     await _addImageToGrid();
   }
 
+  Future<void> laplacianH1Magnitude() async {
+    await _imagePreProcessing();
+    result = ImageSegmetationUtils.convolutionLine(
+      image1!,
+      laplacianH1.convolution,
+    );
+    await _addImageToGrid();
+  }
+
+  Future<void> laplacianH2Magnitude() async {
+    await _imagePreProcessing();
+    result = ImageSegmetationUtils.convolutionLine(
+      image1!,
+      laplacianH2.convolution,
+    );
+    await _addImageToGrid();
+  }
+
   Future<void> _imagePreProcessing() async {
     list1 = _gridController.selectedChildren.toList().elementAt(0)!;
     image1 = img.decodeImage(list1!);

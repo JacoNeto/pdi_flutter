@@ -304,9 +304,12 @@ class HomePage extends StatelessWidget {
                       width: 6,
                     ),
                     FreyChenLaplacianButton(
-                      freyChenOnTap: () =>
-                          _edgeDetectionController.freyChenMagnitude(),
-                    )
+                        freyChenOnTap: () =>
+                            _edgeDetectionController.freyChenMagnitude(),
+                        laplacianH1OnTap: () =>
+                            _edgeDetectionController.laplacianH1Magnitude(),
+                        laplacianH2OnTap: () =>
+                            _edgeDetectionController.laplacianH2Magnitude())
                   ],
                 ),
 

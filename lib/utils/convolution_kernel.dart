@@ -109,3 +109,9 @@ List<ConvolutionKernel> freyChen = [
   ConvolutionKernel(multByNum([-2, 1, -2, 1, 4, 1, -2, 1, -2], 1)),
   ConvolutionKernel(multByNum([1, 1, 1, 1, 1, 1, 1, 1, 1], 1)),
 ];
+
+// Segmentation - Laplacian
+ConvolutionKernel laplacianH1 =
+    ConvolutionKernel([0, -1, 0, -1, 4, -1, 0, -1, 0]);
+ConvolutionKernel laplacianH2 =
+    ConvolutionKernel([-1, -4, -1, -4, 20, -4, -1, -4, -1]);
