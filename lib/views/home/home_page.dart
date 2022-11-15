@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pdi_flutter/controllers/home/home_controller.dart';
@@ -5,6 +7,8 @@ import 'package:pdi_flutter/controllers/processings/color_systems_controller.dar
 import 'package:pdi_flutter/controllers/processings/enhancement/general_transformations_controller.dart';
 import 'package:pdi_flutter/controllers/processings/filtering/low_pass_filtering_controller.dart';
 import 'package:pdi_flutter/models/enums/sidebar_enum.dart';
+import 'package:pdi_flutter/utils/widgets/close_button.dart';
+import 'package:pdi_flutter/utils/widgets/histogram.dart';
 import 'package:pdi_flutter/views/home/components/buttons/enhancement/general_transformations.dart';
 import 'package:pdi_flutter/views/home/components/buttons/enhancement/popups/linear_popups.dart';
 import 'package:pdi_flutter/views/home/components/buttons/filtering/popups/dialogs.dart';
@@ -13,7 +17,6 @@ import 'package:pdi_flutter/views/home/components/buttons/operations/logical_but
 import 'package:pdi_flutter/views/home/components/buttons/segmentation/edge_detection_buttons.dart';
 import 'package:pdi_flutter/views/home/components/buttons/segmentation/line_detection_buttons.dart';
 import 'package:pdi_flutter/views/home/components/buttons/segmentation/points_detection_button.dart';
-import 'package:pdi_flutter/views/home/components/grid/image_grid.dart';
 import 'package:pdi_flutter/views/home/components/sidebar/screens/screens_operations.dart';
 import 'package:pdi_flutter/views/home/components/sidebar/sidebar.dart';
 import 'package:sidebarx/sidebarx.dart';
@@ -44,46 +47,69 @@ import 'components/sidebar/screens/screens_default.dart';
 /// when opening the app
 ///
 /// The [title] param shows the [String] that appears in the AppBar
-class HomePage extends StatelessWidget {
-  HomePage({Key? key, required this.title}) : super(key: key);
+class HomePage extends StatefulWidget {
+  const HomePage({Key? key, required this.title}) : super(key: key);
 
   final String title;
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
   final GridController _gridController = Get.put(GridController());
+
   final HomeController _homeController = Get.find();
+
   final ColorSystemsController _colorSystemsController =
       Get.put(ColorSystemsController());
+
   final PseudoColorController _pseudoColorController =
       Get.put(PseudoColorController());
+
   final OperationsController _operationsController =
       Get.put(OperationsController());
+
   final LowPassFilteringController _lowPassFilteringController =
       Get.put(LowPassFilteringController());
+
   final HighPassFilteringController _highPassFilteringController =
       Get.put(HighPassFilteringController());
+
   final HalftoningFilteringController _halftoningFilteringController =
       Get.put(HalftoningFilteringController());
+
   final LinearTransformationController _linearTransformationController =
       Get.put(LinearTransformationController());
+
   final NonLinearTransformationController _nonLinearTransformationController =
       Get.put(NonLinearTransformationController());
+
   final GeneralTransformationsController _generalTransformationsController =
       Get.put(GeneralTransformationsController());
+
   final LinesDetectionController _linesDetectionController =
       Get.put(LinesDetectionController());
+
   final EdgeDetectionController _edgeDetectionController =
       Get.put(EdgeDetectionController());
+
   final ThresholdingController _thresholdingController =
       Get.put(ThresholdingController());
 
   final _controller = SidebarXController(selectedIndex: 0, extended: true);
+
   final _key = GlobalKey<ScaffoldState>();
+
+  OverlayEntry? entry;
+  // this is used to show the overlay place card
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       key: _key,
       appBar: AppBar(
-        title: Text(title),
+        title: Text(widget.title),
         actions: [
           IconButton(
               onPressed: () => _gridController.clear(),
@@ -259,11 +285,17 @@ class HomePage extends StatelessWidget {
                       width: 6,
                     ),
                     GeneralTransformationButton(
-                      bitsOnTap: () =>
-                          _generalTransformationsController.bitsSlicing(),
-                      gammaOnTap: () =>
-                          showGammaValueDialog(context, 'Gamma', ''),
-                    )
+                        bitsOnTap: () =>
+                            _generalTransformationsController.bitsSlicing(),
+                        gammaOnTap: () =>
+                            showGammaValueDialog(context, 'Gamma', ''),
+                        histogramOnTap: () async {
+                          await _generalTransformationsController.loadImage();
+                          if (!mounted) return;
+                          _showOverlay(
+                              _generalTransformationsController.decodedBytes1!,
+                              context);
+                        })
                   ],
                 ),
 
@@ -396,5 +428,39 @@ class HomePage extends StatelessWidget {
 
   bool _isItemGridSelected(SidebarItem sidebarItem) {
     return _isFirstSelected() && _isItemSelected(sidebarItem);
+  }
+
+  // this method shows the floating card of the place selected from the map
+  void _showOverlay(Uint8List imageBytes, BuildContext context) {
+    OverlayEntry? overlayEntry;
+    Offset offset = const Offset(100, 400);
+    void clearOverlay() {
+      overlayEntry?.remove();
+      overlayEntry = null;
+    }
+
+    overlayEntry = OverlayEntry(
+        builder: (context) => Positioned(
+            left: offset.dx,
+            top: offset.dy,
+            child: Material(
+              child: GestureDetector(
+                onPanUpdate: (details) {
+                  offset += details.delta;
+                  overlayEntry!.markNeedsBuild();
+                },
+                child: Stack(
+                  alignment: Alignment.topRight,
+                  children: [
+                    Card(child: Histogram(imageBytes: imageBytes)),
+                    MyLittleCloseButton(
+                      onPressed: () => clearOverlay(),
+                    )
+                  ],
+                ),
+              ),
+            )));
+    final overlay = Overlay.of(context)!;
+    overlay.insert(overlayEntry!);
   }
 }

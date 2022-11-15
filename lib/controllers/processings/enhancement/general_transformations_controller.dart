@@ -75,6 +75,10 @@ class GeneralTransformationsController extends GetxController {
     await _addImageToGrid();
   }
 
+  Future<void> loadImage() async {
+    await _imagePreProcessing();
+  }
+
   Future<void> _imagePreProcessing() async {
     list1 = _gridController.selectedChildren.toList().elementAt(0)!;
     image1 = img.decodeImage(list1!);
