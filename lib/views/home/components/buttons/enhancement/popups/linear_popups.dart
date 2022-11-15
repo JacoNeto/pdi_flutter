@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:pdi_flutter/controllers/processings/enhancement/general_transformations_controller.dart';
 import 'package:pdi_flutter/controllers/processings/geometrical_controller.dart';
 import 'package:pdi_flutter/views/home/components/buttons/enhancement/linear_transformations_button.dart';
 
@@ -178,4 +179,45 @@ class LinearDialogs {
       },
     );
   }
+}
+
+void showGammaValueDialog(
+    BuildContext context, String? title, String? description,
+    {String? action, dynamic getxControllerValue}) {
+  final textEditingController = TextEditingController();
+
+  final GeneralTransformationsController generalTransformationsController =
+      Get.find();
+
+  // set up the button
+  Widget okButton = TextButton(
+    onPressed: () {
+      generalTransformationsController
+          .gammaCorrection(double.parse(textEditingController.text));
+
+      Get.back();
+    },
+    child: const Text("Submit"),
+  );
+
+  // set up the AlertDialog
+  AlertDialog alert = AlertDialog(
+    title: Text("$title"),
+    content: TextField(
+      controller: textEditingController,
+      keyboardType: TextInputType.number,
+      autofocus: true,
+    ),
+    actions: [
+      okButton,
+    ],
+  );
+
+  // show the dialog
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return alert;
+    },
+  );
 }

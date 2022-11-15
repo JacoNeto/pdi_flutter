@@ -55,6 +55,26 @@ class GeneralTransformationsController extends GetxController {
     }
   }
 
+  Future<void> gammaCorrection(double gamma) async {
+    await _imagePreProcessing();
+    List<int> greyScaleList = [];
+    List<int> resultBefore = [];
+
+    for (var i = 0; i < decodedBytes1!.length; i += 4) {
+      greyScaleList.add(decodedBytes1![i]);
+    }
+
+    var greyScalePixels = Uint8List.fromList(greyScaleList);
+
+    for (int i = 0; i < greyScalePixels.length; i++) {
+      resultBefore.addAll(
+          ImageUtils.greyScale(GreyScale.gamma(greyScalePixels[i], gamma)));
+    }
+    result = Uint8List.fromList(resultBefore);
+    // print(str);
+    await _addImageToGrid();
+  }
+
   Future<void> _imagePreProcessing() async {
     list1 = _gridController.selectedChildren.toList().elementAt(0)!;
     image1 = img.decodeImage(list1!);

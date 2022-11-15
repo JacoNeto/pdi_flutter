@@ -261,6 +261,8 @@ class HomePage extends StatelessWidget {
                     GeneralTransformationButton(
                       bitsOnTap: () =>
                           _generalTransformationsController.bitsSlicing(),
+                      gammaOnTap: () =>
+                          showGammaValueDialog(context, 'Gamma', ''),
                     )
                   ],
                 ),

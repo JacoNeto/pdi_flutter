@@ -17,7 +17,7 @@ class GreyScale {
     return g.round();
   }
 
-  static int squared(int value, int fmax) {
+  static int squared(int value) {
     var g = sqrt(value);
 
     return g.round();
@@ -30,8 +30,14 @@ class GreyScale {
     return g.round();
   }
 
-  static int square(int value, int fmax) {
+  static int square(int value) {
     var g = value * value;
+
+    return g > 255 ? 255 : g;
+  }
+
+  static int gamma(int value, double gamma) {
+    var g = pow(value, gamma).round();
 
     return g > 255 ? 255 : g;
   }

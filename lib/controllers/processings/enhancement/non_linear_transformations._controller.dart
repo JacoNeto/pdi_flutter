@@ -75,8 +75,8 @@ class NonLinearTransformationController extends GetxController {
     var greyScalePixels = Uint8List.fromList(greyScaleList);
 
     for (int i = 0; i < greyScalePixels.length; i++) {
-      resultBefore.addAll(
-          ImageUtils.greyScale(GreyScale.squared(greyScalePixels[i], 255)));
+      resultBefore
+          .addAll(ImageUtils.greyScale(GreyScale.squared(greyScalePixels[i])));
     }
     result = Uint8List.fromList(resultBefore);
     // print(str);
@@ -95,8 +95,8 @@ class NonLinearTransformationController extends GetxController {
     var greyScalePixels = Uint8List.fromList(greyScaleList);
 
     for (int i = 0; i < greyScalePixels.length; i++) {
-      resultBefore.addAll(
-          ImageUtils.greyScale(GreyScale.square(greyScalePixels[i], 255)));
+      resultBefore
+          .addAll(ImageUtils.greyScale(GreyScale.square(greyScalePixels[i])));
     }
     result = Uint8List.fromList(resultBefore);
     // print(str);
