@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 import 'dart:typed_data';
 import 'dart:ui';
 
@@ -10,6 +11,7 @@ import '../../../constants/img_default.dart';
 import '../../../utils/image_filter_utils/image_filter_utils.dart';
 import '../../../utils/image_segmentation_utils/image_segmentation_utils.dart';
 import '../../../utils/image_utils.dart';
+import '../../../utils/math_utils.dart';
 import '../../home/grid_controller.dart';
 
 class ThresholdingController extends GetxController {
@@ -85,6 +87,46 @@ class ThresholdingController extends GetxController {
       }
     }
     // print(str);
+    await _addImageToGrid();
+  }
+
+  Future<void> mean(int regions) async {
+    await _imagePreProcessing();
+    int regionsAux = pow(4, regions).toInt();
+    var matrix =
+        ImageUtils.listTo2dList(ImageUtils.toGreyScale(decodedBytes1!));
+
+    var side = (image1!.width / sqrt(regionsAux)).round();
+
+    // image iteration
+    for (int i = 0; i < image1!.width; i += side) {
+      for (int j = 0; j < image1!.height; j += side) {
+        // region init
+        var regionPixels = <int>[];
+        // region iteration
+        for (int k = i; k < i + side; k++) {
+          for (int l = j; l < j + side; l++) {
+            regionPixels.add(matrix[k][l]);
+          }
+        }
+        // calc mean
+        var mean = MathUtils.mean(regionPixels);
+
+        // threshold
+        for (int k = i; k < i + side; k++) {
+          for (int l = j; l < j + side; l++) {
+            if (matrix[k][l] < mean) {
+              matrix[k][l] = 0;
+            } else {
+              matrix[k][l] = 255;
+            }
+          }
+        }
+      }
+    }
+
+    result = ImageUtils.greyScaleToRgb(
+        Uint8List.fromList(ImageUtils.u2dListToList(matrix)));
     await _addImageToGrid();
   }
 

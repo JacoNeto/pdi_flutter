@@ -99,6 +99,16 @@ class ImageUtils {
     return twoDList;
   }
 
+  static List<int> u2dListToList(List<List<int>> u2dList) {
+    var newList = <int>[];
+    for (int i = 0; i < u2dList.length; i++) {
+      for (int j = 0; j < u2dList[i].length; j++) {
+        newList.add(u2dList[i][j]);
+      }
+    }
+    return newList;
+  }
+
   static List<List<double>> listTo2dDoubleList(List<double> pixels) {
     int auxTwo = 0;
     var twoDList = List.generate(
@@ -115,5 +125,23 @@ class ImageUtils {
 
   static List<int> greyScale(int pixel) {
     return [pixel, pixel, pixel, 254];
+  }
+
+  static Uint8List toGreyScale(Uint8List list) {
+    var newList = Uint8List((list.length / 4).round());
+    int aux = 0;
+    for (int i = 0; i < list.length; i += 4) {
+      newList[aux] = list[i];
+      aux++;
+    }
+    return newList;
+  }
+
+  static Uint8List greyScaleToRgb(Uint8List list) {
+    var newList = <int>[];
+    for (int i = 0; i < list.length; i++) {
+      newList.addAll(greyScale(list[i]));
+    }
+    return Uint8List.fromList(newList);
   }
 }

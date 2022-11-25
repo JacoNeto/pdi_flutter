@@ -374,7 +374,10 @@ class _HomePageState extends State<HomePage> {
                     const SizedBox(
                       width: 6,
                     ),
-                    const LocalThreshouldingButton(),
+                    LocalThreshouldingButton(
+                      meanOnTap: () => showThresholdDialog(
+                          context, 'Regions (4 ^ n)', '', Thresholding.mean),
+                    ),
                   ],
                 ),
 
