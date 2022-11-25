@@ -5,11 +5,13 @@ class GeneralTransformationButton extends StatelessWidget {
   const GeneralTransformationButton({
     Key? key,
     this.histogramOnTap,
+    this.equOnTap,
     this.gammaOnTap,
     this.bitsOnTap,
   }) : super(key: key);
 
   final void Function()? histogramOnTap;
+  final void Function()? equOnTap;
   final void Function()? gammaOnTap;
   final void Function()? bitsOnTap;
 
@@ -41,6 +43,15 @@ class GeneralTransformationButton extends StatelessWidget {
           label: "Histogram",
           labelStyle: const TextStyle(fontSize: 18.0),
           onTap: histogramOnTap,
+        ),
+        SpeedDialChild(
+          child: const Text(
+            "E",
+          ),
+          backgroundColor: Colors.grey,
+          label: "Equalize",
+          labelStyle: const TextStyle(fontSize: 18.0),
+          onTap: equOnTap,
         ),
         SpeedDialChild(
           child: const Text(

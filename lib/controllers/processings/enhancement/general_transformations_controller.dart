@@ -75,6 +75,51 @@ class GeneralTransformationsController extends GetxController {
     await _addImageToGrid();
   }
 
+  Future<void> equ() async {
+    await _imagePreProcessing();
+    var histogram = Uint32List(256);
+    //var normalized = <double>[];
+    var probability = Float32List(256);
+    var g = Uint32List(256);
+    /*await ColorConnect()
+        .equalize(_gridController.selectedChildren.toList().elementAt(0)!);*/
+    for (int j = 0; j < 256; j++) {
+      for (var i = 0; i < decodedBytes1!.length; i += 4) {
+        if (decodedBytes1![i] == j) {
+          histogram[j]++;
+        }
+      }
+    }
+    print(decodedBytes1!.length / 4);
+
+    //normalized = MathUtils.normalizeList(histogram, 0, 255, 0, 1);
+    //print(normalized);
+
+    for (int j = 0; j < 256; j++) {
+      for (var i = 0; i < decodedBytes1!.length; i += 4) {
+        probability[j] = histogram[j] / (image1!.width * image1!.height);
+      }
+    }
+    //print(probability);
+
+    for (int j = 0; j < 256; j++) {
+      double cumulate = 0;
+      for (int i = 0; i < j; i++) {
+        cumulate += probability[i];
+      }
+      g[j] = (cumulate * 255).round();
+    }
+
+    for (var i = 0; i < decodedBytes1!.length; i += 4) {
+      result![i] = g[decodedBytes1![i]];
+      result![i + 1] = g[decodedBytes1![i]];
+      result![i + 2] = g[decodedBytes1![i]];
+      result![i + 3] = 254;
+    }
+    // print(str);
+    await _addImageToGrid();
+  }
+
   Future<void> loadImage() async {
     await _imagePreProcessing();
   }

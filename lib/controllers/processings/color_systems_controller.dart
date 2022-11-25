@@ -6,6 +6,8 @@ import 'dart:typed_data';
 import 'dart:ui';
 
 import 'package:image/image.dart' as img;
+import 'package:pdi_flutter/services/base_connect.dart';
+import 'package:pdi_flutter/utils/math_utils.dart';
 
 import '../../constants/img_default.dart';
 import '../../utils/image_utils.dart';
@@ -78,79 +80,29 @@ class ColorSystemsController extends GetxController {
 
   Future<void> hsbImage() async {
     await _imagePreProcessing();
-    int ctrlRGB = 0;
-    var rgbListAux = <int>[];
-    var hsbListAux = <num>[];
-    RgbColor? rgbColor;
-    HsbColor? hsbColor;
-    for (var i = 0; i < decodedBytes1!.length; i++) {
-      if (ctrlRGB != 3) {
-        rgbListAux.add(decodedBytes1![i]);
-      }
-      ctrlRGB++;
-      if (ctrlRGB == 3) {
-        rgbColor = RgbColor.fromList(rgbListAux);
-        hsbColor = rgbColor.toHsbColor();
-      }
-      if (ctrlRGB > 3) {
-        hsbListAux = hsbColor!.toList();
-        hsb![i - 3] = hsbListAux[0].toInt();
-        hsb![i - 2] = hsbListAux[1].toInt();
-        hsb![i - 1] = hsbListAux[2].toInt();
-        hsb![i - 0] = 0;
 
-        ctrlRGB = 0;
-        rgbListAux.clear();
-      }
+    /*var chistogram = Uint8List(256);
+    for (int j = 0; j < 256; j++) {
+      chistogram[j] = 0;
     }
-    ctrlRGB = 0;
-    /*int usedSpace = 0;
-
-    //TODO fazer isso aqui como enum
-    if (space == "cyan") {
-      usedSpace = 0;
-    } else if (space == "magenta") {
-      usedSpace = 1;
-    } else if (space == "yellow") {
-      usedSpace = 2;
-    } else {
-      usedSpace = 3;
+    chistogram[0] = histogram[0];
+    for (int i = 1; i < 256; i++) {
+      chistogram[i] = chistogram[i - 1] + histogram[i];
+    }
+    var arr = <int>[];
+    for (int i = 0; i < 256; i++) {
+      arr.add(
+          (((chistogram[i] * 255.0) / (image1!.width * image1!.height)) * 255)
+              .round());
+      print(arr[i]);
+    }
+    int ctrlRBG = 0;
+    for (var i = 0; i < decodedBytes1!.length; i += 4) {
+      result![i] = arr[decodedBytes1![i]];
+      result![i + 1] = arr[decodedBytes1![i]];
+      result![i + 2] = arr[decodedBytes1![i]];
+      result![i + 3] = decodedBytes1![i + 3];
     }*/
-    for (var i = 0; i < decodedBytes1!.length; i++) {
-      if (ctrlRGB == 2 || ctrlRGB == 3) {
-      } else {
-        hsb![i] = 0;
-      }
-      ctrlRGB++;
-      if (ctrlRGB > 3) {
-        ctrlRGB = 0;
-      }
-    }
-
-    rgbListAux = <int>[];
-    hsbListAux = <num>[];
-    for (var i = 0; i < decodedBytes1!.length; i++) {
-      if (ctrlRGB < 3) {
-        hsbListAux.add(hsb![i]);
-      }
-      ctrlRGB++;
-      if (ctrlRGB == 3) {
-        hsbColor = HsbColor.fromList(hsbListAux);
-        rgbColor = hsbColor.toRgbColor();
-      }
-      if (ctrlRGB > 3) {
-        rgbListAux = rgbColor!.toList();
-        result![i - 3] = rgbListAux[0].toInt();
-        str += "${rgbListAux[0].toInt()} ";
-        result![i - 2] = rgbListAux[1].toInt();
-        result![i - 1] = rgbListAux[2].toInt();
-        result![i] = decodedBytes1![i];
-        ctrlRGB = 0;
-        rgbListAux = <int>[];
-        hsbListAux = <num>[];
-      }
-    }
-    print(str);
     await _addImageToGrid();
   }
 

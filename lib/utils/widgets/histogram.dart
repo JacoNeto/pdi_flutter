@@ -15,12 +15,24 @@ class Histogram extends StatelessWidget {
     for (int i = 0; i < imageBytes.length; i += 4) {
       greyScaleList.add(Pair(imageBytes[i], i));
     }
+    /*var histogram = Uint8List(256);
+    for (int j = 0; j < 256; j++) {
+      for (var i = 0; i < imageBytes.length; i += 4) {
+        if (imageBytes[i] == j) {
+          histogram[j]++;
+        }
+      }
+    }
+    for (int j = 0; j < 256; j++) {
+      greyScaleList.add(Pair(histogram[j], j));
+    }*/
     return SfCartesianChart(series: <ChartSeries>[
       HistogramSeries<Pair, num>(
           dataSource: greyScaleList,
           yValueMapper: (Pair pair, _) => pair.value,
           binInterval: 4,
-          showNormalDistributionCurve: false,
+          showNormalDistributionCurve: true,
+          emptyPointSettings: EmptyPointSettings(mode: EmptyPointMode.zero),
           xAxisName: "Grey Levels",
           yAxisName: "Pixels",
           curveColor: const Color.fromRGBO(192, 108, 132, 1),

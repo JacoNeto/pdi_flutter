@@ -285,17 +285,19 @@ class _HomePageState extends State<HomePage> {
                       width: 6,
                     ),
                     GeneralTransformationButton(
-                        bitsOnTap: () =>
-                            _generalTransformationsController.bitsSlicing(),
-                        gammaOnTap: () =>
-                            showGammaValueDialog(context, 'Gamma', ''),
-                        histogramOnTap: () async {
-                          await _generalTransformationsController.loadImage();
-                          if (!mounted) return;
-                          _showOverlay(
-                              _generalTransformationsController.decodedBytes1!,
-                              context);
-                        })
+                      bitsOnTap: () =>
+                          _generalTransformationsController.bitsSlicing(),
+                      gammaOnTap: () =>
+                          showGammaValueDialog(context, 'Gamma', ''),
+                      histogramOnTap: () async {
+                        await _generalTransformationsController.loadImage();
+                        if (!mounted) return;
+                        _showOverlay(
+                            _generalTransformationsController.decodedBytes1!,
+                            context);
+                      },
+                      equOnTap: () => _generalTransformationsController.equ(),
+                    )
                   ],
                 ),
 
