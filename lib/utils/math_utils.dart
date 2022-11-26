@@ -12,6 +12,18 @@ class MathUtils {
     return sum / values.length;
   }
 
+  static double standardDeviation(List<int> values) {
+    double meanV = mean(values);
+    double sum = 0;
+    int len = values.length;
+
+    for (int i = 0; i < len; i++) {
+      sum += pow((values[i] - meanV), 2);
+    }
+
+    return sqrt(sum / (len - 1));
+  }
+
   // normalize values given a originalRange [min, max] and a newRange [a,b]
   static double normalized(
       double value, double min, double max, double a, double b) {

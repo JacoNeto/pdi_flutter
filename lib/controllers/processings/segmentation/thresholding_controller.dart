@@ -6,6 +6,7 @@ import 'dart:ui';
 import 'package:get/get.dart';
 import 'package:image/image.dart' as img;
 import 'package:pdi_flutter/utils/convolution_kernel.dart';
+import 'package:scidart/numdart.dart';
 
 import '../../../constants/img_default.dart';
 import '../../../utils/image_filter_utils/image_filter_utils.dart';
@@ -116,6 +117,167 @@ class ThresholdingController extends GetxController {
         for (int k = i; k < i + side; k++) {
           for (int l = j; l < j + side; l++) {
             if (matrix[k][l] < mean) {
+              matrix[k][l] = 0;
+            } else {
+              matrix[k][l] = 255;
+            }
+          }
+        }
+      }
+    }
+
+    result = ImageUtils.greyScaleToRgb(
+        Uint8List.fromList(ImageUtils.u2dListToList(matrix)));
+    await _addImageToGrid();
+  }
+
+  Future<void> minimum(int regions) async {
+    await _imagePreProcessing();
+    int regionsAux = pow(4, regions).toInt();
+    var matrix =
+        ImageUtils.listTo2dList(ImageUtils.toGreyScale(decodedBytes1!));
+
+    var side = (image1!.width / sqrt(regionsAux)).round();
+
+    // image iteration
+    for (int i = 0; i < image1!.width; i += side) {
+      for (int j = 0; j < image1!.height; j += side) {
+        // region init
+        var regionPixels = <int>[];
+        // region iteration
+        for (int k = i; k < i + side; k++) {
+          for (int l = j; l < j + side; l++) {
+            regionPixels.add(matrix[k][l]);
+          }
+        }
+        // calc mean
+        var minimum = regionPixels.reduce(min);
+
+        // threshold
+        for (int k = i; k < i + side; k++) {
+          for (int l = j; l < j + side; l++) {
+            if (matrix[k][l] <= minimum) {
+              matrix[k][l] = 0;
+            } else {
+              matrix[k][l] = 255;
+            }
+          }
+        }
+      }
+    }
+
+    result = ImageUtils.greyScaleToRgb(
+        Uint8List.fromList(ImageUtils.u2dListToList(matrix)));
+    await _addImageToGrid();
+  }
+
+  Future<void> maximum(int regions) async {
+    await _imagePreProcessing();
+    int regionsAux = pow(4, regions).toInt();
+    var matrix =
+        ImageUtils.listTo2dList(ImageUtils.toGreyScale(decodedBytes1!));
+
+    var side = (image1!.width / sqrt(regionsAux)).round();
+
+    // image iteration
+    for (int i = 0; i < image1!.width; i += side) {
+      for (int j = 0; j < image1!.height; j += side) {
+        // region init
+        var regionPixels = <int>[];
+        // region iteration
+        for (int k = i; k < i + side; k++) {
+          for (int l = j; l < j + side; l++) {
+            regionPixels.add(matrix[k][l]);
+          }
+        }
+        // calc mean
+        var maximum = regionPixels.reduce(max);
+
+        // threshold
+        for (int k = i; k < i + side; k++) {
+          for (int l = j; l < j + side; l++) {
+            if (matrix[k][l] < maximum) {
+              matrix[k][l] = 0;
+            } else {
+              matrix[k][l] = 255;
+            }
+          }
+        }
+      }
+    }
+
+    result = ImageUtils.greyScaleToRgb(
+        Uint8List.fromList(ImageUtils.u2dListToList(matrix)));
+    await _addImageToGrid();
+  }
+
+  Future<void> maxmin(int regions) async {
+    await _imagePreProcessing();
+    int regionsAux = pow(4, regions).toInt();
+    var matrix =
+        ImageUtils.listTo2dList(ImageUtils.toGreyScale(decodedBytes1!));
+
+    var side = (image1!.width / sqrt(regionsAux)).round();
+
+    // image iteration
+    for (int i = 0; i < image1!.width; i += side) {
+      for (int j = 0; j < image1!.height; j += side) {
+        // region init
+        var regionPixels = <int>[];
+        // region iteration
+        for (int k = i; k < i + side; k++) {
+          for (int l = j; l < j + side; l++) {
+            regionPixels.add(matrix[k][l]);
+          }
+        }
+        // calc mean
+        var maxmin = (regionPixels.reduce(max) + regionPixels.reduce(min)) / 2;
+
+        // threshold
+        for (int k = i; k < i + side; k++) {
+          for (int l = j; l < j + side; l++) {
+            if (matrix[k][l] < maxmin) {
+              matrix[k][l] = 0;
+            } else {
+              matrix[k][l] = 255;
+            }
+          }
+        }
+      }
+    }
+
+    result = ImageUtils.greyScaleToRgb(
+        Uint8List.fromList(ImageUtils.u2dListToList(matrix)));
+    await _addImageToGrid();
+  }
+
+  Future<void> niblack(int regions, double k) async {
+    await _imagePreProcessing();
+    int regionsAux = pow(4, regions).toInt();
+    var matrix =
+        ImageUtils.listTo2dList(ImageUtils.toGreyScale(decodedBytes1!));
+
+    var side = (image1!.width / sqrt(regionsAux)).round();
+
+    // image iteration
+    for (int i = 0; i < image1!.width; i += side) {
+      for (int j = 0; j < image1!.height; j += side) {
+        // region init
+        var regionPixels = <int>[];
+        // region iteration
+        for (int k = i; k < i + side; k++) {
+          for (int l = j; l < j + side; l++) {
+            regionPixels.add(matrix[k][l]);
+          }
+        }
+        // calc mean
+        var niblackV = MathUtils.mean(regionPixels) +
+            (k * MathUtils.standardDeviation(regionPixels));
+
+        // threshold
+        for (int k = i; k < i + side; k++) {
+          for (int l = j; l < j + side; l++) {
+            if (matrix[k][l] < niblackV) {
               matrix[k][l] = 0;
             } else {
               matrix[k][l] = 255;

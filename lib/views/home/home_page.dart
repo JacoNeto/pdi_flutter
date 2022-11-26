@@ -377,6 +377,14 @@ class _HomePageState extends State<HomePage> {
                     LocalThreshouldingButton(
                       meanOnTap: () => showThresholdDialog(
                           context, 'Regions (4 ^ n)', '', Thresholding.mean),
+                      maxOnTap: () => showThresholdDialog(
+                          context, 'Regions (4 ^ n)', '', Thresholding.minimum),
+                      minOnTap: () => showThresholdDialog(
+                          context, 'Regions (4 ^ n)', '', Thresholding.maximum),
+                      maxMinOnTap: () => showThresholdDialog(
+                          context, 'Regions (4 ^ n)', '', Thresholding.maxmin),
+                      niblackOnTap: () =>
+                          showNiblackDialog(context, 'Niblack', ''),
                     ),
                   ],
                 ),

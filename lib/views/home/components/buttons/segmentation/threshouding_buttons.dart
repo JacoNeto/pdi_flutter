@@ -39,12 +39,14 @@ class LocalThreshouldingButton extends StatelessWidget {
     this.meanOnTap,
     this.maxOnTap,
     this.minOnTap,
+    this.maxMinOnTap,
     this.niblackOnTap,
   }) : super(key: key);
 
   final void Function()? meanOnTap;
   final void Function()? maxOnTap;
   final void Function()? minOnTap;
+  final void Function()? maxMinOnTap;
   final void Function()? niblackOnTap;
 
   @override
@@ -93,6 +95,15 @@ class LocalThreshouldingButton extends StatelessWidget {
           label: "Minimal",
           labelStyle: const TextStyle(fontSize: 18.0),
           onTap: minOnTap,
+        ),
+        SpeedDialChild(
+          child: const Text(
+            "Mm",
+          ),
+          backgroundColor: Colors.orange,
+          label: "MaxMin",
+          labelStyle: const TextStyle(fontSize: 18.0),
+          onTap: maxMinOnTap,
         ),
         SpeedDialChild(
           child: const Text(
