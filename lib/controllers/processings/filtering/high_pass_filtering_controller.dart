@@ -57,9 +57,12 @@ class HighPassFilteringController extends GetxController {
     await _addImageToGrid();
   }
 
-  Future<void> highBoost(int scale) async {
+  Future<void> highBoost(double scale) async {
     await _imagePreProcessing();
-    List<int> original = decodedBytes1!.toList(growable: true);
+    print(scale);
+    ConvolutionKernel hb =
+        ConvolutionKernel([-1, -1, -1, -1, (scale * 9) - 1, -1, -1, -1, -1]);
+    /*List<int> original = decodedBytes1!.toList(growable: true);
     List<int> rescaled = [];
     var lowPass =
         ImageFilterUtils.convolutionMean(image1!, avg3x3Kernel.convolution);
@@ -69,10 +72,12 @@ class HighPassFilteringController extends GetxController {
         ctrlRBG = 0;
         rescaled.add(original[i]);
       } else {
-        rescaled.add(((scale - 1) * original[i]) + original[i] - lowPass[i]);
+        rescaled.add(
+            (((scale - 1) * original[i]) + original[i] - lowPass[i]).round());
       }
     }
-    result = Uint8List.fromList(rescaled);
+    result = Uint8List.fromList(rescaled);*/
+    result = ImageFilterUtils.convolution(image1!, hb.convolution);
     // print(str);
     await _addImageToGrid();
   }

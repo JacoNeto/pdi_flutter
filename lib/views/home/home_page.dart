@@ -168,7 +168,7 @@ class _HomePageState extends State<HomePage> {
               if (_isItemGridSelected(SidebarItem.pseudocolor))
                 PseudoColorButton(
                   pseudoOnTap: () => _pseudoColorController.pseudoColor(),
-                  realceOnTap: () => _pseudoColorController.pseudoColor(),
+                  //realceOnTap: () => _pseudoColorController.pseudoColor(),
                 ),
 
               // If you are in the low pass filtering tab

@@ -14,7 +14,7 @@ void showHighBoostValueDialog(
   Widget okButton = TextButton(
     onPressed: () {
       highPassFilteringController
-          .highBoost(int.parse(textEditingController.text));
+          .highBoost(double.parse(textEditingController.text));
 
       Get.back();
     },

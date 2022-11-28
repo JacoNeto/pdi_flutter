@@ -2,11 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 
 class PseudoColorButton extends StatelessWidget {
-  const PseudoColorButton({Key? key, this.pseudoOnTap, this.realceOnTap})
-      : super(key: key);
+  const PseudoColorButton({Key? key, this.pseudoOnTap}) : super(key: key);
 
   final void Function()? pseudoOnTap;
-  final void Function()? realceOnTap;
 
   @override
   Widget build(BuildContext context) {
@@ -37,15 +35,6 @@ class PseudoColorButton extends StatelessWidget {
           labelStyle: const TextStyle(fontSize: 18.0),
           onTap: pseudoOnTap,
         ),
-        SpeedDialChild(
-          child: const Text(
-            "R",
-          ),
-          backgroundColor: Colors.green,
-          label: "Realce",
-          labelStyle: const TextStyle(fontSize: 18.0),
-          onTap: realceOnTap,
-        )
       ],
     );
   }
